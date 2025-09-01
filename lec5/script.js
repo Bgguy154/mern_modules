@@ -60,24 +60,24 @@ colSum(arr);
 
 
 //function to print odd numbered column elements as col wise 
-const arr2=[
-    [1,2,3,4,5,6],
-    [2,6,12,43,3,5],
-    [8,10,34,23,12,8]
-]
-function colElementsOdd(arr){
-    let row=arr.length
-    let col=arr[0].length;//since arr is a matrix
-    for(let j=0;j<col;j++){//जो constant वाली चीज़ है, वो बाहर रखनी है।
-        if(j%2==0)continue;
-        for(let i=0;i<row;i++){//जो भी बदलाव(change) करना है, वो अंदर वाले for लूप में रखना है।
-            {
-                console.log(arr[i][j])
-            }
-    }
-    } 
-}
-colElementsOdd(arr2)
+// const arr2=[
+//     [1,2,3,4,5,6],
+//     [2,6,12,43,3,5],
+//     [8,10,34,23,12,8]
+// ]
+// function colElementsOdd(arr){
+//     let row=arr.length
+//     let col=arr[0].length;//since arr is a matrix
+//     for(let j=0;j<col;j++){//जो constant वाली चीज़ है, वो बाहर रखनी है।
+//         if(j%2==0)continue;
+//         for(let i=0;i<row;i++){//जो भी बदलाव(change) करना है, वो अंदर वाले for लूप में रखना है।
+//             {
+//                 console.log(arr[i][j])
+//             }
+//     }
+//     } 
+// }
+// colElementsOdd(arr2)
 //tc-n^2,sc-1
 
 

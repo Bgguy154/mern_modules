@@ -207,6 +207,7 @@ for(let i=0;i<arr9.length;i++){
     }
 }
 console.log(total)
+// TC-O(n^2),SC-O(1)
 
 //efficient way O(n)
 let totalSumSubarray=0

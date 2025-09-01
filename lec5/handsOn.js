@@ -22,17 +22,23 @@ const arr2 = [
 let rows = arr2.length;
 let cols = arr2[0].length;
 
-// Reverse each odd column (1-indexed → 0,2,4 in 0-indexed)
+
 for (let j = 0; j < cols; j++) {
-  if (j % 2 != 0) {  // odd column (1-indexed)
+  if (j % 2 != 0) {  // odd column (0-indexed)
     let top = 0, bottom = rows - 1;
     while (top < bottom) {
-      [arr2[top][j], arr2[bottom][j]] = [arr2[bottom][j], arr2[top][j]];
+      // [arr2[top][j], arr2[bottom][j]] = [arr2[bottom][j], arr2[top][j]];
+      //alternative method 
+      let temp=arr2[top][j];
+      arr2[top][j]=arr2[bottom][j];
+      arr2[bottom][j]=temp;
+      
       top++;
       bottom--;
     }
   }
 }
+//tc-O(n^2),sc-O(1)
 
 // Printing matrix
 console.log(arr2);
@@ -45,38 +51,38 @@ console.log(result);
 
 
 
-function colElementsOdd(arr){
-    let row=arr.length
-    let col=arr[0].length;//since arr is a matrix
-    for(let j=0;j<col;j++){//जो constant वाली चीज़ है, वो बाहर रखनी है।
-        if(j%2==0)continue;
-        for(let i=0;i<row;i++){//जो भी बदलाव(change) करना है, वो अंदर वाले for लूप में रखना है।
-            {
-                console.log(arr[i][j])
-            }
-    }
-    } 
-}
-colElementsOdd(arr2)   //hw 2 printColElemenstodd use string to store elements
+// function colElementsOdd(arr){
+//     let row=arr.length
+//     let col=arr[0].length;//since arr is a matrix
+//     for(let j=0;j<col;j++){//जो constant वाली चीज़ है, वो बाहर रखनी है।
+//         if(j%2==0)continue;
+//         for(let i=0;i<row;i++){//जो भी बदलाव(change) करना है, वो अंदर वाले for लूप में रखना है।
+//             {
+//                 console.log(arr[i][j])
+//             }
+//     }
+//     } 
+// }
+// colElementsOdd(arr2)   //hw 2 printColElemenstodd use string to store elements
 
-//->nneche hai
+// //->nneche hai
 
 
-function colElementsOdd(arr) {
-    let row = arr.length;
-    let col = arr[0].length;
-    let result = ""; // सारी values store करने के लिए
+// function colElementsOdd(arr) {
+//     let row = arr.length;
+//     let col = arr[0].length;
+//     let result = ""; // सारी values store करने के लिए
 
-    for (let j = 0; j < col; j++) { // जो constant वाली चीज़ है वो बाहर
-        if (j % 2 === 0) continue; // केवल odd columns (1-indexed)
-        for (let i = 0; i < row; i++) { // changes अंदर
-            result += arr[i][j] + " "; 
-        }
-        result += "\n"; // हर column के बाद new line
-    }
+//     for (let j = 0; j < col; j++) { // जो constant वाली चीज़ है वो बाहर
+//         if (j % 2 === 0) continue; // केवल odd columns (1-indexed)
+//         for (let i = 0; i < row; i++) { // changes अंदर
+//             result += arr[i][j] + " "; 
+//         }
+//         result += "\n"; // हर column के बाद new line
+//     }
 
-    console.log(result.trim()); 
-}
+//     console.log(result.trim()); 
+// }
 
-colElementsOdd(arr2);
+// colElementsOdd(arr2);
 
