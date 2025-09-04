@@ -43,7 +43,7 @@ console.log({newObj})
 
 
 
-//STRINGS
+//STRINGS are case sensitive
 
 let str='a';
 console.log(typeof str);
