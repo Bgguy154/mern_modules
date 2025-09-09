@@ -42,3 +42,33 @@ reverseAns1(ans2,0,len-k-1);
 reverseAns1(ans2,len-k,len-1);
 console.log(ans2);
 
+
+
+//SEE
+function createCounter() {
+  let count = 0; // private variable
+
+  return {
+    increment: function () {
+      count++;
+      return count;
+    },
+    decrement: function () {
+      count--;
+      return count;
+    },
+    getValue: function () {
+      return count;
+    }
+  };
+}
+
+const counter = createCounter();
+
+console.log(counter.increment()); // 1
+console.log(counter.increment()); // 2
+console.log(counter.getValue());  // 2
+console.log(counter.decrement()); // 1
+
+// Direct access to count is not possible
+console.log(counter.count); // undefined

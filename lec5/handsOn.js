@@ -48,8 +48,22 @@ let result = arr2.map(row => row.join(" ")).join("\n");
 console.log(result);
 
 
+//remove all occurences of particular element from array
+function removeElementFromArray(arr,target){
+  return arr.filter(item=>item!=target)
+}
+let arr7=[10,20,10,30,10,60];
+let removed=removeElementFromArray(arr7,10);
+console.log(removed);
+//[ 20, 30, 60 ]
 
-
+//current date and time in a specific format
+function curtrentDateTime(){
+  let currentyDate=new Date();
+  return currentyDate.toLocaleString()
+}
+console.log(curtrentDateTime());
+//9/5/2025, 4:40:51 PM
 
 // function colElementsOdd(arr){
 //     let row=arr.length
