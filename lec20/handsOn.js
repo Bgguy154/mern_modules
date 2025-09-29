@@ -1,5 +1,21 @@
 //Sorting Day2
 
+//hw smallest greater elements ✅
+//by not sorting array
+// let arr=[2,3,1,6,50,8];
+// let arr1=new Array(arr.length);
+for(let i=0;i<arr.length;i++){
+    let minEle=Infinity;
+    for(let j=0;j<arr.length;j++){
+        if(arr[j]>arr[i]){
+            minEle=Math.min(arr[j],minEle);
+        }
+    }
+    arr1[i]=minEle;
+}
+console.log(arr1);
+
+
 
 //Q1
 // Given 2 sorted arrays A and B 
@@ -63,25 +79,28 @@ function mergeSortedArrays2(arr1,arr2){
        if(arr1[i]>arr2[j]){
           arr3[k]=(arr2[j]);
           j++;
+          k++;
        }
        else{
         arr3[k]=(arr1[i]);
         i++;
+        k++;
        }
-       k++;
     }
     for(let l=j;l<arr2.length;l++){
-        arr3.push(arr2[l]);
+        arr3[k]=(arr2[l]);
+        k++;
     }
 
     for(let l=i;l<arr1.length;l++){
-        arr3.push(arr1[l]);
+        arr3[k]=push(arr1[l]);
+        k++;
     }
     return arr3;
 }
 
 console.log(mergeSortedArrays2(arr1,arr2));
-//Hw correct this function
+//Hw correct this function Done ✅
 
 
 
@@ -117,19 +136,36 @@ console.log(mergeSort(arr,0,arr.length-1))
 //Insertion Sort
 //Q2
 //Given array
-//all elements in array is sorted except last element
+//all elements in array is sorted except last element Done ✅
 let arr3=[1,2,7,9,6];
 function insertAtTarget(arr){
     let k=arr[arr.length-1];
     for(let i=arr.length-2;i>=0;i--){
         if(arr[i]<k){
-            [arr[i+1],k]=[k,arr[i+1]]
             break;
+        }
+        else{
+         [arr[i+1],arr[i]]=[arr[i],arr[i+1]]
         }
     
     }
-    [arr[i],k]=[k,arr[i]]
     return arr;
 }
 
 console.log(insertAtTarget(arr3))
+
+//Insertion Sort
+//It is shifting based and we are swapping 
+//Thats the difference
+let arr4=[3,1,6,8,7,4];
+//ans=[1,3,4,6,7,8]
+
+function insertionSort(arr){
+  let sortedArray=[arr[0]];
+  for(let i=1;i<arr.length;i++){
+    sortedArray.push(arr[i]);
+    sortedArray=insertAtTarget(sortedArray);
+  }
+}
+console.log(insertionSort(arr4))
+//Correct ✅
