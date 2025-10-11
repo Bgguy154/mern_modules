@@ -1,3 +1,45 @@
+let arr1 = [3, 2, 9, 0, 10];
+console.log(
+  arr1.map((a) => {
+    return a * a;
+  })
+);
+//[ 9, 4, 81, 0, 100 ]
+
+//HW normal anonymous functions ✅
+/*
+1.Assigning to a variable
+
+let greet = function(name) {
+  return "Hello, " + name;
+};
+console.log(greet("Tanmay")); // Hello, Tanmay
+
+2.Using as a callback
+
+setTimeout(function() {
+  console.log("This runs after 2 seconds");
+}, 2000);
+
+
+3.With Array methods
+
+let numbers = [1, 2, 3, 4, 5];
+let doubled = numbers.map(function(num) {
+  return num * 2;
+});
+console.log(doubled); // [2, 4, 6, 8, 10]
+
+
+4.Immediately Invoked Function Expression (IIFE)
+(function() {
+  console.log("I run immediately!");
+})();
+
+*/
+
+
+
 //HOF Day 2
 
 //4.reduce
@@ -87,17 +129,48 @@ users.forEach((val,index,array)=>{
     array[index]=val.name;
 })
 console.log(users);
-// HW use map for this
+// HW use map for this ✅
+
+let a1=users.map((a)=>{
+  return a.name;
+})
+console.log(a1);
+//[ 'Alice', 'Bob', 'Charlie', 'Diana', 'Ethan' ]
 
 //function to display all active users from above users array
-//HW
+//HW ✅
+const activeUsers=users.filter((a)=>a.isActive)
+console.log(activeUsers);
+/*
+[
+  { name: 'Alice', age: 22, isActive: true },
+  { name: 'Charlie', age: 28, isActive: true },
+  { name: 'Ethan', age: 39, isActive: true }
+]
+*/
 
-//HW
+//Alternate method 
+// const activeUsers=users.filter((a)=>{
+//   return a.isActive;
+// })
+
+//HW  ✅
 //function to find sum of age for all users below 30
+let under30=users.filter((a)=>a.age<30);
+let sumunder30=under30.reduce((a,val)=>{
+    a+=val.age;
+    return a;
+},0)
+console.log(sumunder30);
+//99
 
-//HW
+//HW  ✅
 //function to get names of all active users
-
+let a2=activeUsers.map((a)=>{
+  return a.name;
+})
+console.log(a2);
+//[ 'Alice', 'Charlie', 'Ethan' ]
 
 //Passing a function as an argument & returning a function
 function calculate(a,b,operation){
@@ -127,6 +200,7 @@ calculate(10,5,div);
 
 
 //Error Handling
+
 try {
   // console.log(studentName);
   let studentName = "Pratik";
@@ -141,6 +215,21 @@ try {
 }
 
 console.log("after try catch block");
+/*
+Pratik
+Pratik found!!
+Error
+Error: Pratik found!!
+    at Object.<anonymous> (/box/script.js:5:39)
+    at Module._compile (internal/modules/cjs/loader.js:959:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:995:10)
+    at Module.load (internal/modules/cjs/loader.js:815:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:727:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1047:10)
+    at internal/main/run_main_module.js:17:11
+In finally block
+after try catch block
+*/
 
 
 /* 
@@ -149,3 +238,27 @@ memoization --> if a function is called with same args as before, it will not ca
                 it will find the result from a cache where result of 
                 previous function call with same args is stored
 */
+
+
+//Quick Sort alternative
+// your code here
+const unsortedArray = [3, 7, 2, 8, 2, 782, 7, 29, 1, 3, 0, 34];
+function quickSort(arr){
+    if(arr.length<=1){
+        return arr;
+    }
+    let pivot=arr[arr.length-1];
+    let left=[];
+    let right=[];
+    for(let i=0;i<arr.length-1;i++){
+        if(arr[i]<pivot){
+            left.push(arr[i]);
+        }
+        else{
+            right.push(arr[i]);
+        }
+    }
+    return [...quickSort(left),pivot,...quickSort(right)];
+}
+let sortedArray=quickSort(unsortedArray);
+console.log(sortedArray);

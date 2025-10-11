@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishal Mega Mart Bharti</title>
+</head>
+
+<body>
+    <h1>Application Form Vishal Mega Mart</h1>
+    <div>
+        <label for="name">Name</label>
+        <input id="name" type="text" placeholder="enter full name" name="name" required autocomplete="name" />
+    </div>
+    <br />
+
+    <div>
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="" name="email" required autocomplete="email" />
+    </div>
+    <br />
+
+    <div>
+        <label for="ph">Phone Number</label>
+        <input id="ph" type="number" placeholder="enter without country code" maxlength="10" name="ph" required
+            autocomplete="" />
+    </div>
+    <br />
+
+    <div>
+        <label for="location">Location Applying For</label>
+        <select name="location" id="location">
+            <option value="">Location is Pune</option>
+            <option>Hingewadi</option>
+            <option>Mahalunge</option>
+            <option>Hadapsar</option>
+            <option>Pimpri</option>
+            <option>Chinchwad</option>
+    </div>
+    <br />
+
+    <div>
+        <label for="resume">resume</label>
+        <input type="file" id="resume" />
+    </div>
+    <br />
+
+    <div>
+        <label for="expectedSlary">Expected Salary</label>
+        <input id="expectedSlary" type="number" placeholder="per month" maxlength="10" name="expectedSlary" required
+            autocomplete="" />
+    </div>
+    <br />
+
+    <div>
+        <label for="currentSlary">Current Salary</label>
+        <input id="currentSlary" type="number" placeholder="per month" maxlength="10" name="currentSlary" required
+            autocomplete="" />
+    </div>
+    <div>
+        <br />
+
+        <label id="experience">Prev Experience</label><br />
+
+        <input type="checkbox" id="internship" name="experience" value="internship" />
+        <label for="internship">Internships</label>
+
+        <input type="checkbox" id="jobs" name="experience" value="jobs" />
+        <label for="jobs">Jobs</label>
+
+        <input type="checkbox" id="selfemployed" name="experience" value="selfemployed" />
+        <label for="selfemployed">Self Employed</label>
+
+    </div>
+    <br />
+
+    <div>
+        <label id="working">Work Timings Interest</label>
+        <input type="radio" id="shift" name="shift" value="night" />
+        <label for="night">Night</label>
+        <input type="radio" id="shift" name="shift" value="morning" />
+        <label for="morning">Day</label>
+    </div>
+    <br />
+    <div>
+        <label for="doj">Earliest Date of Joining</label>
+        <input type="date" name="doj" placeholder="dd/mm/yyyy" id="doj" />
+    </div>
+    <br />
+
+    <button type="submit">Submit</button>
+</body>
+
+</html>

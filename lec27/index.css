@@ -1,0 +1,110 @@
+/*
+selector{
+property:value
+}
+*/
+
+/*element selector
+h1{
+color:coral;
+}
+*/
+
+/*universal selector
+*{
+color:green;
+}
+*/
+
+/* rgba a is alpha(detects transparency)maxValue=1 */
+
+h2{
+    /*hex code  #rrggbb */
+    color: #f00f00;
+}
+
+/* fontweight boldness of text */
+
+/*
+textalign justify end is structured of a line
+*/
+
+/*
+text-decoration underline,overline
+linethrough cuts the text
+none nothing should apply
+
+it helps to remove underline from anchor tag
+*/
+
+/*
+text-transform capitalise/uppercase
+lowercase
+*/
+
+/*
+lineheight height between 2 lines
+*/
+
+/*
+units in css
+px=fixed pixels
+%=percentage of parent element
+em=relative to font size of parent
+rem=relative to roots font size
+vh/vw=relative to screen dimensions
+*/
+
+span{
+    font-size: 2rem;
+}
+
+/*
+padding 50px 100px 150px
+top bottom leftright
+padding 50px 100px 150px 200px
+top right bottom left
+
+same applies to margin also
+*/
+
+/*
+border dotted,solid,dashed
+*/
+
+/*
+display inline,block,inline-block
+inline=only as wide as text length vant set ht and wd
+block=takes full wd,starts on newline
+inline-block=behaves as inline,but can set ht wd
+*/
+*{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#card{
+    border: 1px solid black;
+    background-color: rgb(108, 189, 226);
+    width: 500px;
+}
+h1,div{
+    text-align: center;
+}
+
+h2{
+    text-decoration: underline;
+}
+img{
+    margin:0 0 20px 0;
+}
+
+button{
+    background-color: fuchsia;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px 30px;
+}

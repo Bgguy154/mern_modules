@@ -1,4 +1,6 @@
 // Got it 👍
+//M-modified
+//U-untracked
 // Since you’ve already pushed your folder (repository) to GitHub and now made **new changes (including new files)**, you just need to follow the standard Git workflow from your VS Code terminal:
 
 // ---
