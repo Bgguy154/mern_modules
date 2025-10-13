@@ -1,0 +1,111 @@
+section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #30e41f;
+  margin: 0;
+}
+
+/* Card styling */
+#card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  width: 280px;          /* slightly narrower */
+  background-color: #d7f67c;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  padding-bottom: 10px;  /* small padding for bottom spacing */
+}
+
+
+/* Image */
+#card img {
+  width: 100%;
+  height: 180px;         /* reduced image height */
+  object-fit: contain;
+  background-color: white;
+  padding: 15px;
+}
+
+/* Description */
+#cardDescription {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 15px;
+  width: 100%;
+}
+
+/* Title */
+#cardDescription h2 {
+  color: #0c3353;
+  margin-bottom: 5px;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+/* Author */
+#cardDescription p:first-of-type {
+  color: #444;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+/* Rating */
+#rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px 0;
+}
+
+#rating img {
+  width: 90px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* Book type */
+#cardDescription h3 {
+  color: #0c3353;
+  margin-bottom: 6px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+/* Price */
+#cardDescription p strong {
+  color: #000;
+  font-size: 1rem;
+}
+
+/* Delivery and shipping */
+#cardDescription p:nth-of-type(3),
+#cardDescription p:nth-of-type(4) {
+  color: #555;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+/* Button */
+#cardDescription button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ffd60a;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: center;
+  margin-top: 6px;
+}
+
+

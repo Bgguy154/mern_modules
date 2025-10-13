@@ -61,7 +61,7 @@ span{
 
 /*
 padding 50px 100px 150px
-top bottom leftright
+top  leftright bottom
 padding 50px 100px 150px 200px
 top right bottom left
 
@@ -83,14 +83,15 @@ inline-block=behaves as inline,but can set ht wd
 }
 body{
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
 }
 #card{
     border: 1px solid black;
     background-color: rgb(108, 189, 226);
     width: 500px;
 }
+
 h1,div{
     text-align: center;
 }

@@ -1,0 +1,46 @@
+:root {
+  --btn-color: blue;
+  --bg-color: yellow;
+  --default-color: red;
+}
+
+* {
+  box-sizing: border-box;/*contentbox*/
+  background-color: var(--bg-color);
+}
+h1{
+    margin-left: 45%;
+}
+.navbar{
+    display: flex;
+    justify-content: space-around;
+}
+
+.navbar a{
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+.gallery {
+ display: flex;
+ flex-direction: row;
+ flex-wrap: wrap;
+ justify-content:space-evenly;  
+ align-items: center;
+ gap: 10px;
+}
+
+.card{
+    flex: 0 1 300px;
+     /*flex-grow: flexshrink minwidth; */
+    border: 1px solid black;
+    border-radius:5%;
+    box-shadow: -2px 2px 15px rgb(241, 31, 31);
+    /* first - for left,+ right    2nd -top +bottom */
+    text-align: center;
+}
+
+.card img{
+    width: 100%;
+    border-radius: 50%;
+}
