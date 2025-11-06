@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wanderly — Travel</title>
+  <link rel="stylesheet" href="handsOn.css" />
+  <meta name="description" content="Wanderly — beautiful travel templates (HTML + CSS only)" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#">Wanderly</a>
+
+      <!-- checkbox hack for mobile menu -->
+      <input id="nav-toggle" type="checkbox" />
+      <label class="nav-toggle-label" for="nav-toggle">
+        <span></span>
+      </label>
+
+      <nav class="nav">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#destinations">Destinations</a></li>
+          <li><a href="#packages">Packages</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="auth">
+        <a class="btn ghost" href="#">Login</a>
+        <a class="btn primary" href="#">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <h1>Explore the world — one trip at a time</h1>
+          <p>Handpicked destinations, easy bookings and unforgettable memories. Start your next adventure with Wanderly.</p>
+
+          <form class="search-form" action="#" method="get" novalidate>
+            <div class="field">
+              <label class="visually-hidden" for="where">Where</label>
+              <input id="where" name="where" type="text" placeholder="Where do you want to go?" />
+            </div>
+            <div class="field">
+              <label class="visually-hidden" for="when">When</label>
+              <input id="when" name="when" type="month" />
+            </div>
+            <button class="btn primary" type="submit">Search</button>
+          </form>
+        </div>
+
+        <div class="hero-image" aria-hidden="true">
+          <!-- image credit: unsplash; these are hotlink placeholders -->
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=70" alt="Beach view" />
+        </div>
+      </div>
+    </section>
+
+    <!-- DESTINATIONS -->
+    <section id="destinations" class="section">
+      <div class="container">
+        <h2 class="section-title">Popular Destinations</h2>
+        <p class="section-sub">Handpicked places travellers love.</p>
+
+        <div class="cards-grid">
+          <article class="card">
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1000&q=60" alt="Paris" />
+            <div class="card-body">
+              <h3>Paris, France</h3>
+              <p>Romantic streets, iconic museums and world-class cuisine.</p>
+              <a class="btn ghost small" href="#">View</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <!-- The HTML <article> tag is a semantic element introduced in HTML5, used to
+               define independent, self-contained content within a document.  -->
+            <img src="https://images.unsplash.com/photo-1505765055589-3f7b5b1c29f0?auto=format&fit=crop&w=1000&q=60" alt="Bali" />
+            <div class="card-body">
+              <h3>Bali, Indonesia</h3>
+              <p>Lush rice terraces, serene beaches and cultural charm.</p>
+              <a class="btn ghost small" href="#">View</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img src="https://images.unsplash.com/photo-1505765055587-1b8e5b0aa9b7?auto=format&fit=crop&w=1000&q=60" alt="Swiss" />
+            <div class="card-body">
+              <h3>Swiss Alps</h3>
+              <p>Snowy peaks, alpine lakes and adventure trails.</p>
+              <a class="btn ghost small" href="#">View</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1000&q=60" alt="Morocco" />
+            <div class="card-body">
+              <h3>Marrakesh, Morocco</h3>
+              <p>Vibrant souks, spice-scented lanes and desert escapes.</p>
+              <a class="btn ghost small" href="#">View</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section id="packages" class="section alt">
+      <div class="container">
+        <h2 class="section-title">Our Packages</h2>
+        <p class="section-sub">Choose a package that fits your vibe.</p>
+
+        <div class="packages-grid">
+          <div class="package">
+            <h3>Weekend Getaway</h3>
+            <p class="price">₹6,499</p>
+            <ul>
+              <li>2 nights stay</li>
+              <li>Breakfast included</li>
+              <li>Guided city tour</li>
+            </ul>
+            <a class="btn primary" href="#">Book Now</a>
+          </div>
+
+          <div class="package featured">
+            <h3>Romantic Escape</h3>
+            <p class="price">₹12,999</p>
+            <ul>
+              <li>3 nights luxury</li>
+              <li>Candlelight dinner</li>
+              <li>Private transfer</li>
+            </ul>
+            <a class="btn primary" href="#">Book Now</a>
+          </div>
+
+          <div class="package">
+            <h3>Adventure Trip</h3>
+            <p class="price">₹9,799</p>
+            <ul>
+              <li>Guided hikes</li>
+              <li>Outdoor activities</li>
+              <li>Experienced guide</li>
+            </ul>
+            <a class="btn primary" href="#">Book Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials" class="section">
+      <div class="container">
+        <h2 class="section-title">Traveler Stories</h2>
+        <div class="testimonials-grid">
+          <blockquote class="testimonial">
+            <p>“Amazing service and easy booking. The Bali trip was the highlight of the year!”</p>
+            <footer>— Priya K., Mumbai</footer>
+          </blockquote>
+
+          <blockquote class="testimonial">
+            <p>“Well-planned itinerary, friendly guides. 10/10 would travel again.”</p>
+            <footer>— Rohan S., Pune</footer>
+          </blockquote>
+
+          <blockquote class="testimonial">
+            <p>“Great value packages and excellent accommodations.”</p>
+            <footer>— Ananya D., Delhi</footer>
+          </blockquote>
+          <!-- used to show a quote -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section alt contact-section">
+      <div class="container contact-grid">
+        <div class="contact-info">
+          <h2>Get in touch</h2>
+          <p>Have questions? Drop a message and we'll reply within 24 hours.</p>
+
+          <ul class="contact-list">
+            <li>Email: hello@wanderly.example</li>
+            <li>Phone: +91 98765 43210</li>
+            <li>Address: Pune, India</li>
+          </ul>
+        </div>
+
+        <form class="contact-form" action="#" method="post" novalidate>
+          <label class="visually-hidden" for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Your name" required />
+
+          <label class="visually-hidden" for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="Your email" required />
+
+          <label class="visually-hidden" for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="How can we help?" required></textarea>
+
+          <button class="btn primary" type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h3>Wanderly</h3>
+        <p>Explore. Dream. Discover.</p>
+      </div>
+
+      <div>
+        <h4>Quick links</h4>
+        <ul class="footer-links">
+          <li><a href="#destinations">Destinations</a></li>
+          <li><a href="#packages">Packages</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Follow</h4>
+        <ul class="footer-links">
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Twitter</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Subscribe</h4>
+        <form class="subscribe-form" action="#" method="post" novalidate>
+          <input type="email" placeholder="Your email" required />
+          <button class="btn ghost small" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="container copyright">
+      <small>© <span id="year"></span> Wanderly. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <script>
+    // small inline script just to set year (allowed, unobtrusive)
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

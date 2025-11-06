@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body>
+  <body style="display: flex; flex-direction: column; margin: 0; padding: 0; width: 100vw; height: 100vh; justify-content: center; align-items: center; ">
+    <div style="height: 300px; width: 300px; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; background-color: greenyellow; border: 1px solid black; border-radius: 20px;">
     <div id="count">0</div>
     <button id="increment">Increment</button>
     <button id="decrement">Decrement</button>
     <button id="reset">Reset</button>
+    </div>
 
     <script>
         let count=document.getElementById("count");

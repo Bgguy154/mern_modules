@@ -1,0 +1,56 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+}
+
+#navbar{
+    margin-left: 30px;
+    margin-top: 50px;
+    height:100vh;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    box-shadow: 1px red;
+}
+
+.modules{
+    margin-left: 30px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    box-shadow: 0 4px 10px rgba(202, 20, 20, 0.1);
+}
+
+.softSkills{
+     margin-left: 30px;
+    margin-top: 50px;
+    width: 600px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+    "a b"
+    "c d";
+}
+
+.purple{
+    grid-area: "a";
+}
+
+.green{
+    grid-area: "d";
+}
+
+.blue{
+    grid-area: "c";
+}
+
+.indigo{
+    grid-area: "b";
+}

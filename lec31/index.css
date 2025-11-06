@@ -1,0 +1,93 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+}
+
+#all{
+    display: grid;
+    grid-template-rows: 1fr 4fr 1fr;
+}
+
+#main{
+    background-color: yellow;
+}
+
+#footer{
+    background-color: black;
+}
+
+#header1{
+    background-color: brown;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#headerOptions{
+    gap:0;
+    display: flex;
+    flex-direction: row;
+}
+
+button{
+    height: 50px;
+    width: 50px;
+}
+
+#buttons{
+    gap: 15px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#mainContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin:50px 75px 100px 75px;
+    background-color:white;
+    height: 400px;
+    width: 1200px;
+    border: 2px solid black;
+    box-shadow: 50%;
+}
+
+#mainRightContent{
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+}
+
+#footer{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+}
+
+#quickLinks{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+#about{
+    display: flex;
+    flex-direction: column;
+    color: white;
+    gap: 0;
+}
+
+#links,#contact,#follow{
+    display: flex;
+    flex-direction: column;
+    color: white;
+    gap: 0;
+}
+
+#contacts,#details,#handles{
+    gap: 0;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}

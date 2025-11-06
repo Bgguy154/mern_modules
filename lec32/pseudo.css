@@ -1,0 +1,44 @@
+*,*::before,*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+div>div{
+    width: 300px;
+    height: 400px;
+    background-color: yellow;
+    margin: 100px auto;
+    /* margin: 100px auto; is a CSS shorthand for setting the margins on all four sides of an element. */
+    /* what this does hw */
+}
+
+div div:last-child{
+    background-color: red;
+}
+
+.child:active{
+    background-color: beige;
+}
+
+.child:hover{
+    border: 1px solid blue;
+}
+
+.elements p::before{
+  content: "Tanmay";
+}
+
+.elements p::after{
+    content:"Tapre";
+}
+
+.elements p::first-letter{
+    content: "";
+    color: green;
+}
+
+.elements p::first-line{
+    content: "";
+    color: brown;
+}

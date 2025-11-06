@@ -69,6 +69,7 @@ section {
   width: 90px;
   height: 18px;
   object-fit: contain;
+  /* It ensures the entire media fits inside the container without cropping, while preserving the aspect ratio. */
 }
 
 /* Book type */

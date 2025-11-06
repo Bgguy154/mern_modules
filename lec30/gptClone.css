@@ -1,0 +1,108 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+}
+
+.container{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    width: 100vw;
+    height: 100vh;
+    color: white;
+    background-color: dimgrey;
+}
+
+.navbar{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    /* background-color: blue; */
+    gap: 10px;
+}
+
+.navbar a{
+  text-decoration: none;
+  color: white;
+  border-bottom: 1px solid black;
+  font-size: 1rem;
+  margin-left: 10px;
+}
+
+.content{
+    display: grid;
+    grid-template-rows: 1fr 8fr 1fr;
+    background-color: purple;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings{
+    position: fixed;
+    text-align:right ;
+    bottom: 20px;
+    left: 10px;
+    width: calc(100%-500px);
+}
+
+.title{
+    margin: 0 auto;
+    font-size: 50px;
+    font-weight: 900;
+}
+
+.suggestions{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-left: 300px;
+    padding-right: 300px;
+}
+
+/* hover firstline  beforeafter 1stchild nthchild hw */
+.s:hover{
+    background-color: darkslateblue;
+}
+
+.s{
+    height: 100px;
+    width: 300px;
+    border: 1px solid white;
+     display: grid;
+    place-items: center;
+    /* CSS shorthand used in Grid and Flexbox layouts (mainly grid) to set both align-items and justify-items in one line. */
+    cursor: pointer;
+}
+
+.suggestion1{
+    overflow: auto;
+}
+
+.chat{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+/* block elements ko center karne ke liye */
+
+.chat .text{
+    width: 50%;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.chat .btn{
+    padding: 10px 20px;
+    background-color: inherit;
+    color: white;
+    border-radius: 5px;
+}

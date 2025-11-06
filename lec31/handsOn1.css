@@ -1,0 +1,84 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100vh;
+}
+
+#header{
+    height: 100px;
+    display: flex;
+    justify-content: space-around;
+}
+
+header ul{
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
+header button{
+    height: 30px;
+    width: 60px;
+    gap: 15px;
+}
+
+.a{
+    text-decoration: none;
+}
+
+#home{
+    display: flex;
+}
+
+#mainD{
+    display: flex;
+    flex-direction: column;
+    height: 426px;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 8px;
+      gap:0.75rem;
+
+}
+
+form input,button{
+    height: 80px;
+    width: 400px;
+}
+
+#form{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+#destinations {
+  display: flex;
+  flex-wrap: wrap;          /* moves to next line if screen small */
+  gap: 20px;
+  justify-content: center;  /* optional – centers cards */
+  text-align: center;
+}
+
+#destinations > div {
+  width: 100%;
+}
+
+#destinations article {
+  width: 250px;             /* card width */
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+article img{
+    width: 200px;
+    height: 200px;
+}
