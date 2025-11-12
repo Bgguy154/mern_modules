@@ -217,6 +217,7 @@ console.log(numberOfWords2(str))
 function longestWordInString(s){
     s.trim();
     let t=s.split(" ");
+    //t becomes array
     let maxCount=0;
     for(let i=0;i<t.length;i++){
         if(maxCount<t[i].length){

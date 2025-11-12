@@ -1,0 +1,55 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+section{
+    display: flex;
+    gap: 10px;
+}
+.circle{
+    background-color: blue;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top:40vh;
+    animation-name: bounce;
+    animation-duration: 2s;
+    animation-timing-function: linear; 
+    animation-iteration-count:infinite;
+    animation-direction: alternate;
+    display: inline-block;
+
+    /* can be infinite also */
+}
+
+.c1{
+    animation-delay: 1s;
+}
+
+.c2{
+    animation-delay: 2s;
+}
+
+.c3{
+    animation-delay: 3s;
+}
+
+.c4{
+    animation-delay: 4s;
+}
+
+.c5{
+    animation-delay: 5s;
+}
+
+@keyframes bounce{
+    from{
+        transform: translate(0);
+}
+    to{
+        transform: translateY(-300px);
+    }
+}

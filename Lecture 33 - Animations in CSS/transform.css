@@ -1,0 +1,51 @@
+*,
+*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    padding: 100px;
+    margin-bottom: 100px;
+}
+
+.container .box{
+    width: 100px;
+    height: 100px;
+    background-color: aqua;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+body:hover .box{
+    /* transform: scale(1.2); */
+    /* 1.2 times size */
+    /* transform: scale(1.2,0.4); */
+    /* x and y axis */
+    /* transform: scaleX(1.5); */
+    /* increass along x axis only same for scaleY */
+    /* transform: rotate(37deg); */
+    /* degrees can be -ve too */
+    transform: rotate(0.5turn);
+    /* takes half turn meaning 180deg here can be -ve too */
+
+    transform: skew(00deg,90deg);
+    /* can take 1 value too */
+
+    /* transform takes only that 1 which is latest  */
+    transform: translate(400%);
+    /* 4 times of original element position not size */
+
+    /* in css transform x+ve=right y+ve=down */
+    transform:translate(-50%,200px);
+    /* 50% left,200px niche */
+
+    transform: translate(40%) rotate(39deg);
+    /* applies in order of property */
+    /* ❌do in notebook implementation */
+    transform: rotate(39deg) translate(40%);
+
+
+}

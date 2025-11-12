@@ -1,0 +1,217 @@
+*,*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+section{
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    perspective: 800;
+}
+
+button{
+    height: 100px;
+    width: 100px;
+    background-color: aqua;
+    color: black;
+    text-align: center;
+}
+
+.box1:hover{
+    cursor: pointer;
+     animation-name: rotate-full;
+     animation-duration: 3s;
+    animation-delay: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: alternate;
+}
+
+.box2{
+    position: relative;
+    overflow: hidden;
+}
+
+.box2:hover,.box2::after{
+    cursor: pointer;
+    content:"";
+    background-color: blue;
+    color: white;
+}
+
+.box3:hover{
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    transform: scaleX(1.4) translateY(-3px);
+}
+
+.box5::before,.box5::after{
+    content: '';
+}
+.box5:hover{
+    cursor: pointer;
+     animation-name:flip;
+     animation-duration: 3s;
+    animation-delay: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: alternate;
+}
+
+.box5:hover::after{
+    opacity:1;
+    content: "I am back";
+    background-color: blueviolet;
+    transform: rotate(0deg);
+}
+
+.box5:hover::before{
+    content: 'I am front';
+    opacity: 1;
+    background-color: brown;
+    transform: rotateY(180deg);
+}
+
+.box8:hover {
+  animation-name: lightsrc;
+  animation-timing-function: alternate;
+  animation-delay: 1s;
+  animation-duration: 3s;
+  animation-iteration-count:5;
+  cursor: pointer;
+}
+
+.box9:hover{
+    animation-name: lukaChhupi;
+  animation-timing-function: alternate;
+  animation-delay: 1s;
+  animation-duration: 3s;
+  animation-iteration-count:5;
+  cursor: pointer;
+}
+
+.box11:hover{
+     animation-name: shadowPlay;
+  animation-timing-function: alternate;
+  animation-delay: 1s;
+  animation-duration: 10s;
+  animation-iteration-count:5;
+  cursor: pointer;
+}
+
+@keyframes shadowPlay {
+  /* Start State: Sharp, dark shadow close to the text */
+  0% {
+    text-shadow: 0px 0px 0px rgba(10, 10, 10, 0.5);
+    color: blue; /* Near black, high opacity */
+  }
+
+  /* Segments 1-9: Increasing offset, blur, and color variation */
+  10% {
+    /* Color 1: Very dark gray */
+    text-shadow: 1px 1px 0px rgba(22, 194, 59, 0.45);
+    color: blueviolet;
+  }
+  20% {
+    /* Color 2: Slightly lighter, minor blur */
+    text-shadow: 2px 2px 0px rgba(212, 31, 31, 0.4);
+    color: red;
+  }
+  30% {
+    /* Color 3: Starting to blur */
+    text-shadow: 3px 3px 1px rgba(49, 28, 236, 0.35);
+    background-color: blue;
+  }
+  40% {
+    /* Color 4: Introduced a slight warm (reddish) tint */
+    text-shadow: 4px 4px 1px rgba(231, 51, 102, 0.3);
+    background-color: crimson;
+  }
+  50% {
+    /* Color 5: More visible blur and shift */
+    text-shadow: 5px 5px 2px rgba(225, 123, 28, 0.25);
+    background-color: beige;
+  }
+  60% {
+    /* Color 6: Lightened and blurred further */
+    text-shadow: 6px 6px 3px rgba(230, 230, 11, 0.2);
+    color: chartreuse;
+  }
+  70% {
+    /* Color 7: Fading rapidly */
+    text-shadow: 7px 7px 4px rgba(244, 11, 19, 0.15);
+    background-color: black;
+  }
+  80% {
+    /* Color 8: Mostly transparent and blurred */
+    text-shadow: 8px 8px 4px violet;
+    background-color: cyan;
+  }
+  90% {
+    /* Color 9: Barely visible */
+    text-shadow: 9px 9px 5px white;
+    background-color: deeppink;
+  }
+
+  /* End State: Fully dropped and transparent */
+  100% {
+    text-shadow: 10px 10px 5px brown;
+    color: black;
+    background-color: bisque; /* Fully transparent */
+  }
+}
+
+@keyframes lukaChhupi{
+    0%{
+        transform: skewX(-45deg) scaleX(0);
+    }
+    50%{
+        transform: translate(20px,20px) scaleY(2);
+    }
+    75%{
+        transform: rotate(180deg) scale(6);
+    }
+    100%{
+        transform: translate(-20px,-20px)scaleY(0);
+    }
+}
+
+@keyframes lightsrc{
+    0%{
+      transform: translateY(-100%);opacity: 0.5;
+    }
+    50%{
+        transform: translateY(100%); opacity: 0;
+    }
+    100%{
+        transform: translateY(-100%); opacity: 0.5;
+    }
+}
+
+
+
+
+@keyframes rotate-full{
+    from{
+      transform: rotate(0deg);
+    }
+    to{
+      transform: rotate(-360deg);
+    }
+}
+
+@keyframes flip{
+    from{
+      transform: rotate(0deg);
+    }
+    to{
+      transform: rotate(180deg);
+    }
+}
+
+
+

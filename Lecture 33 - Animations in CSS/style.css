@@ -1,0 +1,71 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 10px;
+  margin-bottom: 100px;
+}
+
+.container .box {
+  width: 100px;
+  height: 100px;
+  background-color: aqua;
+  margin-bottom: 10px;
+}
+
+.box:hover {
+  width: 500px;
+  background-color: blueviolet;
+}
+
+.transition {
+  transition-property: width;
+  /* 1.all 2.width,height  are other options*/
+  transition-duration: 2s;
+  transition-delay: 1s;
+  /* by default linear */
+
+  /* shorthand */
+  transition: width 1s 2s ease-in-out;
+  /* 1st value should alwasy be duration then delay */
+}
+
+/* body:hover .box{
+    width:500px;
+    background-color: chartreuse;
+} */
+/* this is to apply  transition to  all boxes at the same time */
+
+.linear {
+  transition-timing-function: linear;
+  /* can use cubic-beezer for custom transition-timing-function:; */
+}
+
+.ease-in {
+  transition-timing-function: ease-in;
+}
+
+.ease-out {
+  transition-timing-function: ease-out;
+}
+
+.ease-in-out {
+  transition-timing-function: ease-in-out;
+}
+
+.steps {
+  transition-timing-function: steps(5);
+}
+
+.step-end {
+  transition-timing-function: step-end;
+}
+
+.step-start {
+  transition-timing-function: step-start;
+}
