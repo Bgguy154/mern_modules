@@ -1,0 +1,59 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: #835AB4;
+background: linear-gradient(90deg, rgb(5, 5, 10) 0%, rgb(5, 5, 10) 7.692%, rgb(9, 10, 14) 7.692%, rgb(9, 10, 14) 15.385%, rgb(13, 14, 18) 15.385%, rgb(13, 14, 18) 23.077%, rgb(18, 19, 22) 23.077%, rgb(18, 19, 22) 30.769%, rgb(22, 23, 26) 30.769%, rgb(22, 23, 26) 38.462%, rgb(26, 27, 30) 38.462%, rgb(26, 27, 30) 46.154%, rgb(30, 31, 34) 46.154%, rgb(30, 31, 34) 53.846%, rgb(34, 35, 38) 53.846%, rgb(34, 35, 38) 61.538%, rgb(38, 39, 42) 61.538%, rgb(38, 39, 42) 69.231%, rgb(41, 42, 45) 69.231%, rgb(41, 42, 45) 76.923%, rgb(44, 45, 48) 76.923%, rgb(44, 45, 48) 84.615%, rgb(46, 47, 51) 84.615%, rgb(46, 47, 51) 92.308%, rgb(48, 49, 53) 92.308%, rgb(48, 49, 53) 100%);}
+
+.container{
+    height: 80vh;
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 100px;
+    text-align: center;
+background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 215) 16.667%, rgb(255, 255, 156) 33.333%, rgb(255, 255, 100) 50%, rgb(255, 210, 51) 66.667%, rgb(255, 159, 12) 83.333%, rgb(255, 115, 0) 100%);    box-shadow: 1px 2px 10px rgb(26, 184, 228);
+    border-radius: 10px;
+}
+
+.contact-us{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 560px;
+}
+
+.name,.phone{
+    display: flex;
+    justify-content: space-around;
+    color:rgb(22, 56, 223);
+}
+
+.consent{
+    display: flex;
+    justify-content:flex-start;
+    margin-left: 70px;
+    gap: 20px;
+}
+
+button{
+    width: 200px;
+    height: 60px;
+    background-color: red;
+    color:wheat;
+    border-radius: 10px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.gender{
+    display: flex;
+    gap: 12px;
+    margin-left: 70px;
+}
+
+
+
+

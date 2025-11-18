@@ -1,0 +1,286 @@
+:root {
+    /* Define color variables based on the desired output */
+    --primary: #ff7043;
+    --dark: #222;
+    --light: #fff;
+    --bg: #fafafa;
+}
+
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+}
+
+/* --- Page 1 - Recipe & Nutrition --- */
+
+.page1 {
+    /* Remove grid to allow for natural flow based on content/structure */
+    height: auto; /* Allow height to adapt to content */
+    display: block; 
+}
+
+/* Simulate the Hero/Navbar section */
+.header1 {
+    /* This section contains the navbar and hero text in the original HTML */
+    background: linear-gradient(to right, #ff8a65, var(--primary)); /* Gradient for Hero */
+    color: var(--light);
+    padding: 30px 20px 60px; /* Padding for the hero text effect */
+    text-align: center;
+    width: 100%; /* Full width */
+    margin: 0; /* Remove fixed margins */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Style the inner div for the Navbar/Title and Links */
+.recipeColumn {
+    /* This element acts as the Navbar's container */
+    background-color: transparent; /* Make it transparent */
+    width: 95%; /* Adjust width for better flow */
+    height: auto;
+    margin-left: 400px; /* Remove fixed margins */
+    display: flex;
+    justify-content: space-around; /* Separate title and links */
+    align-items: center;
+    padding: 10px 0;
+    max-width: 900px;
+}
+
+/* Style the Blog Title */
+.recipeColumn > p {
+    font-size: 32px !important; /* Keep the big title font size */
+    margin-top: 0 !important; /* Remove top margin */
+    font-weight: bold;
+}
+
+/* Style the Navigation Links container */
+.recipeColumn > div {
+    display: flex !important; /* Ensure flex for horizontal links */
+    gap: 20px !important;
+    margin-left: 0 !important;
+}
+
+/* Style the Hero Subtext */
+.header1 > div:nth-of-type(2) { /* "Cook,Eat.Repeat." */
+    font-size: 40px !important; /* Make it look like the H2 in the hero section */
+    font-weight: 500;
+    margin-top: 20px;
+}
+.header1 > div:nth-of-type(3) { /* "Easy & tasty recipes..." */
+    font-size: 18px !important;
+    margin-bottom: 0 !important;
+}
+
+
+/* General Container for Content */
+.body1, .footer1 {
+    max-width: 900px;
+    margin: 30px auto; /* Center the content area and add vertical spacing */
+    padding: 0 20px;
+    width: auto; /* Allow it to be flexible */
+    margin-left: auto; /* Override inline styles */
+}
+
+/* Recipe Card Section */
+.body1 h2 {
+    margin-left: 0 !important; /* Remove fixed margin */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.bodyContent {
+    /* This simulates the .recipe-card */
+    display: flex;
+    flex-direction: row; /* Default to row for desktop */
+    justify-content: center;
+    align-items: flex-start;
+    background: var(--light);
+    padding: 20px;
+    gap: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-right: 0 !important; /* Remove fixed margin */
+}
+
+.bodyContent img {
+    width: 45%; /* Match the recipe-card image width */
+    height: auto;
+    object-fit: cover;
+}
+
+.recipeIandS {
+    gap: 10px;
+    margin-left: 0 !important; /* Remove fixed margin */
+    flex: 1; /* Allow it to take up remaining space */
+}
+
+.recipeIandS ul, .recipeIandS ol {
+    margin-left: 20px !important; /* Adjusted margin */
+}
+
+/* Nutrition Table Section */
+.footer1 {
+    margin-left: auto !important; /* Remove fixed margin */
+    width: auto;
+}
+
+.footer1 h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.footer1 table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--light);
+}
+
+.footer1 th, .footer1 td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+
+/* --- Page 2 - Gallery & Subscribe --- */
+
+.page2 {
+    height: auto; /* Allow height to adapt to content */
+    display: block; 
+}
+
+/* General Container for Page 2 */
+.header2, .body2, .footer2 {
+    max-width: 900px;
+    margin: 30px auto; 
+    padding: 0 20px;
+}
+
+/* Gallery Section */
+.header2 {
+    display: block; /* Change display from flex to block for standard container flow */
+    margin-left: auto; /* Center the container */
+    text-align: center;
+}
+
+.header2 h2 {
+    margin-bottom: 20px;
+}
+
+.grid-gallery {
+    display: grid; /* Use grid for gallery */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+    gap: 10px;
+    width: 100%;
+    margin-top: 0;
+}
+
+.grid-gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px !important;
+}
+
+/* Subscribe Form Section */
+.body2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Center the heading */
+    margin-right: auto !important; /* Remove fixed margin */
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.body2 h2 {
+    margin-right: 0 !important; /* Remove fixed margin */
+}
+
+form {
+    width: 100%;
+    max-width: 450px; /* Limit the form width */
+    text-align: left;
+    gap: 5px; /* Reduce gap */
+}
+
+label {
+    font-size: 18px; /* Slightly smaller font for label */
+}
+
+input[type="text"], input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    height: auto !important; /* Override fixed height */
+}
+
+button {
+    background-color: var(--primary);
+    color: white;
+    height: 40px;
+    width: 100% !important; /* Full width */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Footer Section */
+.footer2 {
+    margin-top: 30px; /* Add margin-top */
+    padding: 0;
+}
+
+.footer2 div {
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+    background-color: var(--dark);
+    margin: 0; /* Remove fixed margin */
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer2 p {
+    color: white;
+    margin: 0;
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    /* Navbar/Header Adjustment */
+    .recipeColumn {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .recipeColumn > div {
+        justify-content: center;
+    }
+
+    /* Recipe Card Adjustment */
+    .bodyContent {
+        flex-direction: column;
+    }
+
+    .bodyContent img {
+        width: 100%;
+    }
+}

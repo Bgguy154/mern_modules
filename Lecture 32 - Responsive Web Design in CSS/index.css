@@ -81,7 +81,7 @@ header, main, footer {
     width: 90%;
     max-width: 1200px; /* Max size for the container */
     background-color: white;
-    height: 400px;
+    height: 500px;
     border: 2px solid black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }

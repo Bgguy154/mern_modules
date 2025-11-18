@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us Form</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section>
+     <form>
+      <div class="container">
+        <h1 >Contact Us</h1>
+        <div class="contact-us">
+            <div class="name">
+          <label for="name" style="height: 30px; font-size: 30px; margin-left: 21px;">Full Name</label>
+          <input id="name" type="text" placeholder="Full Name"  style="border-radius: 10px; text-align: center; height: 40px;  color: #0B2A3B;"/>
+          </div>
+          <div class="phone">
+          <label for="mobile" style="height: 30px; font-size: 30px;">Phone</label>
+          <input id="mobile" type="number" placeholder="+91-83745289172" style="border-radius: 10px; text-align: center;height: 40px; color:#0B2A3B ;" />
+          </div>
+          <div class="gender" style="font-size: 30px; color: rgb(22, 56, 223);">
+          <label for="gender">Gender</label>
+          <label for="male">Male</label>
+          <input id="male" type="radio" name="gender" value="male" />
+          <label for="female">Female</label>
+          <input id="female" type="radio" name="gender" value="female" />
+          </div>
+
+          <div class="consent" style="font-size: 30px; color: rgb(22, 56, 223);">
+            <label for="consent">Agree to T&C</label>
+            <input id="consent" type="checkbox"/>
+          </div>
+
+          <div class="city">
+            <select id="city" style="height: 50px; width: 200px; text-align: center; border-radius: 30px;">Select City
+            <option value="">Select City</option>
+            <option>Pune</option>
+            <option>Mumbai</option>
+            <option>Nagpur</option>
+            <option>Hyderabad</option>
+            <option>Nashik</option>
+            </select>
+          </div>
+              <div class="err"></div>
+          <button>Submit</button>
+        </div>
+      </div>
+      </form>
+    </section>
+    <script src="form.js"></script>
+  </body>
+</html>

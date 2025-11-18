@@ -32,7 +32,7 @@ function paraClicked(event){
 
 
 
-//mousehover
+//mouseover
 //mouseup
 //mousedown
 //keyup

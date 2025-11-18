@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="password" name="" id="" maxlength="8" />
+    <br />
+    <input type="date" />
+    <br />
+    <input type="time" />
+    <br />
+    <input type="checkbox" />
+    <input type="checkbox" />
+    <input type="checkbox" />
+    <input type="checkbox" />
+    <br />
+    <input name="mcq" type="radio" value="optionA" />
+    <input name="mcq" type="radio" value="optionB" />
+    <input name="mcq" type="radio" value="optionC" />
+    <input name="mcq" type="radio" value="optionD" />
+    <br />
+    <input name="mcq2" type="radio" value="optionA" />
+    <input name="mcq2" type="radio" value="optionB" />
+    <input name="mcq2" type="radio" value="optionC" />
+    <input name="mcq2" type="radio" value="optionD" />
+    <br />
+    <select name="" id="">
+      <option value="">Select Option</option>
+      <option>A</option>
+      <option>B</option>
+      <option>C</option>
+      <option>D</option>
+    </select>
+    <br />
+    <select name="" id="" multiple="true" size="2">
+      <option value="">Multiple Select</option>
+      <option>A</option>
+      <option>B</option>
+      <option>C</option>
+      <option>D</option>
+    </select>
+    <br />
+    <input type="file" id="file" />
+    <button>Submit</button>
+
+    <script>
+      const submitBtn=document.querySelector("button");
+      submitBtn.onclick = () => {
+  const inputs = {};
+
+  inputs.password = document.querySelector("input[type=password]").value;
+  inputs.date = document.querySelector("input[type=date]").value;
+  inputs.time = document.querySelector("input[type=time]").value;
+  inputs.radio1 = document.querySelector("[name=mcq]:checked")?.value;
+  inputs.radio2 = document.querySelector("[name=mcq2]:checked")?.value;
+
+  const selectEl = document.querySelector("select");
+  const multiEl = document.querySelector("[multiple=true]");
+
+  inputs.select = Array.from(selectEl.options)
+    .filter(o => o.selected)
+    .map(o => o.value);
+
+  inputs.multiselect = Array.from(multiEl.options)
+    .filter(o => o.selected)
+    .map(o => o.value);
+
+  inputs.checkboxes = Array.from(
+    document.querySelectorAll("input[type=checkbox]:checked")
+  ).map(cb => cb.value);
+
+  inputs.file = document.querySelector("input[type=file]").value;
+
+  console.log(inputs);
+};
+
+    </script>
+    <!-- read about dataURL,FileReader -->
+    <!-- change addeventlistener is triggered when element goes out of focus and value must be chnaged or enter is clicked
+    input addeventlistener is triggered when key is pressed which is input valid (used for real time validations).always triggered before change addeventlistener -->
+    <!-- read about blur and focus
+    | Event     | Meaning                                | Example                        |
+| --------- | -------------------------------------- | ------------------------------ |
+| **focus** | Element becomes active (cursor enters) | Clicking inside an input box   |
+| **blur**  | Element loses focus (cursor leaves)    | Clicking outside the input box |
+These events apply to:
+
+<input>
+
+<textarea>
+
+<select>
+
+Any element with tabindex -->
+tab and keyboard navigation
+
+  </body>
+</html>

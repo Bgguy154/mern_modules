@@ -47,7 +47,7 @@ button{
 
 .box3:hover{
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-    transform: scaleX(1.4) translateY(-3px);
+    transform: scaleX(1.4) translateY(3px);
 }
 
 .box5::before,.box5::after{
@@ -86,7 +86,7 @@ button{
 }
 
 .box9:hover{
-    animation-name: lukaChhupi;
+  animation-name: lukaChhupi;
   animation-timing-function: alternate;
   animation-delay: 1s;
   animation-duration: 3s;

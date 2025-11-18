@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="great-grand-parent">
+      <div class="grand-parent">
+        <div class="parent">
+          <div class="child">child</div>
+        </div>
+      </div>
+    </div>
+    <div class="parent2">
+      <div class="child1"></div>
+      <div class="child2"></div>
+      <div class="child3"></div>
+      <div class="child4"></div>
+      <div class="child5"></div>
+    </div>
+
+    <div class="card">
+        <p class="title">
+            Shoes
+        </p>
+        <div class="buttons">
+        <button class="delete">Delete</button>
+        <button class="edit">Edit</button>
+        </div>
+    </div>
+
+    <script>
+      // html ka parentElementis null
+      const child = document.querySelector(".child");
+      console.log(child.parentElement);
+      // parentdiv
+      const parent = document.querySelector(".parent");
+      console.log(parent.parentElement);
+      //grand-parent
+
+      const gparent = document.querySelector(".grand-parent");
+      console.log(gparent.parentElement);
+      //body
+
+      console.log(document.body.parentElement);
+      //html
+
+      console.log(child.closest(".parent"));
+      // child ke sabse pass ka .parent element
+      //searches the selector from current node to all
+      //ancestors till root node
+
+      console.log(child.closest("div"));
+      // <div class="child">
+      let a = child;
+      while (a.parentElement != document.body) {
+        a = a.parentElement;
+      }
+      a.classList.add("accio");
+      console.log(a);
+      //great-grand-child
+
+      //Alternate method
+      // using closest div to body
+      console.log(a.tagName, a.parentElement.tagName);
+      //DIV BODY
+
+      const parent2 = document.querySelector(".parent2");
+      console.log(parent2.childNodes);
+      // NodeList(7) [ #text, div.child1, #text, div.child2, #text, div.child3, #text ]
+      console.log(parent2.children);
+      //prefrerred
+      //HTMLCollection { 0: div.child1, 1: div.child2, 2: div.child3, length: 3 }
+
+      console.log(parent2.firstElementChild);
+      //child1
+      console.log(parent2.lastElementChild);
+      //child3
+
+      //accessing second child
+      console.log(parent2.children[1]);
+
+      //adding classs to 1st element from body
+      let c = document.querySelector("body");
+      let d = c.children[0];
+      d.classList.add("abcd");
+      console.log(d);
+      //<div class="great-grand-parent accio abcd">
+
+      //Alternate
+      document.body.children[0].classList.add("raja");
+      console.log(d);
+      //<div class="great-grand-parent accio abcd raja">
+
+      //iterating all children
+      for (let child of parent2.children) {
+        console.log(child.className);
+        //child1
+        //child2
+        //child3
+      }
+
+      //siblings
+      const firstChild = parent2.children[0];
+      console.log("prev sibling", firstChild.previousElementSibling); //null
+      console.log("next sibling", firstChild.nextElementSibling); //child2
+
+      //printing all the siblings of 2nd child
+      const secondChild = parent2.children[1];
+      console.log(
+        [...secondChild.parentElement.children].filter(
+          (child) => child != secondChild
+        )
+      );
+
+
+      //exercise:when user clicks  button.delete div.card element should be deleted
+      const deletBtn=document.querySelector(".delete");
+    //   let element3=deletBtn;
+    //   while(element3.parentElement!=document.body){
+    //     element3=element3.parentElement;
+    //   }
+    //   deletBtn.addEventListener('click',()=>{
+    //     element3.remove();
+    //   })
+      //this isnt accurate
+
+
+      //Accurate 1
+      deletBtn.addEventListener("click",(e)=>{
+         e.preventDefault();
+         let card=deletBtn.closest(".card");
+         card.remove();
+      })
+
+
+      //HW
+      //1.try all navigations in table parent,sibling,closest
+      //2. do on nested list too
+
+      //give a number between 0 and 1  [0,1)
+
+      //otp 6 digit
+      console.log(Math.floor(100000+Math.random()*900000));
+      //HW min and max value of this 
+      //min-100000
+    </script>
+  </body>
+</html>
