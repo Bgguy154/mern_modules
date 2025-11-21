@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DOM Navigation Practice</title>
+</head>
+<body>
+
+<table id="data-table">
+    <thead>
+        <tr>
+            <th id="header-id">ID</th>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="data-row" data-category="A">
+            <td class="cell-id">1</td>
+            <td id="name-cell-anchor">Alice</td>
+            <td>100</td>
+        </tr>
+        <tr class="data-row selected" data-category="B">
+            <td class="cell-id">2</td>
+            <td>Bob</td>
+            <td class="target-cell">200</td>
+        </tr>
+        <tr class="data-row" data-category="A">
+            <td class="cell-id">3</td>
+            <td>Charlie</td>
+            <td>150</td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    // Get the anchor element for easier access in questions
+    const anchor = document.getElementById('name-cell-anchor');
+    console.log("Anchor element is:", anchor); // Should be the 'Alice' cell
+
+    //Find the <tr> element immediately following the row containing "Alice."
+    console.log(anchor.closest("tr"));
+    
+    //Start from the anchor element ("Alice"), go to its previous sibling (<td> with 1), 
+    // then find the header cell that corresponds to it.
+    console.log(anchor.closest('table').querySelector("#header-id"));
+    //Alternate
+    console.log(anchor.parentElement.parentElement.previousElementSibling.children[0].children[0]);
+
+
+    //Start from the anchor element ("Alice"), navigate to the previous data row (<tr> for Bob), and 
+    // then select the cell with the value 200
+    console.log(anchor.parentElement.nextElementSibling.lastElementChild);
+</script>
+
+</body>
+</html>

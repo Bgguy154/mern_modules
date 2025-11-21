@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Fixed boxes</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    .box-Container{
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 40px;
+    }
+
+    .box {
+      height: 200px;
+      width: 360px;              
+      border: 1px solid #222;
+      font-size: 18px;
+      display: flex;             
+      align-items: center;       
+      gap: 16px;
+      padding: 12px;
+      background: #fff;
+      position: relative;
+    }
+
+    .box img {
+      height: 40px;
+      width: auto;
+      transition: height 0.18s ease;
+      display: block;
+    }
+
+    .info {
+      margin-left: auto;         
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;    
+      min-width: 120px;
+    }
+
+    .info p { font-weight: 600; }
+
+    button {
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 420px) {
+      .box { width: 320px; }
+      .info { min-width: 100px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="box-Container">
+    <div class="box">
+      <img src="cool.png" alt="cool" />
+      <div class="info">
+        <p>Level:0</p>
+        <button>Increase</button>
+        <button>Decrease</button>
+      </div>
+    </div>
+
+    <div class="box">
+      <img src="emoji.png" alt="emoji" />
+      <div class="info">
+        <p>Level:0</p>
+        <button>Increase</button>
+        <button>Decrease</button>
+      </div>
+    </div>
+
+    <div class="box">
+      <img src="happy-face.png" alt="happy" />
+      <div class="info">
+        <p>Level:0</p>
+        <button>Increase</button>
+        <button>Decrease</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const boxesData = [
+      { level: 0, size: 40 },
+      { level: 0, size: 40 },
+      { level: 0, size: 40 }
+    ];
+
+    const boxes = document.querySelectorAll(".box");
+
+    boxes.forEach((box, index) => {
+      const boxText = box.querySelector("p");
+      const img = box.querySelector("img");
+      const [incBtn, decBtn] = box.querySelectorAll("button");
+
+      function updateBox() {
+        img.style.height = boxesData[index].size + "px";
+        boxText.textContent = "Level:" + boxesData[index].level;
+
+        // disable/enable buttons for UX
+        incBtn.disabled = boxesData[index].level >= 3;
+        decBtn.disabled = boxesData[index].level <= 0;
+      }
+
+      incBtn.addEventListener("click", () => {
+        if (boxesData[index].level < 3) {
+          boxesData[index].level++;
+          boxesData[index].size += 20;
+          updateBox();
+        }
+      });
+
+      decBtn.addEventListener("click", () => {
+        if (boxesData[index].level > 0) {
+          boxesData[index].level--;
+          boxesData[index].size -= 20;
+          updateBox();
+        }
+      });
+
+      updateBox();
+    });
+  </script>
+</body>
+</html>
