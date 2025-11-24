@@ -1,0 +1,165 @@
+const user1={
+    name:"Vaibhav",
+    age:23,
+    city:"Pune",
+    printDetails(){
+        console.log(`${this.name} is ${this.age} and currently lives in ${this.city}`);
+    }
+}
+
+const user2={
+    name:"Prajwal",
+    age:22,
+    city:"Gadchiroli",
+    printDetails(){
+        console.log(`${this.name} is ${this.age} and currently lives in ${this.city}`);
+    }
+}
+
+const user3={
+    name:"Devanshu",
+    age:21,
+    city:"Wardha",
+    printDetails(){
+        console.log(`${this.name} is ${this.age} and currently lives in ${this.city}`);
+    }
+}
+
+//Constructor
+//starts with a capital letter(Industry Std),not necessary
+function User(name,age,city){
+    this.name=name;
+    this.age=age;
+    this.city=city;
+    this.printDetails=function(){
+        console.log(`${this.name} is ${this.age} and currently lives in ${this.city}`);
+    }
+}
+
+//conventional traditional way of using objects
+console.log(user1.printDetails());
+console.log(user1.name.__proto__)
+
+//using objects created from constructor 
+//Why Use Constructors over traditional object definitions
+//1.easier reusability
+//2.avoids repeatative code
+//3.clear structure and syntax
+//4.give same functionalities as traditional method of creating objects
+
+//it is like a blueprint of properties instead of individual 
+//properties being repeated multiple number of times
+const user4=new User("Neha",20,"Nashik");
+//new keyword->1. creates empty object
+//2.binds this to this empty object
+//3.returns 'this' object automatically thats why we dont return in constructor function
+//4.maps default prototype(__proto__) with User.prototype
+//then it goes in object defined in the order of parameters given to it
+console.log(user4.printDetails());
+
+//by default normal functions has global object stored in this
+
+
+//Creating ann array of objects using constructor
+const names=["sargar","pratik","vaishnavi","archee"];
+const age=[12,23,34,56];
+const city=["Pune","Indore","Mumbai","Delhi"];
+
+const objArray=[];
+
+//1st method
+function createObj(name,age,city){
+    this.name=name;
+    this.age=age;
+    this.city=city;
+}
+
+// for(let i=0;i<names.length;i++){
+//     let temp=new createObj(names[i],age[i],city[i]);
+//     objArray.push(temp);
+// }
+
+// console.log(objArray)
+
+
+//good method 2nd method
+for(let i=0;i<names.length;i++){
+    objArray.push(new createObj(names[i],age[i],city[i]));
+}
+console.log(objArray);
+
+
+//Prototypes
+const boolean=true;
+const string="true";
+const number=2322;
+const arr=[4,44,4];
+
+console.log(boolean.__proto__)
+console.log(string.__proto__)
+console.log(number.__proto__)
+console.log(arr.__proto__)
+
+function Student(name,age,grade){
+    this.name=name;
+    this.age=age;
+    this.grade=grade;
+}
+
+Student.prototype.greetMe=function (name){
+    console.log("hi " + this.name);
+}
+
+const student1=new Student("Rajesh",20,10);
+student1.greetMe(student1.name);
+
+
+
+function Test(){
+    this.value=10;
+}
+Test.prototype.value=100;
+const test=new Test();
+console.log(test.value);
+//10
+//first it will search value inside its own "test" object ,
+//so it prints 10 as its found in "test" object
+delete test.value;
+//deleting property from "test" object
+console.log(test.value);
+//100
+//since "test" object does not have any "value" property
+//it will now look in prototype of Test
+
+
+//Mixing up constructor and prototypes
+//creating taskQueue that will add,remove and display
+//latest tasks
+function TaskQueue(){
+    this.tasks=[];
+}
+
+//adding new task to end of queue
+TaskQueue.prototype.add=function(taskName){
+  this.tasks.push(taskName);
+}
+
+//removing 1st task
+TaskQueue.prototype.remove=function(taskName){
+  this.tasks.shift(taskName);
+}
+
+//displaying all tasks
+TaskQueue.prototype.display=function(taskName){
+   console.log(this.tasks.join(", "));
+}
+
+const task1=new TaskQueue();
+task1.add("Task1");
+task1.add("Task2");
+task1.remove();
+task1.add("Task3");
+task1.add("Task4");
+task1.display();
+task1.remove();
+task1.display();

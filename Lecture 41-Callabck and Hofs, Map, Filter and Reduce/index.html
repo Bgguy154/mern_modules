@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <script>
+        const fruits=['apple','banana','apple','orange','apple'];
+        fruits.reduce((acc,it)=>(
+            acc[it]=(acc[it]||0)+1;
+            return acc
+        ),{})
+    </script> -->
+</body>
+</html>
+
+
+ <!-- we talked about using .filter() to filter out the people that are equal or below the age of 18. .map() to add the coffeeLover property, and .reduce() to finally create a sum of the age of everyone combined.
+Lets write some code that actually combines these three steps.
+
+const people = [ { name: ‘John Doe’, age: 16 }, { name: ‘Thomas Calls’, age: 19 }, { name: ‘Liam Smith’, age: 20 }, { name: ‘Jessy Pinkman’, age: 18 },];
+
+const coffeeLovers = [‘John Doe’, ‘Liam Smith’, ‘Jessy Pinkman’];
+
+const ageAbove18 = (person) => person.age >= 18;const addCoffeeLoverProperty = (person) => { person.coffeeLover = coffeeLovers.includes(person.name);  return person;}
+
+const ageReducer = (sum, person) => { return sum + person.age;}, 0);
+
+const coffeeLoversAbove18 = people .filter(ageAbove18) .map(addCoffeeLoverProperty);
+
+const totalAgeOfCoffeeLoversAbove18 = coffeeLoversAbove18 .reduce(ageReducer);
+
+const totalAge = people .reduce(ageReducer); -->
