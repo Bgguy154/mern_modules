@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Combined Example</title>
+</head>
+<body>
+
+<script>
+/* ---------------------------------------------------------
+   1. OBJECT LITERAL USERS (TRADITIONAL)
+--------------------------------------------------------- */
+const userA = {
+  name: "Vaibhav",
+  age: 23,
+  city: "Pune",
+  printDetails() {
+    console.log(`${this.name} (${this.age}) lives in ${this.city}`);
+  }
+};
+
+const userB = {
+  name: "Prajwal",
+  age: 22,
+  city: "Gadchiroli",
+  printDetails() {
+    console.log(`${this.name} (${this.age}) lives in ${this.city}`);
+  }
+};
+
+userA.printDetails();
+
+/* ---------------------------------------------------------
+   2. CONSTRUCTOR FUNCTION USERS (REUSABLE BLUEPRINT)
+--------------------------------------------------------- */
+function User(name, age, city) {
+  this.name = name;
+  this.age = age;
+  this.city = city;
+}
+
+// Add method using PROTOTYPE (better for memory)
+User.prototype.printDetails = function () {
+  console.log(`${this.name} (${this.age}) lives in ${this.city}`);
+};
+
+// Instance
+const userC = new User("Devanshu", 21, "Wardha");
+userC.printDetails();
+
+/* ---------------------------------------------------------
+   3. CREATE ARRAY OF USERS FROM 3 ARRAYS
+--------------------------------------------------------- */
+const names = ["Sagar", "Pratik", "Vaishnavi", "Archee"];
+const ages = [12, 23, 34, 56];
+const cities = ["Pune", "Indore", "Mumbai", "Delhi"];
+
+const userList = [];
+
+for (let i = 0; i < names.length; i++) {
+  userList.push(new User(names[i], ages[i], cities[i]));
+}
+
+console.log("User List:", userList);
+
+/* ---------------------------------------------------------
+   4. ADVANCED PROTOTYPE INHERITANCE
+--------------------------------------------------------- */
+function Student(name, age, grade) {
+  this.name = name;
+  this.age = age;
+  this.grade = grade;
+}
+
+Student.prototype.greet = function () {
+  console.log(`Hello, I am ${this.name}, Grade ${this.grade}`);
+};
+
+const s1 = new Student("Rajesh", 20, 10);
+s1.greet();
+
+/* ---------------------------------------------------------
+   5. PROTOTYPE OVERRIDING EXAMPLE
+--------------------------------------------------------- */
+function Test() {
+  this.value = 10;
+}
+Test.prototype.value = 100;
+
+const t = new Test();
+console.log(t.value); // 10 → instance wins
+
+delete t.value;
+console.log(t.value); // 100 → prototype fallback
+
+/* ---------------------------------------------------------
+   6. OOP STYLE TASK QUEUE USING PROTOTYPES
+--------------------------------------------------------- */
+function TaskQueue() {
+  this.tasks = [];
+}
+
+TaskQueue.prototype.add = function (task) {
+  this.tasks.push(task);
+};
+
+TaskQueue.prototype.remove = function () {
+  this.tasks.shift();
+};
+
+TaskQueue.prototype.display = function () {
+  console.log("Task Queue:", this.tasks.join(", "));
+};
+
+const tq = new TaskQueue();
+tq.add("Task1");
+tq.add("Task2");
+tq.add("Task3");
+tq.remove();
+tq.add("Task4");
+tq.display();
+
+/* ---------------------------------------------------------
+   7. ADVANCED: USING FILTER + MAP + REDUCE ON OUR OBJECTS
+--------------------------------------------------------- */
+
+// Combine userList + user literal + userC to make a FULL dataset
+const allUsers = [...userList, userA, userB, userC, s1];
+
+console.log("All Users:", allUsers);
+
+// 1️⃣ FILTER — users above 18
+const adults = allUsers.filter(u => u.age >= 18);
+
+// 2️⃣ MAP — add new computed property
+const enriched = adults.map(u => ({
+  ...u,
+  isFromMetroCity: ["Pune", "Mumbai", "Delhi"].includes(u.city),
+  description: `${u.name} (${u.age})`
+}));
+
+// 3️⃣ REDUCE — total age of all adults
+const totalAdultAge = enriched.reduce((sum, u) => sum + u.age, 0);
+
+// 4️⃣ REDUCE — count how many are from metro cities
+const metroCount = enriched.reduce((count, u) => {
+  if (u.isFromMetroCity) count++;
+  return count;
+}, 0);
+
+// 5️⃣ REDUCE — build a city frequency (like fruit counter)
+const cityFrequency = enriched.reduce((acc, u) => {
+  acc[u.city] = (acc[u.city] || 0) + 1;
+  return acc;
+}, {});
+
+console.log("Adults:", adults);
+console.log("Enriched Data:", enriched);
+console.log("Total Adult Age:", totalAdultAge);
+console.log("Metro City Count:", metroCount);
+console.log("City Frequency:", cityFrequency);
+
+/* ---------------------------------------------------------
+   8. PROTOTYPE + FUNCTIONAL PROGRAMMING PIPELINE
+--------------------------------------------------------- */
+
+// Add prototype method dynamically
+User.prototype.isAdult = function () {
+  return this.age >= 18;
+};
+
+console.log("Is Devanshu adult?", userC.isAdult());
+
+// Use prototype method inside filtering pipeline
+const onlyAdults = allUsers.filter(u => u.isAdult?.() === true);
+
+console.log("Adults using proto methods:", onlyAdults);
+
+</script>
+
+</body>
+</html>
+
+
+<!-- 
+Vaibhav (23) lives in Pune handsOn.html:19:13
+Devanshu (21) lives in Wardha handsOn.html:45:11
+User List: 
+Array(4) [ {…}, {…}, {…}, {…} ]
+​
+0: Object { name: "Sagar", age: 12, city: "Pune" }
+​
+1: Object { name: "Pratik", age: 23, city: "Indore" }
+​
+2: Object { name: "Vaishnavi", age: 34, city: "Mumbai" }
+​
+3: Object { name: "Archee", age: 56, city: "Delhi" }
+​
+length: 4
+​
+<prototype>: Array []
+handsOn.html:65:9
+Hello, I am Rajesh, Grade 10 handsOn.html:77:11
+10 handsOn.html:92:9
+100 handsOn.html:95:9
+Task Queue: Task2, Task3, Task4 handsOn.html:113:11
+All Users: 
+Array(8) [ {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…} ]
+​
+0: Object { name: "Sagar", age: 12, city: "Pune" }
+​
+1: Object { name: "Pratik", age: 23, city: "Indore" }
+​
+2: Object { name: "Vaishnavi", age: 34, city: "Mumbai" }
+​
+3: Object { name: "Archee", age: 56, city: "Delhi" }
+​
+4: Object { name: "Vaibhav", age: 23, city: "Pune", … }
+​
+5: Object { name: "Prajwal", age: 22, city: "Gadchiroli", … }
+​
+6: Object { name: "Devanshu", age: 21, city: "Wardha" }
+​
+7: Object { name: "Rajesh", age: 20, grade: 10 }
+​
+length: 8
+​
+<prototype>: Array []
+handsOn.html:131:9
+Adults: 
+Array(7) [ {…}, {…}, {…}, {…}, {…}, {…}, {…} ]
+​
+0: Object { name: "Pratik", age: 23, city: "Indore" }
+​
+1: Object { name: "Vaishnavi", age: 34, city: "Mumbai" }
+​
+2: Object { name: "Archee", age: 56, city: "Delhi" }
+​
+3: Object { name: "Vaibhav", age: 23, city: "Pune", … }
+​
+4: Object { name: "Prajwal", age: 22, city: "Gadchiroli", … }
+​
+5: Object { name: "Devanshu", age: 21, city: "Wardha" }
+​
+6: Object { name: "Rajesh", age: 20, grade: 10 }
+​
+length: 7
+​
+<prototype>: Array []
+handsOn.html:158:9
+Enriched Data: 
+Array(7) [ {…}, {…}, {…}, {…}, {…}, {…}, {…} ]
+​
+0: Object { name: "Pratik", age: 23, city: "Indore", … }
+​
+1: Object { name: "Vaishnavi", age: 34, city: "Mumbai", … }
+​
+2: Object { name: "Archee", age: 56, city: "Delhi", … }
+​
+3: Object { name: "Vaibhav", age: 23, city: "Pune", … }
+​
+4: Object { name: "Prajwal", age: 22, city: "Gadchiroli", … }
+​
+5: Object { name: "Devanshu", age: 21, city: "Wardha", … }
+​
+6: Object { name: "Rajesh", age: 20, grade: 10, … }
+​
+length: 7
+​
+<prototype>: Array []
+handsOn.html:159:9
+Total Adult Age: 199 handsOn.html:160:9
+Metro City Count: 3 handsOn.html:161:9
+City Frequency: 
+Object { Indore: 1, Mumbai: 1, Delhi: 1, Pune: 1, Gadchiroli: 1, Wardha: 1, undefined: 1 }
+handsOn.html:162:9
+Is Devanshu adult? true handsOn.html:173:9
+Adults using proto methods: 
+Array(4) [ {…}, {…}, {…}, {…} ]
+​
+0: Object { name: "Pratik", age: 23, city: "Indore" }
+​
+1: Object { name: "Vaishnavi", age: 34, city: "Mumbai" }
+​
+2: Object { name: "Archee", age: 56, city: "Delhi" }
+​
+3: Object { name: "Devanshu", age: 21, city: "Wardha" }
+​
+length: 4 -->

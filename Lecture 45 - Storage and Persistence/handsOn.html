@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        localStorage.setItem("key1","value1");
+        localStorage.setItem("key2","value2");
+        localStorage.setItem("key3","value3");
+        localStorage.setItem("key4","value4");
+        localStorage.setItem("key5","value5");
+        localStorage.setItem("key6","value6");
+        function hasLocalStorageValue(val){
+            try{
+                let found=false;
+            for(let i=0;i<localStorage.length;i++){
+                if(localStorage.getItem(localStorage.key(i))===val){
+                    found=true;
+                    console.log(`${val} found`);
+                }
+            }
+            if(!found){
+                throw new Error (`${val} not found`);
+            }
+        }
+        catch(err){
+            console.log(err.message);
+        }
+        }
+        hasLocalStorageValue("sagar");
+        hasLocalStorageValue("value6");
+    </script>
+</body>
+</html>

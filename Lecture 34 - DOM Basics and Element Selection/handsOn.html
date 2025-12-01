@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM Practice</title>
+</head>
+<body>
+
+    Text between elements (this becomes a TEXT NODE)
+
+    <div class="firstDiv" id="firstDiv">First Div</div>
+
+    <div id="secondDiv" class="class1 class2 class7">
+        <p>Hello World</p>
+        <p>Full Name Here</p>
+        <img width="150" />
+    </div>
+
+    <section class="class1 class2 class7">Section Content</section>
+
+    <script>
+        // ----------------------------
+// BASIC DOM ACCESS
+// ----------------------------
+console.log(window.document.body);
+
+console.log(document.body.childNodes);     // includes text nodes  
+console.log(document.body.children);       // only element nodes
+
+console.log(document.body.firstChild);     // first child (text node)
+console.log(document.body.firstElementChild); // first REAL element
+
+// ----------------------------
+// SELECTORS
+// ----------------------------
+console.log(document.querySelector("div"));       // first div
+console.log(document.querySelectorAll("div"));    // NodeList of all divs
+
+console.log(document.querySelector(".firstDiv")); // by class
+console.log(document.querySelector("#secondDiv")); // by id
+
+console.log(document.querySelector("div #secondDiv")); // null (invalid selector)
+
+// Specific Selectors
+console.log(document.getElementById("secondDiv"));
+console.log(document.getElementsByClassName("firstDiv"));
+console.log(document.getElementsByTagName("p"));
+
+
+// ----------------------------
+// STYLE Example
+// ----------------------------
+const para1 = document.querySelector("p");
+para1.style.color = "white";
+para1.style.backgroundColor = "pink";
+
+
+// ----------------------------
+// setAttribute Example
+// ----------------------------
+const img = document.querySelector("img");
+img.setAttribute(
+    "src",
+    "https://tse3.mm.bing.net/th/id/OIP.lIkwu94WOhqYMCyCN3ZPYQHaE8?pid=Api&P=0&h=180"
+);
+
+// custom attribute
+const firstDiv = document.querySelector(".firstDiv");
+firstDiv.setAttribute("data-updated-price", 500);
+
+
+// ----------------------------
+// innerHTML vs textContent
+// ----------------------------
+let content = para1.textContent;
+para1.innerHTML = `<strong>${content}</strong>`;  
+
+let secondPara = document.querySelectorAll("p")[1];
+secondPara.textContent = "Tanmay";   // fully replaces text
+
+
+// ----------------------------
+// className example
+// ----------------------------
+const section = document.querySelector("section");
+console.log(section.className);   // "class1 class2 class7"
+
+let arr = section.className.split(" "); // convert to array
+arr.splice(2, 1);   // remove class7
+let finalClass = arr.join(" ");
+
+section.setAttribute("class", finalClass);
+
+
+// ----------------------------
+// classList example (DOMTokenList)
+// ----------------------------
+console.log(section.classList);
+
+section.classList.remove("class7");
+section.classList.add("class5");
+section.classList.toggle("class5");       // removes because already added
+section.classList.contains("class5");     // false after toggle
+section.classList.replace("class2", "newClass2");
+
+    </script>
+</body>
+</html>

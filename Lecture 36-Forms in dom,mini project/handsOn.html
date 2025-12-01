@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DOM Mega Example</title>
+  <style>
+    .error {
+      background: pink;
+      color: red;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      display: none;
+    }
+    .success {
+      background: lightgreen;
+      color: green;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+    .box {
+      border: 2px solid black;
+      padding: 20px;
+      width: 300px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Contact Form (Mega DOM Example)</h1>
+
+  <div class="box" id="infoBox">
+    <form id="contactForm">
+
+      <label>Full Name</label><br>
+      <input id="fullName" type="text" placeholder="Enter name"><br><br>
+
+      <label>Phone</label><br>
+      <input id="phone" type="number" placeholder="Enter phone"><br><br>
+
+      <label>Select Gender</label><br>
+      <label><input name="gender" type="radio" value="male"> Male</label>
+      <label><input name="gender" type="radio" value="female"> Female</label><br><br>
+
+      <label>City</label><br>
+      <select id="city">
+        <option value="">Choose City</option>
+        <option>Pune</option>
+        <option>Mumbai</option>
+        <option>Hyderabad</option>
+      </select><br><br>
+
+      <label>
+        <input id="consent" type="checkbox">
+        I agree to Terms & Conditions
+      </label><br><br>
+
+      <button id="submitBtn" disabled>Submit</button>
+
+      <div class="error" id="errorBox"></div>
+      <div id="successBox"></div>
+
+    </form>
+  </div>
+
+<script>
+  // ----------------------------
+  // SELECTORS (querySelector, getElementById, etc.)
+  // ----------------------------
+  const form = document.querySelector("#contactForm");
+  const fullName = document.getElementById("fullName");
+  const phone = document.querySelector("#phone");
+  const genderInput = document.getElementsByName("gender");
+  const city = document.querySelector("#city");
+  const consent = document.querySelector("#consent");
+  const submitBtn = document.querySelector("#submitBtn");
+  const errorBox = document.querySelector("#errorBox");
+  const successBox = document.querySelector("#successBox");
+
+  const users = [];
+
+  // ----------------------------
+  // DISABLE BUTTON UNTIL CHECKBOX IS CHECKED
+  // ----------------------------
+  consent.addEventListener("change", () => {
+    submitBtn.disabled = !consent.checked;
+  });
+
+  // ----------------------------
+  // FORM SUBMIT HANDLER
+  // ----------------------------
+  submitBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    // Reset message areas
+    errorBox.style.display = "none";
+    errorBox.textContent = "";
+    successBox.innerHTML = "";
+
+    // ----------------------------
+    // READ VALUES
+    // ----------------------------
+    let user = {
+      name: fullName.value.trim(),
+      phone: phone.value.trim(),
+      gender: [...genderInput].find(r => r.checked)?.value,
+      city: city.value,
+      consent: consent.checked
+    };
+
+    // ----------------------------
+    // VALIDATION
+    // ----------------------------
+    if (!user.name) showError("Please enter your name");
+    else if (!user.phone) showError("Enter phone number");
+    else if (!user.gender) showError("Select gender");
+    else if (!user.city) showError("Choose a city");
+    else {
+      // ----------------------------
+      // SUCCESS → push to array and show info
+      // ----------------------------
+      users.push(user);
+
+      successBox.className = "success";
+      successBox.innerHTML = `
+        <strong>Form Submitted Successfully!</strong><br>
+        Name: ${user.name}<br>
+        Phone: ${user.phone}<br>
+        Gender: ${user.gender}<br>
+        City: ${user.city}
+      `;
+
+      // Reset form
+      form.reset();
+      submitBtn.disabled = true; // checkbox unchecked → disabled button
+    }
+
+    console.log(users);  // all submitted users
+  });
+
+  // ----------------------------
+  // REUSABLE ERROR FUNCTION
+  // ----------------------------
+  function showError(msg) {
+    errorBox.style.display = "block";
+    errorBox.textContent = msg;
+    submitBtn.disabled = true;
+  }
+</script>
+
+</body>
+</html>

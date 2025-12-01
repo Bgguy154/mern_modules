@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Advanced OOP Example</title>
+</head>
+<body>
+
+<script>
+/* ================================================================
+   1. BASE CLASS (VEHICLE) + CAR (INHERITANCE)
+================================================================ */
+class Vehicle {
+  constructor(name, model) {
+    this.name = name;
+    this.model = model;
+    this.speed = 0;
+  }
+
+  start() {
+    this.speed = 10;
+  }
+
+  stop() {
+    this.speed = 0;
+  }
+
+  get status() {
+    return this.speed > 0 ? "Running" : "Stopped";
+  }
+}
+
+class Car extends Vehicle {
+  constructor(name, model) {
+    super(name, model);
+    this.drivers = [];
+  }
+
+  assignDriver(driver) {
+    this.drivers.push(driver);
+  }
+
+  printDetails() {
+    console.log(`Car: ${this.name} (${this.model}) | Speed: ${this.speed} | Status: ${this.status}`);
+  }
+}
+
+const bmw = new Car("BMW X5", "BW-9988");
+bmw.start();
+bmw.printDetails();
+
+/* ================================================================
+   2. CLASS WITH ATTENDANCE SYSTEM
+================================================================ */
+class AttendanceLogger {
+  constructor(name) {
+    this.name = name;
+    this.present = 0;
+    this.totalDays = 0;
+  }
+
+  markPresent() {
+    this.present++;
+    this.totalDays++;
+  }
+
+  markAbsent() {
+    this.totalDays++;
+  }
+
+  get attendancePercentage() {
+    return ((this.present / this.totalDays) * 100).toFixed(2) + "%";
+  }
+}
+
+const raju = new AttendanceLogger("Raju");
+raju.markPresent();
+raju.markAbsent();
+raju.markPresent();
+
+/* ================================================================
+   3. STUDENT CLASS WITH GETTERS / SETTERS / VALIDATION
+================================================================ */
+class Student {
+  constructor({ id, name, dob, grade }) {
+    this.id = id;
+    this.name = name;
+    this._dob = dob;
+    this.grade = grade;
+    this._marks = 0;
+  }
+
+  get dob() {
+    return this._dob;
+  }
+
+  set marks(value) {
+    if (value < 0 || value > 100) return;
+    this._marks = value;
+  }
+
+  get marks() {
+    return this._marks;
+  }
+}
+
+const mukesh = new Student({
+  id: "ST-9999",
+  name: "Mukesh",
+  dob: "11-02-2003",
+  grade: 11,
+});
+mukesh.marks = 85;
+
+/* ================================================================
+   4. STATIC METHODS — FACTORY USERS
+================================================================ */
+class User {
+  constructor(username, role) {
+    this.username = username;
+    this.role = role;
+  }
+
+  static guest() {
+    return new User("guest", "guest");
+  }
+}
+
+const guest = User.guest();
+
+/* ================================================================
+   5. PRIVATE FIELDS — BANK SYSTEM
+================================================================ */
+class Bank {
+  #pin = null;
+
+  constructor(pin) {
+    this.#pin = pin;
+    this.balance = 0;
+  }
+
+  deposit(amount) {
+    this.balance += amount;
+  }
+
+  withdraw(pin, amount) {
+    if (pin === this.#pin && this.balance >= amount) {
+      this.balance -= amount;
+      return true;
+    }
+    return false;
+  }
+
+  checkBalance(pin) {
+    return pin === this.#pin ? this.balance : null;
+  }
+}
+
+const sbi = new Bank(4444);
+sbi.deposit(500);
+sbi.withdraw(4444, 100);
+
+/* ================================================================
+   6. ADVANCED FUNCTIONAL PROGRAMMING WITH OBJECTS
+================================================================ */
+
+// Create drivers
+const drivers = [
+  { name: "Ramesh", experience: 5, salary: 22000 },
+  { name: "Suresh", experience: 2, salary: 15000 },
+  { name: "Hemant", experience: 8, salary: 30000 },
+  { name: "Mukesh", experience: 1, salary: 12000 },
+];
+
+// Filter: Only experienced drivers
+const experienced = drivers.filter(d => d.experience >= 3);
+
+// Map: Add bonus property
+const enrichedDrivers = experienced.map(d => ({
+  ...d,
+  bonus: d.salary * 0.1
+}));
+
+// Reduce: Total salary (including bonus)
+const totalPayout = enrichedDrivers.reduce((sum, d) => sum + d.salary + d.bonus, 0);
+
+console.log("Experienced Drivers:", enrichedDrivers);
+console.log("Total Monthly Payout:", totalPayout);
+
+/* ================================================================
+   7. COMPOSITION — ASSIGN DRIVERS TO CAR & ATTENDANCE TRACKING
+================================================================ */
+enrichedDrivers.forEach(driver => {
+  bmw.assignDriver(driver);
+});
+
+console.log("Car Drivers:", bmw.drivers);
+
+// Combine attendance + payout + car details
+const companyReport = {
+  carDetails: `${bmw.name} (${bmw.model})`,
+  driverCount: bmw.drivers.length,
+  attendanceRaju: raju.attendancePercentage,
+  mukeshMarks: mukesh.marks,
+  totalPayout,
+  bankBalance: sbi.checkBalance(4444)
+};
+
+console.log("=== COMPANY REPORT ===");
+console.log(companyReport);
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+<!-- Experienced Drivers: 
+Array [ {…}, {…} ]
+​
+0: Object { name: "Ramesh", experience: 5, salary: 22000, … }
+​
+1: Object { name: "Hemant", experience: 8, salary: 30000, … }
+​
+length: 2
+​
+<prototype>: Array []
+handsOn.html:187:9
+Total Monthly Payout: 57200 handsOn.html:188:9
+Car Drivers: 
+Array [ {…}, {…} ]
+​
+0: Object { name: "Ramesh", experience: 5, salary: 22000, … }
+​
+1: Object { name: "Hemant", experience: 8, salary: 30000, … }
+​
+length: 2
+​
+<prototype>: Array []
+handsOn.html:197:9
+=== COMPANY REPORT === handsOn.html:209:9
+Object { carDetails: "BMW X5 (BW-9988)", driverCount: 2, attendanceRaju: "66.67%", mukeshMarks: 85, totalPayout: 57200, bankBalance: 400 } -->
+
+
+
+ye alag hai
+
+<!-- 
+
+What This Mega Example Demonstrates
+▶ OOP
+
+ES6 Classes
+
+Inheritance (Vehicle → Car)
+
+Method overriding
+
+Encapsulation
+
+Composition (Car has Drivers)
+
+▶ Data Handling
+
+Filtering, mapping, reducing
+
+Combining multiple objects into a report
+
+▶ Advanced Class Features
+
+Getters & setters
+
+Private fields #pin
+
+Static factory method
+
+Validation inside setter
+
+Dynamic property computation
+
+▶ Real-world Simulation
+
+Cars
+
+Drivers
+
+Attendance logs
+
+Students
+
+Bank accounts
+
+Combined company report -->
+
+
+
+

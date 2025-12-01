@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced JS Example</title>
+</head>
+<body>
+
+<script>
+  // Users
+  const people = [
+    { name: "John Doe", age: 16, hobbies: ["football", "gaming"], purchases: ["apple", "banana"] },
+    { name: "Thomas Calls", age: 19, hobbies: ["coding"], purchases: ["apple", "apple"] },
+    { name: "Liam Smith", age: 20, hobbies: ["music", "coffee"], purchases: ["banana", "orange", "orange"] },
+    { name: "Jessy Pinkman", age: 18, hobbies: ["basketball"], purchases: ["apple", "orange"] },
+  ];
+
+  const coffeeLovers = ["John Doe", "Liam Smith", "Jessy Pinkman"];
+
+  // -------------------------
+  // 1) FILTER → people age 18+
+  // -------------------------
+  const adults = people.filter(p => p.age >= 18);
+
+  // -------------------------
+  // 2) MAP → add coffeeLover, totalPurchases, and purchase frequency
+  // -------------------------
+  const enrichedAdults = adults.map(person => {
+    // add property
+    person.coffeeLover = coffeeLovers.includes(person.name);
+
+    // count occurrences (advanced reduce)
+    person.purchaseFrequency = person.purchases.reduce((acc, item) => {
+      acc[item] = (acc[item] || 0) + 1;
+      return acc;
+    }, {});
+
+    // total number of items
+    person.totalPurchases = person.purchases.length;
+
+    return person;
+  });
+
+  // -------------------------
+  // 3) REDUCE → total age of all adults
+  // -------------------------
+  const totalAdultAge = enrichedAdults.reduce((sum, p) => sum + p.age, 0);
+
+  // -------------------------
+  // 4) REDUCE → total purchases of all adults combined
+  // -------------------------
+  const totalPurchasedItems = enrichedAdults.reduce((sum, p) => sum + p.totalPurchases, 0);
+
+  // -------------------------
+  // 5) REDUCE + MERGE → global purchase frequency of all adults
+  // -------------------------
+  const globalPurchaseFrequency = enrichedAdults.reduce((acc, p) => {
+    for (let item in p.purchaseFrequency) {
+      acc[item] = (acc[item] || 0) + p.purchaseFrequency[item];
+    }
+    return acc;
+  }, {});
+
+  // -------------------------
+  // 6) FILTER + MAP + REDUCE → total age of coffee lovers only
+  // -------------------------
+  const totalAgeCoffeeLovers = enrichedAdults
+    .filter(p => p.coffeeLover)
+    .reduce((sum, p) => sum + p.age, 0);
+
+  // -------------------------
+  // 7) FILTER + MAP → only people who bought oranges
+  // -------------------------
+  const orangeBuyers = enrichedAdults
+    .filter(p => p.purchases.includes("orange"))
+    .map(p => p.name);
+
+  // PRINT RESULTS
+  console.log("Adults:", adults);
+  console.log("Enriched:", enrichedAdults);
+  console.log("Total Adult Age:", totalAdultAge);
+  console.log("Total Purchased Items:", totalPurchasedItems);
+  console.log("Global Purchase Frequency:", globalPurchaseFrequency);
+  console.log("Total Age Coffee Lovers:", totalAgeCoffeeLovers);
+  console.log("Orange Buyers:", orangeBuyers);
+</script>
+
+</body>
+</html>
+<!-- 
+/*
+Adults: 
+Array(3) [ {…}, {…}, {…} ]
+​
+0: Object { name: "Thomas Calls", age: 19, coffeeLover: false, … }
+​
+1: Object { name: "Liam Smith", age: 20, coffeeLover: true, … }
+​
+2: Object { name: "Jessy Pinkman", age: 18, coffeeLover: true, … }
+​
+length: 3
+​
+<prototype>: Array []
+handsOn.html:80:11
+Enriched: 
+Array(3) [ {…}, {…}, {…} ]
+​
+0: Object { name: "Thomas Calls", age: 19, coffeeLover: false, … }
+​
+1: Object { name: "Liam Smith", age: 20, coffeeLover: true, … }
+​
+2: Object { name: "Jessy Pinkman", age: 18, coffeeLover: true, … }
+​
+length: 3
+​
+<prototype>: Array []
+handsOn.html:81:11
+Total Adult Age: 57 handsOn.html:82:11
+Total Purchased Items: 7 handsOn.html:83:11
+Global Purchase Frequency: 
+Object { apple: 3, banana: 1, orange: 3 }
+​
+apple: 3
+​
+banana: 1
+​
+orange: 3
+​
+<prototype>: Object { … }
+handsOn.html:84:11
+Total Age Coffee Lovers: 38 handsOn.html:85:11
+Orange Buyers: 
+Array [ "Liam Smith", "Jessy Pinkman" ]
+*/ -->

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced DOM Example</title>
+
+    <style>
+      body {
+        margin: 100px;
+        font-family: Arial;
+      }
+      .parent {
+        width: 300px;
+        padding: 30px;
+        border: 3px solid black;
+      }
+      .child {
+        margin-top: 30px;
+        padding: 20px;
+        background: lightblue;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="parent">
+      Parent
+      <div class="child" data-name="Box A">Child A</div>
+      <div class="child" data-name="Box B">Child B</div>
+    </div>
+
+    <script>
+      /************************************************************
+       PART 1: Event Capturing vs Bubbling + Delegation
+      *************************************************************/
+      const parent = document.querySelector(".parent");
+
+      // CAPTURING PHASE (fires first)
+      parent.addEventListener(
+        "click",
+        (e) => {
+          console.log(
+            "%c[CAPTURE PHASE] Parent captured click →",
+            "color: teal; font-weight: bold;"
+          );
+          console.log("   event.target =", e.target);
+          console.log("   event.currentTarget =", e.currentTarget);
+        },
+        { capture: true }
+      );
+
+      // BUBBLING PHASE (fires after child handlers)
+      parent.addEventListener("click", (e) => {
+        console.log(
+          "%c[BUBBLE PHASE] Parent bubbling handler →",
+          "color: purple; font-weight: bold;"
+        );
+
+        // Event Delegation: Parent handles all children
+        if (e.target.matches(".child")) {
+          console.log("Delegated handler → Child clicked:", e.target.dataset.name);
+        }
+      });
+
+      /************************************************************
+       PART 2: Child Listeners (with stopPropagation & stopImmediatePropagation)
+      *************************************************************/
+      const children = document.querySelectorAll(".child");
+
+      children.forEach((child) => {
+        // first listener
+        child.addEventListener("click", (e) => {
+          console.log("%cChild Handler #1", "color: green;");
+
+          if (child.dataset.name === "Box A") {
+            console.log(
+              "%c-- stopImmediatePropagation triggered --",
+              "color: red;"
+            );
+            e.stopImmediatePropagation(); // Stops ALL other listeners on same element
+          }
+        });
+
+        // second listener
+        child.addEventListener("click", (e) => {
+          console.log("%cChild Handler #2", "color: orange;");
+        });
+      });
+
+      /************************************************************
+       PART 3: call(), apply(), bind() in real DOM usage
+      *************************************************************/
+      function showClickedBox(prefix) {
+        console.log(
+          `%c${prefix} ${this.dataset.name}`,
+          "color: blue; font-weight: bold;"
+        );
+      }
+
+      const childA = document.querySelector('[data-name="Box A"]');
+      const childB = document.querySelector('[data-name="Box B"]');
+
+      // call() → pass arguments normally
+      showClickedBox.call(childA, "CALL → You clicked");
+
+      // apply() → pass arguments as an array
+      showClickedBox.apply(childB, ["APPLY → You clicked"]);
+
+      // bind() → returns a new function with fixed this
+      const showForA = showClickedBox.bind(childA, "BIND → You clicked");
+      showForA();
+
+      /************************************************************
+       PART 4: Bonus — dynamic listener removal using bind()
+      *************************************************************/
+      function highlight() {
+        this.style.background = "yellow";
+        console.log("Background highlighted! →", this.dataset.name);
+      }
+
+      const boundHighlight = highlight.bind(childB);
+
+      // Attach listener
+      childB.addEventListener("mouseenter", boundHighlight);
+
+      // Remove listener after 5 seconds
+      setTimeout(() => {
+        childB.removeEventListener("mouseenter", boundHighlight);
+        console.log("%cListener removed from Box B", "color: red;");
+      }, 5000);
+    </script>
+  </body>
+</html>
+
+
+
+<!-- on clicking child A
+
+[CAPTURE PHASE] Parent captured click → handsOn.html:44:19
+   event.target = 
+<div class="child" data-name="Box A">
+handsOn.html:48:19
+   event.currentTarget = 
+<div class="parent">
+handsOn.html:49:19
+Child Handler #1 -->
+
+
+
+<!-- 
+on clicking Child B
+
+Background highlighted! → Box B handsOn.html:120:17
+[CAPTURE PHASE] Parent captured click → handsOn.html:44:19
+   event.target = 
+<div class="child" data-name="Box B" style="background: yellow;">
+handsOn.html:48:19
+   event.currentTarget = 
+<div class="parent">
+handsOn.html:49:19
+Child Handler #1 handsOn.html:75:19
+Child Handler #2 handsOn.html:88:19
+[BUBBLE PHASE] Parent bubbling handler → handsOn.html:56:17
+Delegated handler → Child clicked: Box B handsOn.html:63:19
+Listener removed from Box B -->
+
+
+
+Event Delegation
+
+Parent handles clicks for dynamically selected children.
