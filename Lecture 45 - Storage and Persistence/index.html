@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- localStorage-> key value both have string datatype 
+    origin:can be different as domains/subdomains/ports -->
+    <script>
+        let key = "name";
+        let value = "Tanmay";
+        let value1 = "Sagar";
+        localStorage.setItem(key,value);
+        localStorage.setItem(key,value1);//update key with latest value
+        // console.log(localStorage.getItem(key));
+        localStorage.setItem("key1","value1");
+        localStorage.setItem("key2","value2");
+        localStorage.setItem("key3","value3");
+        localStorage.setItem("key4","value4");
+
+        localStorage.removeItem("key");
+        console.log(localStorage.getItem(key));
+        console.log(localStorage.length);
+
+        for(let i=0;i<localStorage.length;i++){
+            console.log(localStorage.key(i),localStorage.getItem(localStorage.key(i)));
+        }
+    </script>
+</body>
+</html>

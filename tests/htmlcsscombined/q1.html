@@ -1,0 +1,146 @@
+<!DOCTYPE lang="html5">
+
+<html>
+
+<head>
+ <style>
+    *{
+
+	margin:0;
+
+	padding:0;
+
+	box-sizing:border-box;
+
+}
+
+
+
+body{
+
+
+    display:flex;
+
+    justify-content:center;
+
+
+}
+
+
+
+main{
+    height:100vh;
+
+	width:100vw;
+
+	display:flex;
+
+	align-items:center;
+
+	gap:20px;
+
+	justify-content:space-around;
+
+	flex-wrap:nowrap;
+
+}
+
+
+
+.card{
+
+	display:flex;
+
+	flex-direction:column;
+
+	gap:10px;
+
+	justify-content:center;
+
+	align-items:center;
+
+}
+
+
+
+.img{
+
+  height:40px;
+
+  width:40px;
+
+  border-radius:50%;
+
+  background-color:red;
+
+}
+
+
+
+@media screen and (max-width:600px){
+
+	main{
+
+	display:grid;
+
+	grid-template-columns:1fr 1fr;
+
+	gap:20px;
+
+}
+
+}
+
+ </style>
+
+</head>
+
+<body>
+
+  <main>
+
+    <div class="card">
+
+	   <div class="img"></div>
+
+	   <h2>Card 1</h2>
+
+	   <p>This is card 1 of 4 cards</p>
+
+    </div>
+
+    <div class="card">
+
+	   <div class="img"></div>
+
+	   <h2>Card 2</h2>
+
+	   <p>This is card 2 of 4 cards</p>
+
+    </div>
+
+	<div class="card">
+
+	   <div class="img"></div>
+
+	   <h2>Card 3</h2>
+
+	   <p>This is card 3 of 4 cards</p>
+
+    </div>
+
+	<div class="card">
+
+	   <div class="img"></div>
+
+	   <h2>Card 4</h2>
+
+	   <p>This is card 4 of 4 cards</p>
+
+    </div>
+
+  </main>
+
+</body>
+
+</html>

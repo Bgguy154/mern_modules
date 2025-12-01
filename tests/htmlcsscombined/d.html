@@ -1,0 +1,71 @@
+<html>
+
+<head>
+    <title>Que 3</title>
+    <style>
+
+        *, *::after, *::before{
+            margin: 0;
+            padding: 0%;
+            box-sizing: border-box;
+        }
+
+        #add-to-cart-btn {
+            height: 500px;
+            width: 100vw;
+            display: flex;
+            
+        }
+
+        button {
+            background-color: blue;
+            color: white;
+            /* added */
+            /* height: 100px; */
+        }
+
+        button:hover {
+            transition-property: all;
+            transition-duration: 0.3s;
+            transition-timing-function: ease;
+            transform: scale(1.1);
+            background-color: green;
+        }
+
+        button:active {
+            transform: scale(0.95);
+
+        }
+
+        
+        div:active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        section{
+            background-color: rebeccapurple;
+        }
+
+        /* animation-keyframes */
+        /* @keyframes temp {
+            from {
+                display: flex;
+            }
+
+            to {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        } */
+    </style>
+</head>
+
+<body>
+    <div id="add-to-cart-btn">
+        <button>Add to Cart</button>
+    </div>
+</body>
+
+</html>
