@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind Final Project</title>
+    <link href="./output.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- NAVBAR -->
+    <nav class="flex justify-between items-center px-8 h-20 bg-white shadow">
+        <h1 class="text-3xl font-bold">
+            BrandName
+        </h1>
+
+        <ul class="hidden md:flex space-x-6 text-lg">
+            <li class="hover:text-blue-600 cursor-pointer">Home</li>
+            <li class="hover:text-blue-600 cursor-pointer">Services</li>
+            <li class="hover:text-blue-600 cursor-pointer">Pricing</li>
+            <li class="hover:text-blue-600 cursor-pointer">Contact</li>
+        </ul>
+
+        <button class="md:hidden text-3xl">
+            ☰
+        </button>
+    </nav>
+
+
+
+    <!-- HERO SECTION -->
+    <section class="flex flex-col md:flex-row px-8 py-16 gap-10 items-center">
+        <div class="flex-1 space-y-6">
+            <h1 class="text-5xl md:text-6xl font-extrabold leading-tight">
+                Build Modern UIs with
+                <span class="text-blue-600">Tailwind CSS</span>
+            </h1>
+
+            <p class="text-lg text-gray-600">
+                Tailwind gives you the power to design beautiful, responsive UIs faster than ever.
+            </p>
+
+            <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                Get Started
+            </button>
+        </div>
+
+        <div class="flex-1">
+            <img src="https://cdn.dribbble.com/userupload/33009550/file/original-e6e4aee4318b0b2edeaf4fe37003901f.jpg?resize=400x0"
+                class="mx-auto shadow-xl rounded-2xl" />
+        </div>
+    </section>
+
+
+
+    <!-- SERVICES SECTION -->
+    <section class="px-8 py-16 space-y-12">
+        <h2 class="text-center text-4xl font-bold">Our Services</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- CARD 1 -->
+            <div class="bg-white p-6 rounded-xl shadow text-center space-y-3">
+                <div class="text-4xl">⚡</div>
+                <h3 class="text-xl font-bold">Fast Development</h3>
+                <p class="text-gray-600">Build interfaces at lightning speed with utility-first classes.</p>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="bg-white p-6 rounded-xl shadow text-center space-y-3">
+                <div class="text-4xl">🎨</div>
+                <h3 class="text-xl font-bold">Beautiful Design</h3>
+                <p class="text-gray-600">Consistent design system and modern UI building blocks.</p>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="bg-white p-6 rounded-xl shadow text-center space-y-3">
+                <div class="text-4xl">📱</div>
+                <h3 class="text-xl font-bold">Fully Responsive</h3>
+                <p class="text-gray-600">Responsive by default. Perfect on all screen sizes.</p>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- FEATURES SECTION -->
+    <section class="px-8 py-16 bg-white">
+        <h2 class="text-center text-4xl font-bold mb-12">Features</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-gray-100 p-6 rounded-xl shadow space-y-2">
+                <h3 class="text-xl font-semibold">Customizable</h3>
+                <p class="text-gray-600">Modify colors, spacing, and shadows easily via config file.</p>
+            </div>
+
+            <div class="bg-gray-100 p-6 rounded-xl shadow space-y-2">
+                <h3 class="text-xl font-semibold">Utility-First</h3>
+                <p class="text-gray-600">Compose UIs with predefined classes instead of writing CSS.</p>
+            </div>
+
+            <div class="bg-gray-100 p-6 rounded-xl shadow space-y-2">
+                <h3 class="text-xl font-semibold">Developer Friendly</h3>
+                <p class="text-gray-600">Write less CSS and ship projects faster with clean workflows.</p>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- PRICING SECTION -->
+    <section class="px-8 py-16">
+        <h2 class="text-center text-4xl font-bold mb-12">Pricing</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <!-- CARD 1 -->
+            <div class="bg-white p-6 rounded-xl shadow text-center space-y-4">
+                <h3 class="text-xl font-bold">Basic</h3>
+                <p class="text-3xl font-bold">$9</p>
+                <ul class="space-y-2 text-gray-600">
+                    <li>✔ Starter Features</li>
+                    <li>✔ Email Support</li>
+                    <li>✔ Basic Insights</li>
+                </ul>
+                <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                    Choose Plan
+                </button>
+            </div>
+
+            <!-- CARD 2 (Highlighted) -->
+            <div class="bg-blue-600 text-white p-8 rounded-xl shadow-xl scale-105 text-center space-y-4">
+                <h3 class="text-xl font-bold">Popular</h3>
+                <p class="text-3xl font-bold">$19</p>
+                <ul class="space-y-2">
+                    <li>✔ Unlimited Access</li>
+                    <li>✔ Priority Support</li>
+                    <li>✔ Advanced Insights</li>
+                </ul>
+                <button class="w-full bg-white text-blue-600 py-2 rounded-lg hover:bg-gray-200">
+                    Choose Plan
+                </button>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="bg-white p-6 rounded-xl shadow text-center space-y-4">
+                <h3 class="text-xl font-bold">Premium</h3>
+                <p class="text-3xl font-bold">$49</p>
+                <ul class="space-y-2 text-gray-600">
+                    <li>✔ All Features</li>
+                    <li>✔ 24/7 Support</li>
+                    <li>✔ Pro Insights</li>
+                </ul>
+                <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                    Choose Plan
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <!-- CONTACT SECTION -->
+    <section class="px-8 py-16">
+        <h2 class="text-center text-4xl font-bold mb-12">Contact Us</h2>
+
+        <div class="max-w-lg mx-auto bg-gray-100 p-8 rounded-xl shadow space-y-4">
+            <input type="text" placeholder="Your Name"
+                class="w-full p-3 rounded-lg border focus:ring-2 focus:ring-blue-500" />
+
+            <input type="email" placeholder="Email Address"
+                class="w-full p-3 rounded-lg border focus:ring-2 focus:ring-blue-500" />
+
+            <textarea placeholder="Message"
+                class="w-full p-3 rounded-lg border h-32 focus:ring-2 focus:ring-blue-500"></textarea>
+
+            <button class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 active:scale-95 transition">
+                Send Message
+            </button>
+        </div>
+    </section>
+
+
+
+    <!-- FOOTER -->
+    <footer class="text-center py-6 bg-gray-800 text-gray-300">
+        © 2025 BrandName — All Rights Reserved.
+    </footer>
+
+</body>
+
+</html>

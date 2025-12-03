@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label for="name">Entered Text:</label>
+    <input type="text" placeholder="enter anything" id="name"/>
+    <script>
+        const name=document.getElementById("name");
+        name.value=localStorage.getItem("autosave_name")|| "";
+
+        name.addEventListener("input",()=>{
+            localStorage.setItem("autosave_name",name.value);
+        })
+    </script>
+</body>
+</html>
