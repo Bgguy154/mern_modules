@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <script>
+    <!-- <script>
         localStorage.setItem("key1","value1");
         localStorage.setItem("key2","value2");
         localStorage.setItem("key3","value3");
@@ -32,6 +32,25 @@
         }
         hasLocalStorageValue("sagar");
         hasLocalStorageValue("value6");
+    </script> -->
+    <script>
+        
+        function hasLocalStorage(){
+            try{
+              let key="key";
+        let val="val";
+        // let bigData="a".repeat(25*1000*1000)
+        localStorage.setItem(key,val);
+          if(localStorage.getItem(key)==val){
+            return true;
+          }
+          return false;
+            }
+            catch(err){
+                return false;
+            }
+        }
+        console.log(hasLocalStorage())
     </script>
 </body>
 </html>

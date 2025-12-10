@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings Preferences Manager</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .setting {
+            margin: 20px 0;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            width: 100%;
+            cursor: pointer;
+            border: none;
+            background: #333;
+            color: white;
+            border-radius: 5px;
+        }
+        
+        /* Dark Mode */
+        .dark {
+            background: #111;
+            color: white;
+        }
+
+        .dark .container {
+            background: #222;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>Settings Preferences Manager</h1>
+
+        <div class="setting">
+            <label>Theme:</label>
+            <select id="themeSelect">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+            </select>
+        </div>
+
+        <div class="setting">
+            <label>Font Size:</label>
+            <select id="fontSizeSelect">
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
+            </select>
+        </div>
+
+        <div class="setting">
+            <label>Language:</label>
+            <select id="languageSelect">
+                <option value="english">English</option>
+                <option value="hindi">Hindi</option>
+                <option value="marathi">Marathi</option>
+            </select>
+        </div>
+
+        <button id="resetBtn">Reset to Default</button>
+    </div>
+
+    <script>
+        // Load saved settings when page loads
+        window.onload = function () {
+            applySavedSettings();
+        };
+
+        function applySavedSettings() {
+            const savedTheme = localStorage.getItem("theme") || "light";
+            const savedFontSize = localStorage.getItem("fontSize") || "medium";
+            const savedLanguage = localStorage.getItem("language") || "english";
+
+            document.getElementById("themeSelect").value = savedTheme;
+            document.getElementById("fontSizeSelect").value = savedFontSize;
+            document.getElementById("languageSelect").value = savedLanguage;
+
+            applyTheme(savedTheme);
+            applyFontSize(savedFontSize);
+        }
+
+        //  Applying Theme 
+        function applyTheme(theme) {
+            if (theme === "dark") {
+                document.body.classList.add("dark");
+            } else {
+                document.body.classList.remove("dark");
+            }
+        }
+
+        //  Applying Font Size 
+        function applyFontSize(size) {
+            if (size === "small") document.body.style.fontSize = "14px";
+            if (size === "medium") document.body.style.fontSize = "18px";
+            if (size === "large") document.body.style.fontSize = "22px";
+        }
+
+        //  Save on change 
+        document.getElementById("themeSelect").addEventListener("change", function () {
+            localStorage.setItem("theme", this.value);
+            applyTheme(this.value);
+        });
+
+        document.getElementById("fontSizeSelect").addEventListener("change", function () {
+            localStorage.setItem("fontSize", this.value);
+            applyFontSize(this.value);
+        });
+
+        document.getElementById("languageSelect").addEventListener("change", function () {
+            localStorage.setItem("language", this.value);
+        });
+
+        //  Reset Settings 
+        document.getElementById("resetBtn").addEventListener("click", function () {
+            localStorage.clear();
+            applySavedSettings();
+        });
+    </script>
+
+</body>
+</html>

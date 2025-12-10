@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Storage</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 30px;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+            margin: 20px auto;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            background: #2980b9;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1c5982;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1">
+        <h2>Personal Info</h2>
+        <label for="roll">Roll No:</label>
+        <input type="number" id="roll"/>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name"/>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age"/>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName"/>
+
+        <button id="btn1">Submit</button>
+    </form>
+
+    <form id="form2">
+        <h2>Educational Qualifications</h2>
+        <label for="ssc">10th %:</label>
+        <input type="number" id="ssc"/>
+
+        <label for="hsc">12th %:</label>
+        <input type="number" id="hsc"/>
+
+        <label for="grad">Grad %:</label>
+        <input type="number" id="grad"/>
+
+        <button id="btn2">Submit</button>
+    </form>
+
+    <form id="form3">
+        <h2>Internships</h2>
+
+        <label for="i1">Company:</label>
+        <input type="text" id="i1"/>
+
+        <label for="i2">Duration (Months):</label>
+        <input type="number" id="i2"/>
+
+        <label for="i3">Salary:</label>
+        <input type="number" id="i3"/>
+
+        <label for="i4">Role:</label>
+        <input type="text" id="i4"/>
+
+        <p>This is the end</p>
+    </form>
+
+    <script>
+        localStorage.clear();
+        const form1 = document.getElementById("form1");
+        const form2 = document.getElementById("form2");
+        const form3 = document.getElementById("form3");
+
+        const btn1 = document.getElementById("btn1");
+        const btn2 = document.getElementById("btn2");
+
+        const roll = document.getElementById("roll");
+        const name = document.getElementById("name");
+        const age = document.getElementById("age");
+        const lastName = document.getElementById("lastName");
+
+        const ssc = document.getElementById("ssc");
+        const hsc = document.getElementById("hsc");
+        const grad = document.getElementById("grad");
+
+        const i1 = document.getElementById("i1");
+        const i2 = document.getElementById("i2");
+        const i3 = document.getElementById("i3");
+        const i4 = document.getElementById("i4");
+
+        form2.style.display = "none";
+        form3.style.display = "none";
+
+        btn1.onclick = (e) => {
+            e.preventDefault();
+
+            localStorage.setItem("roll", roll.value);
+            localStorage.setItem("name", name.value);
+            localStorage.setItem("age", age.value);
+            localStorage.setItem("lastName", lastName.value);
+
+            form1.style.display = "none";
+            form2.style.display = "block";
+        };
+
+        btn2.onclick = (e) => {
+            e.preventDefault();
+
+            localStorage.setItem("ssc", ssc.value);
+            localStorage.setItem("hsc", hsc.value);
+            localStorage.setItem("grad", grad.value);
+
+            form2.style.display = "none";
+            form3.style.display = "block";
+        };
+    </script>
+</body>
+</html>

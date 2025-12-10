@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Campus Lost & Found Board</title>
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --muted: #666;
+        --accent: #2b6cb0;
+        --danger: #e53e3e;
+        --ok: #2f855a;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, sans-serif;
+        background: var(--bg);
+        color: #111;
+        padding: 20px;
+      }
+
+      header {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 20px;
+      }
+      .top-stats {
+        margin-left: auto;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font-size: 14px;
+      }
+      .stat {
+        background: var(--card);
+        padding: 8px 12px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
+      .container {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 18px;
+      }
+
+      /* Form / panel */
+      .panel {
+        background: var(--card);
+        padding: 16px;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(12, 15, 20, 0.06);
+      }
+      form .row {
+        margin-bottom: 12px;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="date"],
+      input[type="url"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+        background: #fff;
+      }
+      textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+      .radio-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .small {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .char-count {
+        float: right;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn-muted {
+        background: #f0f3f6;
+        color: #111;
+      }
+      .btn-danger {
+        background: var(--danger);
+        color: #fff;
+      }
+      .row-flex {
+        display: flex;
+        gap: 8px;
+      }
+      .hint {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      /* Boards */
+      .board-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .board {
+        background: var(--card);
+        padding: 12px;
+        border-radius: 10px;
+        min-height: 120px;
+      }
+      .board h2 {
+        margin: 0 0 8px 0;
+        font-size: 16px;
+      }
+      .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      /* Card */
+      .card {
+        border-radius: 8px;
+        padding: 10px;
+        border: 1px solid #e6e9ef;
+        background: linear-gradient(180deg, #fff, #fbfdff);
+        cursor: pointer;
+        overflow: hidden;
+      }
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+      .card-title {
+        font-weight: 700;
+        font-size: 15px;
+      }
+      .meta {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .card-body {
+        margin-top: 8px;
+        display: none;
+      }
+      .card.expanded .card-body {
+        display: block;
+      }
+      .card .tag {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        background: #eef6ff;
+        color: var(--accent);
+      }
+      .card .match-highlight {
+        box-shadow: 0 0 0 3px rgba(74, 153, 255, 0.08);
+        border-color: #2b6cb022;
+      }
+      .card-controls {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .small-btn {
+        padding: 6px 8px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        background: #fff;
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      /* Similar items / resolved */
+      .similar-list {
+        margin-top: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .similar-item {
+        padding: 6px 8px;
+        border-radius: 6px;
+        background: #f1f5f9;
+        font-size: 13px;
+      }
+
+      .resolved {
+        opacity: 0.45;
+        text-decoration: line-through;
+      }
+
+      /* footer / responsive */
+      @media (max-width: 900px) {
+        .container {
+          grid-template-columns: 1fr;
+          padding-bottom: 60px;
+        }
+        .board-wrap {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* small helper */
+      .hidden {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Campus Lost & Found Board 🔍📦</h1>
+      <div class="top-stats">
+        <div class="stat">Lost: <span id="lostCount">0</span></div>
+        <div class="stat">Found: <span id="foundCount">0</span></div>
+        <div class="stat">Resolved: <span id="resolvedCount">0</span></div>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- LEFT: form -->
+      <div class="panel">
+        <form id="postForm" autocomplete="off">
+          <div class="row">
+            <label>Type</label>
+            <div class="radio-row">
+              <label
+                ><input type="radio" name="type" value="lost" checked />
+                Lost</label
+              >
+              <label
+                ><input type="radio" name="type" value="found" /> Found</label
+              >
+            </div>
+          </div>
+
+          <div class="row">
+            <label
+              >Item Name
+              <span class="char-count" id="nameCount">0/50</span></label
+            >
+            <input
+              id="itemName"
+              type="text"
+              maxlength="50"
+              placeholder="e.g., Stainless water bottle"
+            />
+            <div class="hint small">Real-time character count. Required.</div>
+          </div>
+
+          <div class="row">
+            <label>Description</label>
+            <textarea
+              id="description"
+              placeholder="Describe the item, any marks or brand..."
+            ></textarea>
+            <div class="hint small">
+              Use commas to separate keywords for better matching.
+            </div>
+          </div>
+
+          <div class="row">
+            <label>Location</label>
+            <!-- datalist for autocomplete suggestions -->
+            <input
+              id="location"
+              list="locList"
+              type="text"
+              placeholder="e.g., Library - 2nd floor"
+            />
+            <datalist id="locList">
+              <option value="Library - 2nd floor"></option>
+              <option value="Cafeteria"></option>
+              <option value="Auditorium"></option>
+              <option value="Gym"></option>
+              <option value="Main Gate"></option>
+              <option value="Hostel C"></option>
+            </datalist>
+          </div>
+
+          <div class="row-flex">
+            <div style="flex: 1">
+              <label>Date</label>
+              <input id="date" type="date" />
+            </div>
+            <div style="flex: 1">
+              <label>Color</label>
+              <input
+                id="color"
+                type="text"
+                placeholder="e.g., blue / red striped"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <label>Contact Email</label>
+            <input
+              id="contact"
+              type="email"
+              placeholder="your.email@domain.com"
+            />
+            <div class="hint small">Valid email required to contact owner.</div>
+          </div>
+
+          <div class="row">
+            <label>Photo URL (optional)</label>
+            <input id="photo" type="url" placeholder="https://..." />
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-top: 12px">
+            <button class="btn btn-primary" id="saveBtn" type="submit">
+              Post Item
+            </button>
+            <button class="btn btn-muted" id="clearDraft" type="button">
+              Clear Draft
+            </button>
+          </div>
+
+          <div style="margin-top: 10px">
+            <button class="btn small-btn" id="resetAll" type="button">
+              Reset All Data
+            </button>
+          </div>
+
+          <input type="hidden" id="editingId" value="" />
+        </form>
+      </div>
+
+      <!-- RIGHT: boards -->
+      <div>
+        <div class="board-wrap">
+          <div class="board panel">
+            <h2>Lost Items</h2>
+            <div id="lostBoard" class="cards" aria-live="polite"></div>
+          </div>
+
+          <div class="board panel">
+            <h2>Found Items</h2>
+            <div id="foundBoard" class="cards" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <!-- template-like hidden example card (not used directly) -->
+      </div>
+    </div>
+
+    <script>
+      /* =========================
+   Utilities & Initialization
+   ========================= */
+
+      const QS = (s) => document.querySelector(s);
+      const QSA = (s) => [...document.querySelectorAll(s)];
+      const stateKey = "lostFoundState_v1";
+      const draftKey = "lostFoundDraft_v1";
+
+      let state = {
+        items: [], // each item: { id, type, name, desc, location, date, contact, photo, color, createdAt, resolved }
+        resolvedCount: 0,
+      };
+
+      const lostBoard = QS("#lostBoard");
+      const foundBoard = QS("#foundBoard");
+      const lostCountEl = QS("#lostCount");
+      const foundCountEl = QS("#foundCount");
+      const resolvedCountEl = QS("#resolvedCount");
+
+      const form = QS("#postForm");
+      const itemName = QS("#itemName");
+      const desc = QS("#description");
+      const locationInput = QS("#location");
+      const dateInput = QS("#date");
+      const contact = QS("#contact");
+      const photo = QS("#photo");
+      const colorInput = QS("#color");
+      const nameCount = QS("#nameCount");
+      const editingId = QS("#editingId");
+
+      /* safe-escape function to avoid XSS when using innerHTML with user strings */
+      function escapeHTML(str = "") {
+        return String(str)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      /* generate id */
+      function uid() {
+        return "id_" + Math.random().toString(36).slice(2, 10);
+      }
+
+      /* load state from localStorage */
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(stateKey);
+          if (raw) state = JSON.parse(raw);
+        } catch (e) {
+          console.error("Failed to load state", e);
+        }
+      }
+
+      /* save */
+      function saveState() {
+        localStorage.setItem(stateKey, JSON.stringify(state));
+      }
+
+      /* update counters dynamically */
+      function updateCounters() {
+        const lost = state.items.filter(
+          (i) => !i.resolved && i.type === "lost"
+        ).length;
+        const found = state.items.filter(
+          (i) => !i.resolved && i.type === "found"
+        ).length;
+        lostCountEl.textContent = lost;
+        foundCountEl.textContent = found;
+        resolvedCountEl.textContent = state.resolvedCount || 0;
+      }
+
+      /* session draft */
+      function saveDraft() {
+        //   const draft = {
+        //     type: form.type.value,
+        //     name: itemName.value,
+        //     desc: desc.value,
+        //     location: locationInput.value,
+        //     date: dateInput.value,
+        //     contact: contact.value,
+        //     photo: photo.value,
+        //     color: colorInput.value,
+        //     editingId: editingId.value
+        //   };
+        //   sessionStorage.setItem(draftKey, JSON.stringify(draft));
+      }
+      function restoreDraft() {
+        //   const raw = sessionStorage.getItem(draftKey);
+        //   if(!raw) return;
+        //   try{
+        //     const d = JSON.parse(raw);
+        //     if(d) {
+        //       form.type.value = d.type || 'lost';
+        //       itemName.value = d.name || '';
+        //       desc.value = d.desc || '';
+        //       locationInput.value = d.location || '';
+        //       dateInput.value = d.date || '';
+        //       contact.value = d.contact || '';
+        //       photo.value = d.photo || '';
+        //       colorInput.value = d.color || '';
+        //       editingId.value = d.editingId || '';
+        //       updateNameCount();
+        //     }
+        //   }catch(e){/*ignore*/}
+      }
+      function clearDraft() {
+        sessionStorage.removeItem(draftKey);
+      }
+
+      /* auto-save draft every 2 seconds */
+      let draftTimer = setInterval(saveDraft, 2000);
+
+      /* char count */
+      function updateNameCount() {
+        nameCount.textContent = `${itemName.value.length}/50`;
+      }
+
+      /* basic validation helper */
+      function isValidEmail(em) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);
+      }
+
+      /* validate field on blur & input for user feedback (simple) */
+      function validateField(el) {
+        //   const id = el.id;
+        //   let ok = true;
+        //   if(id === 'itemName'){
+        //     ok = el.value.trim().length >= 2;
+        //   } else if(id === 'contact'){
+        //     ok = isValidEmail(el.value.trim());
+        //   } else if(id === 'date'){
+        //     ok = !!el.value;
+        //   }
+        //   el.style.borderColor = ok ? '#ddd' : '#e53e3e';
+        //   return ok;
+      }
+
+      /* =========================
+   Rendering: create card
+   ========================= */
+
+      /* create a card element (using template literal but escaping values) */
+      function createCardElement(item) {
+        const card = document.createElement("div");
+        card.className = "card";
+        if (item.resolved) card.classList.add("resolved");
+
+        card.dataset.id = item.id;
+        // build inner content safely using escaped fields
+        const safeName = escapeHTML(item.name);
+        const safeDesc = escapeHTML(item.desc);
+        const safeLoc = escapeHTML(item.location);
+        const safeDate = escapeHTML(item.date || "");
+        const safeContact = escapeHTML(item.contact || "");
+        const safePhoto = escapeHTML(item.photo || "");
+        const safeColor = escapeHTML(item.color || "");
+        const safeType = escapeHTML(item.type);
+
+        // Using template literal to build HTML (per spec) but we escaped inputs
+        card.innerHTML = `
+    <div class="card-header">
+      <div>
+        <div class="card-title">${safeName} <span class="tag">${safeType.toUpperCase()}</span></div>
+        <div class="meta">${safeLoc} • ${
+          safeDate ? safeDate : "Date unknown"
+        }</div>
+      </div>
+      <div class="meta">${new Date(item.createdAt).toLocaleString()}</div>
+    </div>
+    <div class="card-body">
+      ${
+        safePhoto
+          ? `<div><img src="${safePhoto}" alt="photo" style="max-width:120px;border-radius:6px;margin-bottom:8px"></div>`
+          : ""
+      }
+      <div><strong>Description:</strong> <span class="desc">${safeDesc}</span></div>
+      <div style="margin-top:6px"><strong>Color:</strong> <span class="color">${safeColor}</span></div>
+      <div style="margin-top:6px"><strong>Contact:</strong> <span class="contactMasked">${maskEmail(
+        safeContact
+      )}</span></div>
+      <div class="card-controls">
+        <button class="small-btn" data-action="contact">Contact Owner</button>
+        <button class="small-btn" data-action="resolve">${
+          item.resolved ? "Unresolve" : "Mark as Resolved"
+        }</button>
+        <button class="small-btn" data-action="edit">Edit</button>
+        <button class="small-btn" data-action="toggle-details">Toggle</button>
+        <button class="small-btn" data-action="show-similar">Similar Items</button>
+      </div>
+      <div class="similar-list hidden" aria-hidden="true"></div>
+    </div>
+  `;
+        return card;
+      }
+
+      /* mask email to show until contact button clicked */
+      function maskEmail(mail) {
+        if (!mail) return "Not provided";
+        const parts = mail.split("@");
+        if (parts[0].length <= 2) return "****@" + parts[1];
+        return parts[0].slice(0, 2) + "****@" + parts[1];
+      }
+
+      /* add item DOM to respective board at top using insertBefore */
+      function addItemToBoardDOM(item) {
+        const elem = createCardElement(item);
+        const parent = item.type === "lost" ? lostBoard : foundBoard;
+        // insert at top
+        if (parent.firstChild) parent.insertBefore(elem, parent.firstChild);
+        else parent.appendChild(elem);
+      }
+
+      /* initial render of all items (called once on load) - but we will add dynamically too */
+      function initialRender() {
+        lostBoard.innerHTML = "";
+        foundBoard.innerHTML = "";
+        state.items.forEach((it) => {
+          addItemToBoardDOM(it);
+        });
+        updateCounters();
+      }
+
+      /* =========================
+   Matching system
+   ========================= */
+
+      /* simple tokenize: lower-case, remove punctuation, split by spaces & commas */
+      function tokenize(text = "") {
+        return text
+          .toLowerCase()
+          .replace(/[^\w\s,]/g, "")
+          .split(/[\s,]+/)
+          .filter(Boolean);
+      }
+
+      /* find potential matches: when adding a found item, check lost items and vice versa */
+      function findMatchesFor(item) {
+        const tokens = new Set([
+          ...tokenize(item.name),
+          ...tokenize(item.desc),
+          ...tokenize(item.color),
+        ]);
+        const targetType = item.type === "found" ? "lost" : "found";
+        const candidates = state.items.filter(
+          (i) => i.type === targetType && !i.resolved
+        );
+        const scored = candidates
+          .map((c) => {
+            const cTokens = new Set([
+              ...tokenize(c.name),
+              ...tokenize(c.desc),
+              ...tokenize(c.color),
+            ]);
+            let overlap = 0;
+            for (const t of tokens) if (cTokens.has(t)) overlap++;
+            return { candidate: c, overlap };
+          })
+          .filter((x) => x.overlap > 0)
+          .sort((a, b) => b.overlap - a.overlap);
+        return scored;
+      }
+
+      /* highlight matches visually and populate similar-list under card */
+      function showMatchesForCard(cardElem, item) {
+        const simList = cardElem.querySelector(".similar-list");
+        simList.innerHTML = "";
+        const matches = findMatchesFor(item);
+        if (matches.length === 0) {
+          simList.classList.add("hidden");
+          return;
+        }
+        simList.classList.remove("hidden");
+        simList.setAttribute("aria-hidden", "false");
+        matches.slice(0, 5).forEach((m) => {
+          const el = document.createElement("div");
+          el.className = "similar-item";
+          el.textContent = `${m.candidate.name} — ${
+            m.candidate.location || "unknown loc"
+          }`;
+          el.dataset.matchId = m.candidate.id;
+          simList.appendChild(el);
+          // highlight the candidate card (if present in DOM)
+          const cDom = document.querySelector(
+            `.card[data-id="${m.candidate.id}"]`
+          );
+          if (cDom) cDom.classList.add("match-highlight");
+        });
+      }
+
+      /* clear match highlights */
+      function clearAllMatchHighlights() {
+        QSA(".card.match-highlight").forEach((c) =>
+          c.classList.remove("match-highlight")
+        );
+        QSA(".similar-list").forEach((s) => {
+          s.classList.add("hidden");
+          s.setAttribute("aria-hidden", "true");
+          s.innerHTML = "";
+        });
+      }
+
+      /* =========================
+   CRUD operations (state + DOM)
+   ========================= */
+
+      function createNewItemFromForm() {
+        return {
+          id: uid(),
+          type: form.type.value,
+          name: itemName.value.trim(),
+          desc: desc.value.trim(),
+          location: locationInput.value.trim(),
+          date: dateInput.value,
+          contact: contact.value.trim(),
+          photo: photo.value.trim(),
+          color: colorInput.value.trim(),
+          createdAt: Date.now(),
+          resolved: false,
+        };
+      }
+
+      /* add item */
+      function addItem(item) {
+        // push to state and persist
+        state.items.push(item);
+        saveState();
+        // add to DOM top
+        addItemToBoardDOM(item);
+        updateCounters();
+      }
+
+      /* update item */
+      function updateItem(updated) {
+        const idx = state.items.findIndex((i) => i.id === updated.id);
+        if (idx === -1) return;
+        state.items[idx] = updated;
+        saveState();
+        // update DOM card in-place (find and replace element)
+        const existing = document.querySelector(
+          `.card[data-id="${updated.id}"]`
+        );
+        if (existing) {
+          const parent = existing.parentElement;
+          const newEl = createCardElement(updated);
+          parent.replaceChild(newEl, existing);
+        }
+        updateCounters();
+      }
+
+      /* remove/resolved */
+      function markResolved(id, toResolve = true) {
+        const idx = state.items.findIndex((i) => i.id === id);
+        if (idx === -1) return;
+        state.items[idx].resolved = toResolve;
+        if (toResolve) state.resolvedCount = (state.resolvedCount || 0) + 1;
+        else state.resolvedCount = Math.max(0, (state.resolvedCount || 0) - 1);
+        saveState();
+        // update DOM: toggle resolved class
+        const card = document.querySelector(`.card[data-id="${id}"]`);
+        if (card) {
+          if (toResolve) card.classList.add("resolved");
+          else card.classList.remove("resolved");
+        }
+        updateCounters();
+      }
+
+      /* delete item (not required explicitly but use for Reset) */
+      function deleteAllData() {
+        state = { items: [], resolvedCount: 0 };
+        saveState();
+        initialRender();
+        updateCounters();
+      }
+
+      /* =========================
+   Form submit & validation
+   ========================= */
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault(); // required
+        // validate
+        const validName = validateField(itemName);
+        const validContact = validateField(contact);
+        // date optional but recommended
+        // simple: require name and contact email
+        if (!validName || !validContact) {
+          alert(
+            "Please fix validation errors: name (>=2 chars) and valid email required."
+          );
+          return;
+        }
+
+        const editing = editingId.value;
+        if (editing) {
+          // update existing
+          const updated = {
+            id: editing,
+            type: form.type.value,
+            name: itemName.value.trim(),
+            desc: desc.value.trim(),
+            location: locationInput.value.trim(),
+            date: dateInput.value,
+            contact: contact.value.trim(),
+            photo: photo.value.trim(),
+            color: colorInput.value.trim(),
+            createdAt: Date.now(),
+            resolved: false,
+          };
+          updateItem(updated);
+          // clear editing flag & draft
+          editingId.value = "";
+          clearDraft();
+          form.reset();
+          updateNameCount();
+          alert("Item updated.");
+          return;
+        }
+
+        const item = createNewItemFromForm();
+        addItem(item);
+
+        // show matches (if Found posted, find Lost and vice versa)
+        clearAllMatchHighlights();
+        // find matches for newly added item and highlight
+        const insertedCard = document.querySelector(
+          `.card[data-id="${item.id}"]`
+        );
+        if (insertedCard) {
+          showMatchesForCard(insertedCard, item);
+        }
+
+        // clear form and draft
+        form.reset();
+        clearDraft();
+        updateNameCount();
+      });
+
+      /* auto character count */
+      itemName.addEventListener("input", () => {
+        updateNameCount();
+        validateField(itemName);
+      });
+
+      /* validation on blur */
+      [itemName, contact, dateInput].forEach((el) => {
+        el.addEventListener("blur", () => validateField(el));
+      });
+
+      /* clear draft button */
+      QS("#clearDraft").addEventListener("click", function () {
+        form.reset();
+        editingId.value = "";
+        clearDraft();
+        updateNameCount();
+      });
+
+      /* reset all data */
+      QS("#resetAll").addEventListener("click", function () {
+        if (confirm("Delete all stored items and reset everything?")) {
+          deleteAllData();
+          clearDraft();
+        }
+      });
+
+      /* =========================
+   Event delegation on boards
+   ========================= */
+
+      function onBoardClick(e) {
+        const actionBtn = e.target.closest("button[data-action]");
+        const card = e.target.closest(".card");
+        if (!card) return;
+        const id = card.dataset.id;
+        const item = state.items.find((i) => i.id === id);
+        if (!item) return;
+
+        // Toggle expand when clicking the card header or toggle button (but not when clicking control buttons)
+        if (
+          !actionBtn &&
+          (e.target.closest(".card-header") || e.target === card)
+        ) {
+          card.classList.toggle("expanded");
+          return;
+        }
+
+        if (!actionBtn) return;
+
+        const action = actionBtn.dataset.action;
+        if (action === "contact") {
+          // reveal contact email fully
+          const contactEl = card.querySelector(".contactMasked");
+          if (contactEl) contactEl.textContent = item.contact || "Not provided";
+          alert(
+            "Contact info revealed in card. You can use it to get in touch."
+          );
+        } else if (action === "resolve") {
+          const toResolve = !item.resolved;
+          markResolved(id, toResolve);
+          // hide highlight from this card
+          card.classList.remove("match-highlight");
+        } else if (action === "edit") {
+          // populate form with existing data
+          form.type.value = item.type;
+          itemName.value = item.name;
+          desc.value = item.desc;
+          locationInput.value = item.location;
+          dateInput.value = item.date;
+          contact.value = item.contact;
+          photo.value = item.photo;
+          colorInput.value = item.color;
+          editingId.value = id;
+          updateNameCount();
+          // scroll to top to view form
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else if (action === "toggle-details") {
+          card.classList.toggle("expanded");
+        } else if (action === "show-similar") {
+          // build similar list for this card
+          clearAllMatchHighlights();
+          showMatchesForCard(card, item);
+        }
+      }
+
+      lostBoard.addEventListener("click", onBoardClick);
+      foundBoard.addEventListener("click", onBoardClick);
+
+      /* also clicking a "similar-item" should highlight that candidate and scroll to it */
+      document.body.addEventListener("click", function (e) {
+        const sim = e.target.closest(".similar-item");
+        if (!sim) return;
+        const matchId = sim.dataset.matchId;
+        const target = document.querySelector(`.card[data-id="${matchId}"]`);
+        if (target) {
+          // flash / expand
+          target.scrollIntoView({ behavior: "smooth", block: "center" });
+          target.classList.add("match-highlight");
+          setTimeout(() => target.classList.remove("match-highlight"), 2200);
+        }
+      });
+
+      /* ensure when new items added, matches are checked for existing opposite type */
+      function onItemAddedCheckMatches(newItem) {
+        // If newItem is 'found', look for lost items and highlight them, and vice versa
+        const matches = findMatchesFor(newItem);
+        if (matches.length) {
+          // highlight top matches in the opposite board
+          matches.slice(0, 3).forEach((m) => {
+            const cardDom = document.querySelector(
+              `.card[data-id="${m.candidate.id}"]`
+            );
+            if (cardDom) cardDom.classList.add("match-highlight");
+          });
+          // also show matches under the new item card
+          const newDom = document.querySelector(
+            `.card[data-id="${newItem.id}"]`
+          );
+          if (newDom) showMatchesForCard(newDom, newItem);
+        }
+      }
+
+      /* watch for newly added nodes in board to run matching highlights */
+      const boardsObserver = new MutationObserver((muts) => {
+        muts.forEach((mut) => {
+          mut.addedNodes.forEach((node) => {
+            if (node.nodeType === 1 && node.classList.contains("card")) {
+              const id = node.dataset.id;
+              const item = state.items.find((i) => i.id === id);
+              if (item) onItemAddedCheckMatches(item);
+            }
+          });
+        });
+      });
+      boardsObserver.observe(lostBoard, { childList: true });
+      boardsObserver.observe(foundBoard, { childList: true });
+
+      /* =========================
+   Bootstrap: load & restore
+   ========================= */
+
+      loadState();
+      initialRender();
+      restoreDraft();
+      updateNameCount();
+
+      /* When the page unloads, save state & draft */
+      window.addEventListener("beforeunload", () => {
+        saveState();
+        saveDraft();
+      });
+    </script>
+  </body>
+</html>

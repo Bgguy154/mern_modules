@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Employee</h1>
+    <button>CheckIn</button>
+    <button>Checkout</button>
+
+    <h2>manager</h2>
+    <button>CheckIn</button>
+    <button>Checout</button>
+
+
+
+    <script>
+      class Employee {
+        constructor({name, designation, eid, salary, gender, joining}) {
+          (this.name = name),
+            (this.designation = designation),
+            (this.eid = eid),
+            (this.salary = salary),
+            (this.gender = gender),
+            (this.joining = joining);
+        }
+        checkIn(time) {
+          this.checkInTime = time;
+        }
+        checkOut(time) {
+          this.checkOutTime = time;
+        }
+        durationInoffice() {
+          if (!this.checkInTime || !this.checkOutTime) {
+            console.log("Checking or Checkout missing");
+            return;
+          }
+ const diffMs = this.checkOutTime - this.checkInTime; // difference in milliseconds
+  const minutes = Math.floor(diffMs / 60000);          // convert to minutes
+  const seconds = Math.floor((diffMs % 60000) / 1000);
+
+  return `${minutes} min ${seconds} sec`;        }
+      }
+
+      class Manager extends Employee {
+        constructor(
+          managerDetails,
+          subordinates
+        ) {
+            super(managerDetails);
+            (this.subordinates = subordinates)
+        }
+      }
+      const employeeDetails={
+        name:"Tanmay",
+        salary:"40000",
+        joining:"aaj",
+        eid:"22",
+        designation:"Intern",
+        gender:"male"
+      }
+      const e1 = new Employee(employeeDetails);
+      console.log(e1);
+
+      document
+        .querySelector("button:first-of-type")
+        .addEventListener("click", () => {
+              const currentTime = new Date();
+          e1.checkIn(currentTime);
+        });
+
+      document
+        .querySelector("button:nth-of-type(2)")
+        .addEventListener("click", () => {
+                  const currentTime = new Date();
+          e1.checkOut(currentTime);
+          console.log(`CheckIn Time: ${e1.checkInTime} CheckOut Time: ${e1.checkOutTime}`)
+          console.log(`${e1.durationInoffice()}`);
+        });
+
+        const managerDetails={
+            name:"Riya",
+            designation:"Manager",
+            eid:"2",
+            salary:"20000",
+            gender:"female",
+            joining:"kal"
+        }
+
+        const manager=new Manager(managerDetails,["e1","e2"]);
+        console.log(manager)
+
+        document
+        .querySelector("button:nth-of-type(3)")
+        .addEventListener("click", () => {
+              const currentTime = new Date();
+          manager.checkIn(currentTime);
+        });
+
+        document
+        .querySelector("button:last-of-type")
+        .addEventListener("click", () => {
+          const currentTime = new Date();
+          manager.checkOut(currentTime);
+          console.log(`CheckIn Time: ${manager.checkInTime} CheckOut Time: ${manager.checkOutTime}`)
+        });
+
+
+        //create animal class and create dog class and cat class 
+        //inherit property form animal to both dog and cat classes
+
+        class Animal{
+            constructor({name,owner,age,color}){
+               this.name=name;
+               this.owner=owner;
+               this.age=age;
+               this.color=color;
+            }
+            speak(){
+                console.log("bhaati bhaati ke awaaj")
+            }
+        }
+
+        class Dog extends Animal{
+           constructor(dogDetails){
+            super(dogDetails)
+           }
+            bark(){
+                console.log("I bark bow bow");
+            }
+           }
+
+
+         class Cat extends Animal{
+           constructor(catDetails){
+            super(catDetails)
+            super.speak();
+           }
+         meow(){
+                console.log("I say meow meow");
+            }
+            speak(){
+              console.log("ye billi ki awaaj")
+            }
+           }
+
+        const catDetails={
+            name:"Billo",
+            owner:"Mai",
+            age:"2",
+            color:"red"
+        }
+
+        const dogDetails={
+            name:"Doggy",
+            owner:"Tum",
+            age:"6",
+            color:"black"
+        }
+        const cat=new Cat(catDetails);
+        const dog=new Dog(dogDetails);
+    //    const dog=new Dog("Tommy","4","tum","black");
+    //    console.log(dog);
+       console.log(cat);
+       cat.meow();
+       cat.speak();
+       console.log(dog);
+       dog.bark();
+
+
+       //hw buttons for manager
+       //hw super.speak()
+
+       //if method is not found in current class,it finds it in its parent class 
+       //and repeats the same till it gets it
+       //here speak method of dog class is accessed from its parent class animal
+
+       //when a child class calls super then
+       //1.it calls parent class constructor
+       //2.that parent constructor sets up all the properties
+       //3.when parent is constructing properties then it actually is constructing
+       //on this of child class
+
+       //super keyword in respect to parent class
+       //1.sets constructor properties 
+       //2.it actually is constructing this of child class
+
+       //pillars of oop
+       //1. Encapsulation->used to protect sensitive information private keyword
+       //2. Inheritance->'is a' relationship between child and parent class
+       //parent class has specific features
+       //eg.Cat is an animal,Motorcycle is a vehicle
+       //3. Polymorphism->a method existing in many forms
+       //poly=many morph=forms
+       //different classes can implement methods of same name
+       //4. Abstraction->Hiding Implementation(protection of business logic)
+      //5  Composition->'has a' relationship between classes
+      //eg.profile,account->profile has a account
+
+    </script>
+  </body>
+</html>

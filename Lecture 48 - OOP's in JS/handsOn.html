@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Smart Home — Single File</title>
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --card: #fff;
+        --accent: #2563eb;
+        --muted: #6b7280;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Inter, system-ui, Arial, sans-serif;
+        background: var(--bg);
+        margin: 0;
+        padding: 20px;
+        color: #0f172a;
+      }
+      .wrap {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0;
+      }
+      .controls {
+        margin-top: 12px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      button {
+        background: var(--accent);
+        color: #fff;
+        border: 0;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      button.ghost {
+        background: transparent;
+        color: var(--accent);
+        border: 1px solid rgba(37, 99, 235, 0.16);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin-top: 16px;
+      }
+      .card {
+        background: var(--card);
+        padding: 12px;
+        border-radius: 10px;
+        box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
+      }
+      .card h3 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .small {
+        font-size: 13px;
+        padding: 6px 8px;
+        border-radius: 8px;
+      }
+      .device-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .status-on {
+        color: green;
+        font-weight: 600;
+      }
+      .status-off {
+        color: #b91c1c;
+        font-weight: 600;
+      }
+      #output {
+        margin-top: 16px;
+        background: #fff;
+        padding: 12px;
+        border-radius: 8px;
+        min-height: 48px;
+        color: var(--muted);
+        box-shadow: 0 4px 12px rgba(2, 6, 23, 0.04);
+      }
+      footer {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+      }
+      @media (max-width: 520px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div>
+          <h1>🏠 Smart Home Control Panel</h1>
+          <div style="color: var(--muted); margin-top: 6px; font-size: 13px">
+            Advanced OOP example — classes, inheritance, super(), encapsulation,
+            composition, polymorphism + DOM
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="turnOnAll">Turn ON All</button>
+          <button id="turnOffAll" class="ghost">Turn OFF All</button>
+          <button id="showStatus" class="ghost">Show Status</button>
+        </div>
+      </header>
+
+      <main>
+        <div id="devices" class="grid" aria-live="polite"></div>
+        <div id="output"></div>
+      </main>
+
+      <footer>Made for your class — single-file implementation</footer>
+    </div>
+
+    <script>
+      // ==============================
+      // BASE CLASS (Device) — uses private field for encapsulation
+      // ==============================
+      class Device {
+        #powerWatt; // private field — encapsulation
+
+        constructor(name, watt) {
+          this.name = name;
+          this.isOn = false;
+          this.#powerWatt = watt;
+        }
+
+        turnOn() {
+          this.isOn = true;
+        }
+        turnOff() {
+          this.isOn = false;
+        }
+        toggle() {
+          this.isOn = !this.isOn;
+        }
+
+        // expose the private power value via a getter
+        getPowerUsage() {
+          return this.#powerWatt;
+        }
+
+        // generic status — overridden by children (polymorphism)
+        status() {
+          return `${this.name} is ${this.isOn ? "ON" : "OFF"}`;
+        }
+      }
+
+      // ==============================
+      // CHILD CLASSES — extend Device, use super() and override status()
+      // ==============================
+      class Light extends Device {
+        constructor(name, watt, color = "Warm") {
+          super(name, watt);
+          this.color = color;
+        }
+        status() {
+          return `💡 ${this.name} (${this.color}) → ${
+            this.isOn ? "ON" : "OFF"
+          }`;
+        }
+      }
+
+      class Fan extends Device {
+        constructor(name, watt, speed = 1) {
+          super(name, watt);
+          this.speed = speed;
+        }
+        increaseSpeed() {
+          if (this.speed < 5) this.speed++;
+        }
+        decreaseSpeed() {
+          if (this.speed > 0) this.speed--;
+        }
+        status() {
+          return `🌀 ${this.name} — Speed ${this.speed} → ${
+            this.isOn ? "ON" : "OFF"
+          }`;
+        }
+      }
+
+      class SmartAC extends Device {
+        constructor(name, watt, temperature = 24) {
+          super(name, watt);
+          this.temperature = temperature;
+        }
+        setTemperature(t) {
+          this.temperature = t;
+        }
+        status() {
+          return `❄ ${this.name} @ ${this.temperature}°C → ${
+            this.isOn ? "ON" : "OFF"
+          }`;
+        }
+      }
+
+      // ==============================
+      // COMPOSITION — SmartHome has devices
+      // ==============================
+      class SmartHome {
+        constructor(owner) {
+          this.owner = owner;
+          this.devices = [];
+        }
+
+        addDevice(device) {
+          this.devices.push(device);
+        }
+        removeDeviceByName(name) {
+          this.devices = this.devices.filter((d) => d.name !== name);
+        }
+
+        turnAllOn() {
+          this.devices.forEach((d) => d.turnOn());
+        }
+        turnAllOff() {
+          this.devices.forEach((d) => d.turnOff());
+        }
+
+        // return an HTML formatted status summary
+        showStatus() {
+          if (this.devices.length === 0) return "<em>No devices installed</em>";
+          return this.devices
+            .map((d) => {
+              const stateClass = d.isOn ? "status-on" : "status-off";
+              return `<div>${d.status()} <span style="margin-left:8px;color:var(--muted)">| Power: ${d.getPowerUsage()}W</span> <span class="${stateClass}" style="float:right">${
+                d.isOn ? "● ON" : "● OFF"
+              }</span></div>`;
+            })
+            .join(
+              "<hr style='border:none;border-top:1px solid #eee;margin:8px 0' />"
+            );
+        }
+      }
+
+      // ==============================
+      // Create a SmartHome and devices (composition)
+      // ==============================
+      const myHome = new SmartHome("Tanmay");
+
+      myHome.addDevice(new Light("Hall Light", 12, "Warm White"));
+      myHome.addDevice(new Fan("Bedroom Fan", 35, 2));
+      myHome.addDevice(new SmartAC("Living Room AC", 1500, 22));
+      myHome.addDevice(new Light("Porch Light", 8, "Cool White"));
+
+      // ==============================
+      // UI Rendering helpers
+      // ==============================
+      const devicesEl = document.getElementById("devices");
+      const outputEl = document.getElementById("output");
+
+      function renderDevices() {
+        devicesEl.innerHTML = "";
+        myHome.devices.forEach((d, idx) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+          <h3>${d.name}</h3>
+          <div class="meta">Power: ${d.getPowerUsage()}W • Type: ${
+            d.constructor.name
+          }</div>
+          <div class="device-actions">
+            <button class="small" data-action="toggle" data-idx="${idx}">${
+            d.isOn ? "Turn OFF" : "Turn ON"
+          }</button>
+            <button class="small ghost" data-action="status" data-idx="${idx}">Show Status</button>
+            ${
+              d instanceof Fan
+                ? `<button class="small ghost" data-action="dec" data-idx="${idx}">- Speed</button>
+            <button class="small ghost" data-action="inc" data-idx="${idx}">+ Speed</button>`
+                : ""
+            }
+            ${
+              d instanceof SmartAC
+                ? `<button class="small ghost" data-action="tempDown" data-idx="${idx}">Temp -</button>
+            <button class="small ghost" data-action="tempUp" data-idx="${idx}">Temp +</button>`
+                : ""
+            }
+          </div>
+          <div style="margin-top:8px;color:var(--muted);font-size:13px">${d.status()}</div>
+        `;
+          devicesEl.appendChild(card);
+        });
+      }
+
+      // initial render
+      renderDevices();
+      outputEl.innerHTML =
+        "<em>Ready — control devices using buttons above or per-device actions.</em>";
+
+      // ==============================
+      // Global controls
+      // ==============================
+      document.getElementById("turnOnAll").addEventListener("click", () => {
+        myHome.turnAllOn();
+        renderDevices();
+        outputEl.innerHTML = "<strong>All devices turned ON</strong>";
+      });
+
+      document.getElementById("turnOffAll").addEventListener("click", () => {
+        myHome.turnAllOff();
+        renderDevices();
+        outputEl.innerHTML = "<strong>All devices turned OFF</strong>";
+      });
+
+      document.getElementById("showStatus").addEventListener("click", () => {
+        outputEl.innerHTML = myHome.showStatus();
+      });
+
+      // ==============================
+      // Delegated per-device actions
+      // ==============================
+      devicesEl.addEventListener("click", (ev) => {
+        const btn = ev.target.closest("button");
+        if (!btn) return;
+        const action = btn.dataset.action;
+        const idx = Number(btn.dataset.idx);
+        const device = myHome.devices[idx];
+        if (!device) return;
+
+        switch (action) {
+          case "toggle":
+            device.toggle();
+            outputEl.innerHTML = `<strong>${device.name} toggled to ${
+              device.isOn ? "ON" : "OFF"
+            }</strong>`;
+            break;
+          case "status":
+            outputEl.innerHTML = `<strong>${device.status()}</strong><div style="color:var(--muted);margin-top:6px">Power: ${device.getPowerUsage()}W</div>`;
+            break;
+          case "inc":
+            if (device instanceof Fan) {
+              device.increaseSpeed();
+              outputEl.innerHTML = `<strong>${device.name} speed → ${device.speed}</strong>`;
+            }
+            break;
+          case "dec":
+            if (device instanceof Fan) {
+              device.decreaseSpeed();
+              outputEl.innerHTML = `<strong>${device.name} speed → ${device.speed}</strong>`;
+            }
+            break;
+          case "tempUp":
+            if (device instanceof SmartAC) {
+              device.setTemperature(device.temperature + 1);
+              outputEl.innerHTML = `<strong>${device.name} temp → ${device.temperature}°C</strong>`;
+            }
+            break;
+          case "tempDown":
+            if (device instanceof SmartAC) {
+              device.setTemperature(device.temperature - 1);
+              outputEl.innerHTML = `<strong>${device.name} temp → ${device.temperature}°C</strong>`;
+            }
+            break;
+        }
+
+        renderDevices();
+      });
+
+      // Expose to console for quick testing (optional)
+      window.myHome = myHome;
+    </script>
+  </body>
+</html>
