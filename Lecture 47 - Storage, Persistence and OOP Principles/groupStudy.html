@@ -258,8 +258,8 @@
             <option value="all">All Subjects</option>
           </select>
           <select id="sortByDate">
-            <option value="asc">Sort By Date (Asc)</option>
-            <option value="desc">Sort By Date (Desc)</option>
+            <option value="asc" id="asc">Sort By Date (jan-feb)</option>
+            <option value="desc" id="desc">Sort By Date (feb-jan)</option>
           </select>
         </div>
       </div>
@@ -282,20 +282,14 @@
             </tr>
           </thead>
           <tbody id="sessionTable">
-            <tr style="width: 100vw;">
+            <tr style="width: 100vw">
               <td>History</td>
               <td>13 Dec</td>
               <td>4 pm</td>
               <td>7</td>
               <td>
                 <button
-                  style="
-                    background-color: blue;
-                    color: white;
-                    border-radius: 10px;
-                    width: 70px;
-                    margin-left:300px
-                  "
+                  class="join-btn"
                 >
                   Join
                 </button>
@@ -308,13 +302,8 @@
               <td>9</td>
               <td>
                 <button
-                  style="
-                    background-color: blue;
-                    color: white;
-                    border-radius: 10px;
-                    width: 70px;
-                    margin-left:300px
-                  "
+                 class="join-btn"
+
                 >
                   Join
                 </button>
@@ -389,8 +378,8 @@
       function addtoSideBar(user) {
         let user1 = document.createElement("div");
         user1.innerHTML = `
-    <p><strong>${user.name}</strong></p>
-    `;
+        <p><strong>${user.name}</strong></p>
+        `;
         userListContainer.appendChild(user1);
       }
 
@@ -443,7 +432,7 @@
         const date = sessionDateInput.value.trim();
         const time = sessionTimeInput.value.trim();
         const maxParticipants = sessionMaxInput.value.trim();
-        const sessions = [sub,date,time,maxParticipants];
+        const sessions = [sub, date, time, maxParticipants];
         addSession(sessions);
         sub.value = "";
         date.value = "";
@@ -452,27 +441,57 @@
       });
 
       function addSession(session) {
+        const subjects=document.getElementById("filterSubject");
         const table = document.querySelector("#sessionTable");
         const sessionInfo = document.createElement("tr");
         sessionInfo.innerHTML = `
-    <td>${session[0]}</td>
-    <td>${session[1]}</td>
-    <td>${session[2]}</td>
-    <td>${session[3]}</td>
-    <td><button style="
-                    background-color: blue;
-                    color: white;
-                    border-radius: 10px;
-                    width: 70px;
-                    margin-left:300px
-                  ">Join</button></td>
-  `;
+        <td>${session[0]}</td>
+        <td>${session[1]}</td>
+        <td>${session[2]}</td>
+        <td>${session[3]}</td>
+        <td><button style="
+                        background-color: blue;
+                        color: white;
+                        border-radius: 10px;
+                        width: 70px;
+                        margin-left:300px
+                      " class="j">Join</button></td>
+      `;
+
         table.appendChild(sessionInfo);
+        let subject=`<option>${session[0]}</option>`
+        subjects=[...subjects,subject];
+
+
+        let storedSessions = JSON.parse(localStorage.getItem("sessions")) || [];
+        storedSessions.push({
+          subject: session[0],
+          date: session[1],
+          time: session[2],
+          max: session[3],
+        });
+        localStorage.setItem("sessions", JSON.stringify(storedSessions));
+
       }
 
-      // ------------------------------
-      // FILTERS & SEARCH SELECTORS
-      // ------------------------------
+
+      // const desc=document.getElementById("desc");
+      // desc.addEventListener("click",()=>{
+      //   const rowsOfTable=document.querySelectorAll("tr");
+      //   rowsOfTable.sort((a,b)=>b.b[1]-a.a[1]);
+      // })
+      // const joinBtn=document.querySelector(".j");
+      // console.log(joinBtn);
+      // joinBtn.addEventListener("click",()=>{
+      //   participants.push(username);
+      //   const sessionparticipants=[...participants]
+      //   $(session[3])--;
+      // });
+
+      // sessionInfo.addEventListener("click",(e)=>{
+      //   e.preventDefault();
+      //   alert(sessionparticipants,sessionInfo.session[0],sessionInfo.session[1],sessionInfo.session[2]);
+      // })
 
       const searchInput = document.getElementById("searchInput");
       const filterSubjectSelect = document.getElementById("filterSubject");
@@ -481,7 +500,6 @@
       // ------------------------------
       // SESSION TABLE SELECTORS
       // ------------------------------
-
 
       // ------------------------------
       // EXPANDED DETAILS SECTION
@@ -507,6 +525,26 @@
       function getAllUserCards() {
         return document.querySelectorAll(".user-card");
       }
+
+      window.addEventListener("DOMContentLoaded", loadSessions);
+
+function loadSessions() {
+    const table = document.querySelector("#sessionTable");
+    const storedSessions = JSON.parse(localStorage.getItem("sessions")) || [];
+
+    storedSessions.forEach(s => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${s.subject}</td>
+            <td>${s.date}</td>
+            <td>${s.time}</td>
+            <td>${s.max}</td>
+            <td><button  class="join-btn">Join</button></td>
+        `;
+        table.appendChild(row);
+    });
+}
+
     </script>
   </body>
-</html>
+</html>   

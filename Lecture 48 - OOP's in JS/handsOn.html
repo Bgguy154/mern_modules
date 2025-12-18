@@ -143,9 +143,7 @@
     </div>
 
     <script>
-      // ==============================
       // BASE CLASS (Device) — uses private field for encapsulation
-      // ==============================
       class Device {
         #powerWatt; // private field — encapsulation
 
@@ -224,9 +222,7 @@
         }
       }
 
-      // ==============================
-      // COMPOSITION — SmartHome has devices
-      // ==============================
+
       class SmartHome {
         constructor(owner) {
           this.owner = owner;
@@ -249,7 +245,6 @@
 
         // return an HTML formatted status summary
         showStatus() {
-          if (this.devices.length === 0) return "<em>No devices installed</em>";
           return this.devices
             .map((d) => {
               const stateClass = d.isOn ? "status-on" : "status-off";
@@ -263,9 +258,6 @@
         }
       }
 
-      // ==============================
-      // Create a SmartHome and devices (composition)
-      // ==============================
       const myHome = new SmartHome("Tanmay");
 
       myHome.addDevice(new Light("Hall Light", 12, "Warm White"));
@@ -273,9 +265,6 @@
       myHome.addDevice(new SmartAC("Living Room AC", 1500, 22));
       myHome.addDevice(new Light("Porch Light", 8, "Cool White"));
 
-      // ==============================
-      // UI Rendering helpers
-      // ==============================
       const devicesEl = document.getElementById("devices");
       const outputEl = document.getElementById("output");
 
@@ -387,8 +376,6 @@
         renderDevices();
       });
 
-      // Expose to console for quick testing (optional)
-      window.myHome = myHome;
     </script>
   </body>
 </html>

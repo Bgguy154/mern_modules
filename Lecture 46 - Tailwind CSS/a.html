@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study Group Scheduler</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: #f5f6fa;
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 260px;
+        background: #2d3436;
+        color: white;
+        padding: 20px;
+        overflow-y: auto;
+      }
+
+      .sidebar h2 {
+        margin-bottom: 15px;
+      }
+
+      .user-list {
+        margin-top: 20px;
+      }
+
+      .user-card {
+        background: #636e72;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        color: #fff;
+      }
+
+      /* Main Area */
+      .main {
+        flex: 1;
+        padding: 25px;
+        overflow-y: auto;
+      }
+
+      .section {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+      }
+
+      h2 {
+        margin-bottom: 15px;
+      }
+
+      /* Forms */
+      form input,
+      form select {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0 15px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      form button {
+        background: #0984e3;
+        border: none;
+        padding: 10px 14px;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+      }
+
+      form button:hover {
+        background: #0764b3;
+      }
+
+      /* Table */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background: #dfe6e9;
+      }
+
+      tr:hover {
+        background: #f1f2f6;
+      }
+
+      .join-btn {
+        background: #00b894;
+        padding: 7px 15px;
+        color: white;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        border: none;
+      }
+
+      .join-btn:disabled {
+        background: #b2bec3;
+        cursor: not-allowed;
+      }
+
+      /* Expandable row */
+      .session-details {
+        display: none;
+        background: #f8f9fa;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      .session-details p {
+        margin: 6px 0;
+      }
+
+      /* Filters */
+      .filters {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+      }
+
+      .filters input,
+      .filters select {
+        flex: 1;
+        padding: 10px;
+      }
+
+      /* Dashboard counters */
+      .dashboard {
+        display: flex;
+        gap: 20px;
+      }
+
+      .box {
+        flex: 1;
+        text-align: center;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+      }
+
+      .box h3 {
+        font-size: 24px;
+        margin-bottom: 5px;
+      }
+
+      .box p {
+        color: #777;
+      }
+
+      /* Small helpers */
+      .small {
+        font-size: 12px;
+        color: #666;
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .pill {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #dfe6e9;
+        font-size: 12px;
+      }
+
+      .bars-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.p-bar { 
+  width: 100%;
+}
+
+.p-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+  font-size: 14px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+/* color levels */
+.low  { background: #e74c3c; }
+.mid  { background: #f1c40f; }
+.high { background: #2ecc71; }
+
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar: User Registration -->
+    <div class="sidebar">
+      <h2>Users</h2>
+
+      <form id="userForm">
+        <input type="text" id="userName" placeholder="Your Name" required />
+        <input type="email" id="userEmail" placeholder="Your Email" required />
+        <input
+          type="text"
+          id="userSubjects"
+          placeholder="Subjects (comma separated)"
+          required
+        />
+        <button type="submit" id="register">Register User</button>
+      </form>
+
+      <div class="user-list" id="userList"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <!-- Dashboard -->
+      <div class="dashboard">
+        <div class="box">
+          <h3 id="totalUsers">0</h3>
+          <p>Total Users</p>
+        </div>
+        <div class="box">
+          <h3 id="totalSessions">0</h3>
+          <p>Total Study Sessions</p>
+        </div>
+        <div class="box">
+          <h3 id="totalParticipants">0</h3>
+          <p>Total Participants</p>
+        </div>
+      </div>
+
+      <!-- Create Study Session -->
+      <div class="section">
+        <h2>Create Study Session</h2>
+
+        <form id="sessionForm">
+          <input
+            type="text"
+            id="sessionSubject"
+            placeholder="Subject"
+            required
+          />
+          <input type="date" id="sessionDate" required />
+          <input type="time" id="sessionTime" required />
+          <input
+            type="number"
+            id="sessionMax"
+            placeholder="Max Participants"
+            required
+            min="1"
+          />
+          <input
+            type="text"
+            id="createdBy"
+            placeholder="Created By (User Name)"
+            required
+          />
+
+          <button type="submit" id="createSession">Create Session</button>
+        </form>
+      </div>
+
+      <!-- Filters -->
+      <div class="section">
+        <h2>Search & Filters</h2>
+
+        <div class="filters">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by subject..."
+          />
+          <select id="filterSubject">
+            <option value="all">All Subjects</option>
+          </select>
+          <select id="sortByDate">
+            <option value="asc">Sort By Date (old → new)</option>
+            <option value="desc">Sort By Date (new → old)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Sessions Table -->
+      <div class="section">
+        <h2>Study Sessions</h2>
+
+        <table
+          id="table"
+          style="border-spacing: 0 12px; border-collapse: separate"
+        >
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Participants</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="sessionTable"></tbody>
+        </table>
+      </div>
+
+      <!-- Expanded session details area (JS will toggle visibility) -->
+      <div id="sessionDetailsContainer"></div>
+    </div>
+
+    <script>
+  // ------------------------------
+  // Utilities & State
+  // ------------------------------
+  const userForm = document.getElementById("userForm");
+  const userNameInput = document.getElementById("userName");
+  const userEmailInput = document.getElementById("userEmail");
+  const userSubjectsInput = document.getElementById("userSubjects");
+  const userListContainer = document.getElementById("userList");
+
+  const totalUsersCounter = document.getElementById("totalUsers");
+  const totalSessionsCounter = document.getElementById("totalSessions");
+  const totalParticipantsCounter = document.getElementById("totalParticipants");
+
+  const sessionForm = document.getElementById("sessionForm");
+  const sessionSubjectInput = document.getElementById("sessionSubject");
+  const sessionDateInput = document.getElementById("sessionDate");
+  const sessionTimeInput = document.getElementById("sessionTime");
+  const sessionMaxInput = document.getElementById("sessionMax");
+  const createdByInput = document.getElementById("createdBy");
+
+  const sessionTable = document.getElementById("sessionTable");
+  const filterSubjectSelect = document.getElementById("filterSubject");
+  const searchInput = document.getElementById("searchInput");
+  const sortByDateSelect = document.getElementById("sortByDate");
+
+  const USERS_KEY = "sgs_users";
+  const SESSIONS_KEY = "sgs_sessions";
+  const SUBJECTS_KEY = "sgs_subjects";
+
+  let users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+  let sessions = JSON.parse(localStorage.getItem(SESSIONS_KEY)) || [];
+  let subjects = JSON.parse(localStorage.getItem(SUBJECTS_KEY)) || [];
+
+  function saveState() {
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    localStorage.setItem(SESSIONS_KEY, JSON.stringify(sessions));
+    localStorage.setItem(SUBJECTS_KEY, JSON.stringify(subjects));
+  }
+
+  function formatDateForDisplay(isoDate) {
+    if (!isoDate) return "";
+    const d = new Date(isoDate + "T00:00:00");
+    return d.toLocaleDateString();
+  }
+
+  function updateCounters() {
+    totalUsersCounter.textContent = users.length;
+    totalSessionsCounter.textContent = sessions.length;
+
+    const totalParticipants = sessions.reduce(
+      (acc, s) => acc + (s.participants ? s.participants.length : 0),
+      0
+    );
+    totalParticipantsCounter.textContent = totalParticipants;
+  }
+
+  // ------------------------------
+  // Users
+  // ------------------------------
+  function renderUsers() {
+    userListContainer.innerHTML = "";
+    users.forEach((u) => {
+      const div = document.createElement("div");
+      div.className = "user-card";
+      div.innerHTML = `
+        <p><strong>${u.name}</strong></p>
+        <div class="small">${u.email}</div>
+        <div class="small">Subjects: ${u.subjects.join(", ")}</div>
+      `;
+      userListContainer.appendChild(div);
+    });
+  }
+
+  userForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = userNameInput.value.trim();
+    const email = userEmailInput.value.trim();
+    const subRaw = userSubjectsInput.value.trim();
+    if (!name || !email || !subRaw) {
+      alert("Please enter all user details");
+      return;
+    }
+
+    const subjList = subRaw.split(",").map((s) => s.trim()).filter(Boolean);
+
+    const newUser = {
+      id: Date.now() + Math.random(),
+      name,
+      email,
+      subjects: subjList
+    };
+
+    users.push(newUser);
+
+    subjList.forEach((s) => {
+      if (!subjects.includes(s)) subjects.push(s);
+    });
+
+    saveState();
+    renderUsers();
+    renderSubjectFilter();
+    updateCounters();
+
+    userNameInput.value = "";
+    userEmailInput.value = "";
+    userSubjectsInput.value = "";
+  });
+
+  // ------------------------------
+  // Sessions
+  // ------------------------------
+  sessionForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const subject = sessionSubjectInput.value.trim();
+    const date = sessionDateInput.value;
+    const time = sessionTimeInput.value;
+    const max = Number(sessionMaxInput.value);
+    const createdBy = createdByInput.value.trim();
+
+    if (!subject || !date || !time || !max || !createdBy) {
+      alert("Please complete the session form");
+      return;
+    }
+
+    const newSession = {
+      id: Date.now() + Math.random(),
+      subject,
+      date,
+      time,
+      maxParticipants: max,
+      createdBy,
+      participants: [],
+      createdAt: new Date().toISOString(),
+    };
+
+    sessions.push(newSession);
+    if (!subjects.includes(subject)) subjects.push(subject);
+
+    saveState();
+    renderSessions();
+    renderSubjectFilter();
+    updateCounters();
+
+    sessionSubjectInput.value = "";
+    sessionDateInput.value = "";
+    sessionTimeInput.value = "";
+    sessionMaxInput.value = "";
+    createdByInput.value = "";
+  });
+
+  function renderSubjectFilter() {
+    const current = filterSubjectSelect.value || "all";
+    filterSubjectSelect.innerHTML = `<option value="all">All Subjects</option>`;
+    subjects.forEach((s) => {
+      const opt = document.createElement("option");
+      opt.value = s;
+      opt.textContent = s;
+      filterSubjectSelect.appendChild(opt);
+    });
+    filterSubjectSelect.value = current;
+  }
+
+  function renderSessions() {
+    sessionTable.innerHTML = "";
+
+    const search = searchInput.value.trim().toLowerCase();
+    const filterSubject = filterSubjectSelect.value;
+    const sortOrder = sortByDateSelect.value;
+
+    let toRender = sessions.slice();
+
+    if (filterSubject !== "all") {
+      toRender = toRender.filter((s) => s.subject === filterSubject);
+    }
+
+    if (search) {
+      toRender = toRender.filter((s) =>
+        s.subject.toLowerCase().includes(search)
+      );
+    }
+
+    toRender.sort((a, b) => {
+      const da = new Date(a.date);
+      const db = new Date(b.date);
+      return sortOrder === "asc" ? da - db : db - da;
+    });
+
+    toRender.forEach((s) => {
+      const tr = document.createElement("tr");
+      tr.className = "session-row";
+      tr.dataset.id = s.id;
+
+      const participantsCount = s.participants.length;
+
+      tr.innerHTML = `
+        <td>${s.subject}</td>
+        <td>${formatDateForDisplay(s.date)}</td>
+        <td>${s.time}</td>
+        <td><span class="pill">${participantsCount} / ${s.maxParticipants}</span></td>
+        <td>
+          <div class="actions">
+            <button class="join-btn" data-action="join">Join</button>
+            <button class="small" data-action="details">Details</button>
+            <button class="small" data-action="delete">Delete</button>
+          </div>
+        </td>
+      `;
+
+      sessionTable.appendChild(tr);
+
+      const detailsTr = document.createElement("tr");
+      detailsTr.className = "session-details-row";
+      detailsTr.dataset.for = s.id;
+      detailsTr.style.display = "none";
+      detailsTr.innerHTML = `
+        <td colspan="5">
+          <div class="session-details">
+            <p><strong>Subject:</strong> ${s.subject}</p>
+            <p><strong>Date:</strong> ${formatDateForDisplay(s.date)}</p>
+            <p><strong>Time:</strong> ${s.time}</p>
+            <p><strong>Max participants:</strong> ${s.maxParticipants}</p>
+            <p><strong>Created by:</strong> ${s.createdBy}</p>
+            <p><strong>Participants:</strong> ${
+              s.participants.length ? s.participants.join(", ") : "None"
+            }</p>
+          </div>
+        </td>
+      `;
+      sessionTable.appendChild(detailsTr);
+    });
+  }
+
+  sessionTable.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+
+    const action = btn.dataset.action;
+    const tr = btn.closest("tr.session-row");
+    if (!tr) return;
+
+    const id = tr.dataset.id;
+    const session = sessions.find((s) => String(s.id) === String(id));
+    if (!session) return;
+
+    if (action === "join") {
+      handleJoin(session);
+    } else if (action === "details") {
+      toggleDetails(session.id);
+    } else if (action === "delete") {
+      if (confirm("Delete this session?")) {
+        sessions = sessions.filter((s) => String(s.id) !== String(id));
+        saveState();
+        renderSessions();
+        updateCounters();
+      }
+    }
+  });
+
+  function handleJoin(session) {
+    let name = prompt("Enter your name to join this session:");
+    if (!name) return;
+    name = name.trim();
+    if (!name) return;
+
+    if (session.participants.length >= session.maxParticipants) {
+      alert("This session is full");
+      return;
+    }
+
+    if (session.participants.includes(name)) {
+      alert("You already joined this session");
+      return;
+    }
+
+    session.participants.push(name);
+
+    saveState();
+    renderSessions();
+    updateCounters();
+  }
+
+  function toggleDetails(sessionId) {
+    const detailsRow = document.querySelector(
+      `tr.session-details-row[data-for="${sessionId}"]`
+    );
+    if (!detailsRow) return;
+
+    detailsRow.style.display =
+      detailsRow.style.display === "none" ? "table-row" : "none";
+  }
+
+  searchInput.addEventListener("input", renderSessions);
+  filterSubjectSelect.addEventListener("change", renderSessions);
+  sortByDateSelect.addEventListener("change", renderSessions);
+
+  function init() {
+    renderUsers();
+    renderSubjectFilter();
+    renderSessions();
+    updateCounters();
+  }
+
+  window.addEventListener("DOMContentLoaded", init);
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 1
+
+    Write a JavaScript code to implement the TODO Application described above. Your code should handle adding, editing, and deleting tasks dynamically. Ensure that the UI switching between Add/Update modes works correctly. You can use LocalStorage to store the tasks. Implement classes and OOPS concepts wherever applicable.
+
+Use the provided HTML structure as a starting point for your implementation.
+
+<h2>TODO Application</h2>
+<form id="todoForm">
+  <input type="text" id="taskInput" placeholder="Add Task">
+  <button type="submit" id="submitBtn">Add Task</button>
+</form>
+
+<ol id="taskList">
+  <!-- Tasks will be added here -->
+<!-- </ol> -->
+
+<!-- You can add any necessary CSS for styling, but it's not mandatory.
+
+Implement the following functionalities:
+
+    Adding a task: When the user types a task in the input and clicks "Add Task", a new <li> should be created inside the <ol>.
+    Deleting a task: When the "Delete" button next to a task is clicked, that specific <li> should be removed from the list.
+    Editing and updating a task: When the "Edit" button next to a task is clicked, load the task text into the input field, change the button text to "Update Task", and update the existing <li> with new text when "Update Task" is clicked.
+
+Ensure your implementation meets all conditions mentioned in the problem statement. --> -->
+
+
+
+
+Answer
+
+<!-- 
+class TodoApp {
+  constructor() {
+    this.form = document.querySelector("#todoForm");
+    this.input = document.querySelector("#taskInput");
+    this.button = document.querySelector("#submitBtn");
+    this.list = document.querySelector("#taskList");
+
+    this.tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    this.editIndex = null;
+
+    this.init();
+  }
+
+  init() {
+    this.renderTasks();
+    this.form.addEventListener("submit", (e) => this.handleSubmit(e));
+    this.list.addEventListener("click", (e) => this.handleListClick(e));
+  }
+
+  saveToStorage() {
+    localStorage.setItem("tasks", JSON.stringify(this.tasks));
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    const text = this.input.value.trim();
+    if (!text) return;
+
+    if (this.editIndex === null) {
+      // Add Task
+      this.tasks.push(text);
+    } else {
+      // Update Task
+      this.tasks[this.editIndex] = text;
+      this.editIndex = null;
+      this.button.textContent = "Add Task";
+    }
+
+    this.input.value = "";
+    this.saveToStorage();
+    this.renderTasks();
+  }
+
+  handleListClick(e) {
+    const index = e.target.parentElement.dataset.index;
+
+    if (e.target.classList.contains("delete")) {
+      this.deleteTask(index);
+    }
+
+    if (e.target.classList.contains("edit")) {
+      this.editTask(index);
+    }
+  }
+
+  deleteTask(index) {
+    this.tasks.splice(index, 1);
+    this.saveToStorage();
+    this.renderTasks();
+  }
+
+  editTask(index) {
+    this.input.value = this.tasks[index];
+    this.editIndex = index;
+    this.button.textContent = "Update Task";
+  }
+
+  renderTasks() {
+    this.list.innerHTML = "";
+
+    this.tasks.forEach((task, index) => {
+      const li = document.createElement("li");
+      li.dataset.index = index;
+      li.innerHTML = `
+        ${task}
+        <button class="edit">Edit</button>
+        <button class="delete">Delete</button>
+      `;
+      this.list.appendChild(li);
+    });
+  }
+}
+
+// Initialize App
+new TodoApp(); -->
+
+
+
+
+
+Question 2
+<!-- Write a JavaScript code to design a system for vehicles as described below. There are two types of vehicles: Car and Bike. All vehicles have a brand name (e.g., Honda, Toyota) and a year of manufacturing. Vehicles can display their basic information. Cars and Bikes inherit from Vehicle but have their own extra behavior.
+
+Create a Base Class Vehicle with properties - brand (string) and year (number), and a private property #chassisNumber (generate a random 6-digit number inside the constructor). The method displayInfo() should print brand, year, and chassis number.
+
+Create a Subclass Car that inherits from Vehicle. It should have an extra property fuelType (string like petrol/diesel/electric) and override the displayInfo() method to first call the Vehicle’s displayInfo() and then add printing of fuelType also.
+
+Create a Subclass Bike that inherits from Vehicle. It should have an extra property engineCapacity (in cc) and override the displayInfo() method to first call the Vehicle’s displayInfo() and then add printing of engineCapacity.
+
+Finally, create objects of Car and Bike with sample data - Car: brand = "Honda", year = 2022, fuelType = "Petrol", Bike: brand = "Royal Enfield", year = 2021, engineCapacity = 350, and call displayInfo() on both objects. -->
+
+
+Answer
+
+<!-- class Vehicle {
+  #chassisNumber;
+
+  constructor({ brand, year }) {
+    this.brand = brand;
+    this.year = year;
+    this.#chassisNumber = Math.floor(100000 + Math.random() * 900000);
+  }
+
+  displayInfo() {
+    console.log(
+      `Brand: ${this.brand}, Year: ${this.year}, Chassis Number: ${this.#chassisNumber}`
+    );
+  }
+}
+
+class Car extends Vehicle {
+  constructor({ brand, year }, fuelType) {
+    super({ brand, year });
+    this.fuelType = fuelType;
+  }
+
+  displayInfo() {
+    super.displayInfo();
+    console.log(`Fuel Type: ${this.fuelType}`);
+  }
+}
+
+class Bike extends Vehicle {
+  constructor({ brand, year }, engineCapacity) {
+    super({ brand, year });
+    this.engineCapacity = engineCapacity;
+  }
+
+  displayInfo() {
+    super.displayInfo();
+    console.log(`Engine Capacity: ${this.engineCapacity} cc`);
+  }
+}
+
+// Creating objects
+const car1 = new Car({ brand: "Honda", year: 2022 }, "Petrol");
+car1.displayInfo();
+
+console.log("------------------");
+
+const bike1 = new Bike({ brand: "Royal Enfield", year: 2021 }, 350);
+bike1.displayInfo(); -->
+
+
+
+Question 3
+
+
+<!-- A social media platform wants to develop a feature that allows users to create and customize their own profiles. The profile information should be stored locally on the user's device using LocalStorage. The platform wants to implement a Profile class that can be used to create, update, and retrieve profile information. The class should support method chaining for setting different attributes of the profile.
+
+The getValue() method should return the JSON representation of the profile information.
+
+Implement the Profile class such that it supports method chaining for setting attributes like name, age, and interests. For example:
+
+const profile = new Profile();
+console.log(profile.setName('John').setAge(30).addInterest('Reading').addInterest('Coding').getValue());
+// Output: {"name": "John", "age": 30, "interests": ["Reading", "Coding"]}
+
+Write the code for the Profile class.
+
+class Profile {
+  // write code here
+} -->
+
+
+Answer
+
+<!-- class Profile {
+  constructor() {
+    const storedProfile = JSON.parse(localStorage.getItem("profile"));
+
+    this.profile = storedProfile || {
+      name: "",
+      age: null,
+      interests: []
+    };
+  }
+
+  setName(name) {
+    this.profile.name = name;
+    return this;
+  }
+
+  setAge(age) {
+    this.profile.age = age;
+    return this;
+  }
+
+  addInterest(interest) {
+    this.profile.interests.push(interest);
+    return this;
+  }
+
+  save() {
+    localStorage.setItem("profile", JSON.stringify(this.profile));
+    return this;
+  }
+
+  getValue() {
+    this.save();
+    return JSON.stringify(this.profile);
+  }
+} -->
+
+
+Question 4
+
+<!-- E-commerce websites often provide personalized product recommendations to their customers based on their browsing and purchase history. Implement a pipe function that takes a series of functions and executes them from left to right on an input value, and a compose function that takes a series of functions and executes them from right to left on an input value.
+
+You are given a set of functions that perform various operations on a product recommendation list. The functions are:
+
+    filterByCategory(category): filters the list to only include products from the specified category
+    sortByPriceAscending(): sorts the list in ascending order of product prices
+    limitToListSize(size): limits the list to the specified number of products
+    addProductToList(product): adds a new product to the list
+
+Implement the pipe and compose functions to enable the creation of complex workflows for processing product recommendation lists.
+
+For example, you can use the pipe function to create a workflow that filters products by category, sorts them by price, and limits the list to 5 products: pipe(filterByCategory("electronics"), sortByPriceAscending(), limitToListSize(5))(initialList)
+
+Similarly, you can use the compose function to create a workflow that adds a new product to the list, sorts the list by price, and filters products by category: compose(addProductToList(newProduct), sortByPriceAscending(), filterByCategory("electronics"))(initialList)
+
+Provide the implementation of the pipe and compose functions.
+
+const pipe = (...fns) => {
+  // code here
+};
+const compose = (...fns) => {
+  // code here
+}; -->
+
+
+Answer
+
+<!-- const pipe = (...fns) => {
+  return (input) => {
+    return fns.reduce((value, fn) => {
+      return fn(value);
+    }, input);
+  };
+};
+
+
+const compose = (...fns) => {
+  return (input) => {
+    return fns.reduceRight((value, fn) => {
+      return fn(value);
+    }, input);
+  };
+}; -->
+
+
+Question 5
+
+
+<!-- As a software developer for a leading e-commerce platform, you are tasked with creating a JavaScript object
+ to store customer profile information. The object should have three properties: name, age, and panCard. 
+ The panCard property is a sensitive field that requires special handling. It should be non-modifiable and
+  non-deletable once set, and it should not appear when iterating over the object using for...in loops or Object.keys(). 
+  Write a JavaScript code snippet to create this object, ensuring the panCard property meets the specified requirements. -->
+
+
+  Answer
+
+
+<!-- const customerProfile = {
+  name: "Tanmay",
+  age: 22
+};
+
+// Define panCard with special permissions
+Object.defineProperty(customerProfile, "panCard", {
+  value: "22dr34f",
+  writable: false,       // cannot be modified
+  configurable: false,   // cannot be deleted
+  enumerable: false      // hidden from loops & Object.keys
+}); -->
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App</title>
+    <style>
+        *,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quiz {
+  width: 450px;
+  padding: 25px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.25);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+}
+
+.timer {
+  align-self: flex-end;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.questions p {
+  color: #fff;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+li {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.3s ease;
+  border: none;
+}
+
+li:hover {
+  background: rgba(255, 255, 255, 0.45);
+  transform: scale(1.02);
+}
+
+li.selected {
+  background: #fff;
+  color: #333;
+  font-weight: 700;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+button {
+  padding: 10px 25px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.45);
+  transform: scale(1.05);
+}
+
+    </style>
+  </head>
+  <body>
+    <main>
+      <h2>Quiz App</h2>
+      <section class="quiz">
+        <div class="timer">01:02:10</div>
+        <div class="questions">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum
+            accusamus beatae ipsum voluptate a, repellendus repellat ut quia
+            alias in autem accusantium ad?
+          </p>
+        </div>
+        <div class="options">
+          <ul>
+            <li>Opt1</li>
+            <li>Opt2</li>
+            <li>Opt3</li>
+            <li>Opt4</li>
+          </ul>
+        </div>
+        <div class="buttons">
+          <button>Prev</button>
+          <button>Next</button>
+        </div>
+      </section>
+    </main>
+    <script>
+        class Questions {
+  constructor({ id, text, options, correctOption, type }) {
+    this.id = id;
+    this.text = text;
+    this.options = options;
+    this.correctOption = correctOption;
+    this.type = type;
+  }
+}
+
+const questions = [
+  new Questions({
+    id: 1,
+    text: "Which planet is known as the Red Planet?",
+    options: ["Earth", "Mars", "Venus", "Jupiter"],
+    correctOption: 1,
+    type: "mcq",
+  }),
+  new Questions({
+    id: 2,
+    text: "HTML stands for?",
+    options: [
+      "Hyper Text Makeup Language",
+      "Hyper Text Markup Language",
+      "High Text Markup Language",
+      "Hyperlinks Text Markup Language",
+    ],
+    correctOption: 1,
+    type: "mcq",
+  }),
+  new Questions({
+    id: 3,
+    text: "The Earth is flat.",
+    options: ["True", "False"],
+    correctOption: 1,
+    type: "true-false",
+  }),
+  new Questions({
+    id: 4,
+    text: "What is the capital of India?",
+    options: ["Mumbai", "Delhi", "Kolkata", "Chennai"],
+    correctOption: 1,
+    type: "mcq",
+  }),
+  new Questions({
+    id: 5,
+    text: "2 + 2 equals?",
+    options: ["3", "4", "5", "22"],
+    correctOption: 1,
+    type: "mcq",
+  }),
+];
+
+const options = document.querySelector(".options");
+const prevBtn = document.querySelector(".buttons").children[0];
+const nextBtn = document.querySelector(".buttons").children[1];
+
+class Quiz{
+    constructor(questions,duration){
+        this.questions=questions;
+        this.duration=duration;
+        this.userResponse={},
+        this.score=0,
+        this.currQuesIndex=0,
+        this.timer=0
+    }
+    start(){
+      this.currentQues();
+      this.startTimer();
+      prevBtn.style.display="none";
+    }
+
+    startTimer(){
+       const timer1=document.querySelector(".timer");
+       let remaingTime=this.duration*60;
+       this.timer=setInterval(()=>{
+        remaingTime--;
+           const hr=String(Math.floor(remaingTime/3600)).padStart(2,"0");
+           const min=String(Math.floor((remaingTime/60)%60)).padStart(2,"0");
+           const sec=String(Math.floor(remaingTime%60)).padStart(2,"0");
+           timer1.innerHTML=`${hr}:${min}:${sec}`;
+
+           if(remaingTime<=0){
+            clearInterval(this.timer);
+            alert("Time Over");
+            this.submit();
+           }
+       },1000)
+
+    }
+
+    currentQues(){
+        const idx=this.currQuesIndex;
+        const text=document.querySelector("p");
+        text.textContent=this.questions[idx].text;
+        this.displayOptions(idx);
+
+        prevBtn.style.display=idx===0?"none":"block";
+    }
+
+    nextQues(){
+      if(this.currQuesIndex==this.questions.length-1){
+        this.submit();
+        return;
+      }
+      if(this.currQuesIndex==this.questions.length-2){
+        const nextButton = document.querySelector(".buttons").lastElementChild;
+      nextButton.textContent = "Submit";
+      }
+      this.currQuesIndex++;
+      this.currentQues();
+    }
+
+    prevQues(){
+    if(this.currQuesIndex==0){
+      return;
+    }
+    if(this.currQuesIndex==this.questions.length-1){
+      const nextBtn=document.querySelector(".buttons").lastElementChild;
+      nextBtn.textContent="next";
+    }
+    this.currQuesIndex--;
+    this.currentQues();
+    }
+
+    displayOptions(qIdx){
+     const optionsUL=document.querySelector("ul");
+     const options=this.questions[qIdx].options;
+     optionsUL.innerHTML=options.map((option,index)=>{
+      return `<li data-index=${index}>${option}</li>`
+     }).join("");
+    }
+
+    captureUserResponse(userSelectedOption){
+      const qIdx=this.currQuesIndex;
+      this.userResponse[qIdx]=userSelectedOption;
+    }
+
+    calculateScore(){
+        const qIdx=this.currQuesIndex;
+        for(let questionIdx in this.userResponse){
+          const optionUserSelected=this.userResponse[questionIdx];
+          const correctAnswer=this.questions[qIdx].correctOption;
+          if(optionUserSelected===correctAnswer)this.score++;
+        }
+    }
+    submit(){
+         this.calculateScore();
+         console.log(this.userResponse);
+          console.log(this.score);
+    }
+}
+
+const q1=new Quiz(questions,1);
+q1.start();
+
+options.addEventListener("click",(e)=>{
+ if(e.target.matches("li")){
+  const optionIdx=Number(e.target.dataset.index);
+  q1.captureUserResponse(optionIdx);
+ }
+})
+
+prevBtn.addEventListener("click",()=>{
+  q1.prevQues();
+})
+
+nextBtn.addEventListener("click",()=>{
+  q1.nextQues();
+})
+
+
+    </script>
+  </body>
+</html>

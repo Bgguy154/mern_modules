@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini Social App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif }
+    body { background:#f4f6f8; color:#333 }
+
+    header {
+      background:#1e293b; color:white;
+      padding:15px 20px;
+      display:flex; justify-content:space-between; align-items:center;
+      gap:10px;
+    }
+
+    header input { padding:8px; border-radius:5px; border:none }
+
+    main {
+      display:grid; grid-template-columns:3fr 1fr;
+      gap:20px; padding:20px;
+    }
+
+    .post-form, .post, aside {
+      background:white; padding:15px; border-radius:8px;
+    }
+
+    .post-form { display:flex; flex-direction:column; gap:10px }
+    textarea { resize:none; height:80px; padding:10px }
+
+    button {
+      background:#2563eb; color:white;
+      border:none; padding:8px;
+      border-radius:5px; cursor:pointer;
+    }
+
+    .posts { display:flex; flex-direction:column; gap:15px }
+    .post-actions { display:flex; gap:10px; margin-top:10px }
+    .post-actions button { background:none; color:#2563eb }
+
+    .comments { margin-top:10px }
+    .comment { font-size:14px }
+
+    @media(max-width:800px){
+      main { grid-template-columns:1fr }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h2>Social Feed</h2>
+  <input id="usernameInput" placeholder="Username" />
+</header>
+
+<main>
+<section>
+
+<form id="postForm" class="post-form">
+  <textarea id="postContent" maxlength="280" placeholder="What's on your mind?"></textarea>
+  <small id="charCount">0 / 280</small>
+  <input id="hashtags" placeholder="#hashtags" />
+  <select id="category">
+    <option value="">Category</option>
+    <option>Tech</option>
+    <option>Life</option>
+    <option>Study</option>
+  </select>
+  <input type="file" id="imageInput" accept="image/*" />
+  <button>Post</button>
+</form>
+
+<button onclick="toggleMyPosts()">My Posts</button>
+<div id="postsContainer" class="posts"></div>
+<button onclick="loadMore()">Load More</button>
+<button onclick="scrollToTop()">⬆</button>
+
+</section>
+
+<aside>
+  <h3>Trending</h3>
+  <ul>
+    <li>#javascript</li>
+    <li>#webdev</li>
+    <li>#students</li>
+  </ul>
+</aside>
+</main>
+
+<script>
+/* ---------- DATA ---------- */
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+let showMyPosts = false;
+let visible = 5;
+
+/* ---------- CLASSES ---------- */
+class Post {
+  constructor(text, user, image, hashtags, category) {
+    this.id = crypto.randomUUID();
+    this.text = text;
+    this.user = user;
+    this.image = image;
+    this.hashtags = hashtags;
+    this.category = category;
+    this.likes = [];
+    this.comments = [];
+    this.time = Date.now();
+  }
+}
+
+class Comment {
+  constructor(text, user) {
+    this.id = crypto.randomUUID();
+    this.text = text;
+    this.user = user;
+    this.time = Date.now();
+  }
+}
+
+/* ---------- UTILS ---------- */
+const timeAgo = t => {
+  const m = Math.floor((Date.now()-t)/60000);
+  return m < 1 ? "Just now" : m < 60 ? `${m}m ago` : `${Math.floor(m/60)}h ago`;
+};
+
+const save = () => localStorage.setItem("posts", JSON.stringify(posts));
+
+/* ---------- USER ---------- */
+usernameInput.value = localStorage.getItem("username") || "";
+usernameInput.oninput = () => localStorage.setItem("username", usernameInput.value);
+
+/* ---------- POST FORM ---------- */
+postContent.oninput = () =>
+  charCount.textContent = `${postContent.value.length} / 280`;
+
+postForm.onsubmit = e => {
+  e.preventDefault();
+  if (!usernameInput.value.trim()) return alert("Set username first");
+  if (!postContent.value.trim()) return;
+
+  const file = imageInput.files[0];
+  if (file) {
+    const r = new FileReader();
+    r.onload = () => createPost(r.result);
+    r.readAsDataURL(file);
+  } else createPost(null);
+};
+
+function createPost(img) {
+  posts.unshift(new Post(
+    postContent.value,
+    usernameInput.value,
+    img,
+    hashtags.value,
+    category.value
+  ));
+  postForm.reset();
+  render();
+}
+
+/* ---------- RENDER ---------- */
+function render() {
+  postsContainer.innerHTML = "";
+  const filtered = showMyPosts
+    ? posts.filter(p => p.user === usernameInput.value)
+    : posts;
+
+  filtered.slice(0, visible).forEach(p => {
+    const d = document.createElement("div");
+    d.className = "post";
+    d.innerHTML = `
+      <b>${p.user}</b>
+      <p>${p.text}</p>
+      ${p.image ? `<img src="${p.image}" style="max-width:100%">` : ""}
+      <small>${timeAgo(p.time)} ${p.category && "• "+p.category}</small>
+
+      <div class="post-actions">
+        <button onclick="like('${p.id}')">❤️ ${p.likes.length}</button>
+        ${p.user === usernameInput.value
+          ? `<button onclick="del('${p.id}')">Delete</button>` : ""}
+      </div>
+
+      <div class="comments">
+        ${p.comments.map(c=>`<div class="comment"><b>${c.user}:</b> ${c.text}</div>`).join("")}
+        <input placeholder="Comment..."
+          onkeydown="comment(event,'${p.id}')">
+      </div>
+    `;
+    postsContainer.appendChild(d);
+  });
+  save();
+}
+
+/* ---------- ACTIONS ---------- */
+function like(id){
+  const p = posts.find(x=>x.id===id);
+  const u = usernameInput.value;
+  if (!p || !u) return;
+  p.likes.includes(u) ? p.likes = p.likes.filter(x=>x!==u) : p.likes.push(u);
+  render();
+}
+
+function comment(e,id){
+  if(e.key!=="Enter"||!e.target.value) return;
+  posts.find(p=>p.id===id)
+    .comments.push(new Comment(e.target.value,usernameInput.value));
+  render();
+}
+
+function del(id){
+  posts = posts.filter(p=>p.id!==id);
+  render();
+}
+
+function toggleMyPosts(){ showMyPosts=!showMyPosts; render(); }
+function loadMore(){ visible+=5; render(); }
+function scrollToTop(){ window.scrollTo({top:0,behavior:"smooth"}) }
+
+render();
+</script>
+</body>
+</html>

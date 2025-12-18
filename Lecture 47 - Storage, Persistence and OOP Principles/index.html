@@ -10,9 +10,9 @@
     //converting array to string for localstorage
         let arr=[1,2,3,4,5];
         let arrString=JSON.stringify(arr);
-        localStorage.setItem("arr",arrString)
-        console.log(localStorage.getItem("arr"))
-        console.log(JSON.parse(localStorage.getItem("arr")))
+        sessionStorage.setItem("arr",arrString)
+        console.log(sessionStorage.getItem("arr"))
+        console.log(JSON.parse(sessionStorage.getItem("arr")))
 
     //object
     const obj={
@@ -20,11 +20,11 @@
         age:23,
     }
     let objString=JSON.stringify(obj);
-    localStorage.setItem("obj",objString);
-    console.log(JSON.parse(localStorage.getItem("obj")));
+    sessionStorage.setItem("obj",objString);
+    console.log(JSON.parse(sessionStorage.getItem("obj")));
     //converts back to obj
 
-    console.log(localStorage.getItem("obj"))
+    console.log(sessionStorage.getItem("obj"))
     //gives string as output
    </script>    
 </body>
