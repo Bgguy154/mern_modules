@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Callback and Callback Hell</title>
+</head>
+<body>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #outer-box{
+            background-color: aqua;
+            width: 400px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid black;
+        }
+
+        #timer{
+            text-align: right;
+            font-size: 20px;
+        }
+
+        #q-box{
+            font-size: 25px;
+        }
+
+        #next{
+            float: right;
+        }
+    </style>
+    <div id="outer-box">
+        <div id="timer">00:00</div>
+        <div id="q-box">How are u?</div>
+        <div id="a-box">
+            <button class="options">good</button>
+            <button class="options">good</button>
+            <button class="options">good</button>
+            <button class="options">good</button>
+        </div>
+        <button id="next">Next</button>
+    </div>
+    <script src="script1.js"></script>
+</body>
+</html>
+
+<!-- microtask queue prioritised over macrotask queue -->
+ <!-- macrotask queue -->

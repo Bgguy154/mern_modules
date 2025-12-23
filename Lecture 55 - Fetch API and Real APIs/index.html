@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *,
+      *::after,
+      *::before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .cards {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 40px;
+      }
+
+      .product {
+        height: 500px;
+        width: 500px;
+        border: 1px solid black;
+      }
+
+      img {
+        width: 200px;
+        height: 200px;
+      }
+
+      .spinner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 22px;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 999;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="spinner">Loading...</div>
+    <ul></ul>
+    <div class="cards"></div>
+    <!-- <script src="index.js"></script> -->
+    <script src="handsOn.js"></script>
+  </body>
+</html>
