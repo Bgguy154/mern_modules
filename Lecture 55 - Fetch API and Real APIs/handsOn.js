@@ -35,7 +35,8 @@ for(let i=0;i<30;i++){
 }
 
 Promise.all(promises)
-.then(()=>{ console.log("All posts loaded");})
+.then(()=>{ 
+  console.log("All posts loaded");})
 .catch(err=>console.log(err))
 .finally(()=>{
    spinner.style.display="none";
