@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Live Search & Event Loop Lab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+:root {
+  --bg:#f3f4f6; --card:#ffffff; --text:#111827;
+  --muted:#6b7280; --border:#e5e7eb;
+  --primary:#2563eb; --danger:#dc2626;
+  --sync: #059669; --micro: #d97706; --macro: #dc2626;
+}
+*{box-sizing:border-box;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif}
+body{margin:0;background:var(--bg);color:var(--text); line-height: 1.5}
+header{padding:1.5rem;background:#fff;border-bottom:1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.05)}
+.container{max-width:1100px;margin:auto;padding:1rem}
+input,select{padding:.7rem;border-radius:8px;border:1px solid var(--border); width: 100%; margin-bottom: 10px}
+.grid{display:grid;grid-template-columns: 1.5fr 1fr;gap:1.5rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1)}
+.source{margin-top:1rem; padding: 10px; background: #f9fafb; border-radius: 8px}
+.loading{color:var(--muted); font-style: italic}
+.error{color:var(--danger)}
+.result{padding:.4rem 0;border-bottom:1px dashed var(--border)}
+.history li{cursor:pointer;color:var(--primary); margin-bottom: 8px; font-size: 0.95rem}
+.history li:hover{text-decoration:underline}
+.toggle{display:flex;align-items:center;gap:.5rem; font-weight: 600; cursor: pointer}
+
+/* Dev Log Styling */
+#devLogContainer {
+    margin-top: 1.5rem;
+    background: #111827;
+    color: #e5e7eb;
+    border-radius: 12px;
+    padding: 1rem;
+    display: none;
+}
+#devLog {
+    height: 250px;
+    overflow-y: auto;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+    border: 1px solid #374151;
+    padding: 10px;
+    background: #000;
+}
+.log-entry { 
+    margin-bottom: 6px; 
+    padding: 4px 10px; 
+    border-radius: 4px; 
+    animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+.log-sync { border-left: 4px solid var(--sync); background: rgba(5, 150, 105, 0.15); color: #6ee7b7; }
+.log-micro { border-left: 4px solid var(--micro); background: rgba(217, 119, 6, 0.15); color: #fcd34d; }
+.log-macro { border-left: 4px solid var(--macro); background: rgba(220, 38, 38, 0.15); color: #fca5a5; }
+.label { font-weight: bold; text-transform: uppercase; margin-right: 8px; font-size: 0.7rem; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <h2>🔍 Live Search Control Center</h2>
+  </div>
+</header>
+
+<div class="container">
+  <div class="grid">
+    <div class="main-content">
+      <div class="card">
+        <label>Search Query</label>
+        <input id="searchInput" placeholder="Type something (e.g., 'JavaScript')..." />
+        
+        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+          <div style="flex: 1">
+            <label>Execution Mode</label>
+            <select id="mode">
+              <option value="parallel">Parallel Mode (Promise.all)</option>
+              <option value="sequential">Sequential Mode (await in loop)</option>
+              <option value="fastest">Fastest Result (Promise.any)</option>
+            </select>
+          </div>
+          
+          <label class="toggle">
+            <input type="checkbox" id="devMode" />
+            Show Event Loop Tracker
+          </label>
+        </div>
+
+        <div id="results"></div>
+      </div>
+
+      <div id="devLogContainer">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <h3 style="margin:0; font-size: 1rem;">🛠️ Event Loop Live Tracker</h3>
+          <button onclick="document.getElementById('devLog').innerHTML=''" style="background: #374151; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Clear</button>
+        </div>
+        <div id="devLog"></div>
+        <p style="font-size: 0.75rem; color: #9ca3af; margin-top: 10px;">
+          <span style="color:var(--sync)">■</span> Synchronous (Call Stack) | 
+          <span style="color:var(--micro)">■</span> Microtask (Promises) | 
+          <span style="color:var(--macro)">■</span> Macrotask (Timers)
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🕘 Search History</h3>
+      <ul id="history" class="history"></ul>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+/* =========================
+   DOM REFERENCES
+========================= */
+const searchInput = document.getElementById("searchInput");
+const modeSelect  = document.getElementById("mode");
+const devToggle   = document.getElementById("devMode");
+const resultsDiv  = document.getElementById("results");
+const historyList = document.getElementById("history");
+const devLog      = document.getElementById("devLog");
+const devLogContainer = document.getElementById("devLogContainer");
+
+/* Global State */
+let debounceTimer = null;
+let controllers = [];
+let timeoutIds = [];
+let devMode = false;
+const historyKey = "search-history-v2";
+
+/* =========================
+   VISUAL LOGGING ENGINE
+========================= */
+function logToDev(message, type) {
+    if (!devMode) return;
+    const div = document.createElement("div");
+    div.className = `log-entry log-${type}`;
+    const timestamp = new Date().toLocaleTimeString().split(' ')[0];
+    div.innerHTML = `<span class="label">${type}</span> [${timestamp}] ${message}`;
+    devLog.appendChild(div);
+    devLog.scrollTop = devLog.scrollHeight;
+}
+
+/* =========================
+   MOCK API
+========================= */
+function fakeAPI(source, query, signal) {
+  logToDev(`Requesting ${source}...`, "sync");
+  return new Promise((resolve, reject) => {
+    const id = setTimeout(() => {
+      logToDev(`${source} Promise resolved`, "micro");
+      resolve([`${source} result for "${query}"`]);
+    }, 1500);
+
+    signal.addEventListener("abort", () => {
+      clearTimeout(id);
+      reject("Cancelled");
+    });
+  });
+}
+
+/* =========================
+   SEARCH EXECUTION
+========================= */
+async function runSearch(query) {
+  clearAll();
+  resultsDiv.innerHTML = "";
+  saveHistory(query);
+  
+  if(devMode) logToDev(`--- Starting Search: "${query}" ---`, "sync");
+
+  const mode = modeSelect.value;
+  const sources = ["Source A", "Source B", "Source C"];
+
+  const tasks = sources.map(source => async () => {
+    const section = document.createElement("div");
+    section.className = "source";
+    section.innerHTML = `<h4>${source}</h4><div class="loading">Loading...</div>`;
+    resultsDiv.appendChild(section);
+
+    const controller = new AbortController();
+    controllers.push(controller);
+
+    try {
+      const data = await fakeAPI(source, query, controller.signal);
+      section.innerHTML = `<h4>${source}</h4>${data.map(d=>`<div class="result">${d}</div>`).join("")}`;
+      return true;
+    } catch (e) {
+      section.innerHTML = `<h4>${source}</h4><div class="error">${e}</div>`;
+      logToDev(`${source} task ended: ${e}`, "macro");
+      return false;
+    }
+  });
+
+  if (mode === "parallel") {
+    logToDev("Parallel: Initializing all tasks at once", "sync");
+    Promise.all(tasks.map(t => t()));
+  }
+
+  if (mode === "sequential") {
+    logToDev("Sequential: Waiting for each task to finish before starting next", "sync");
+    for (const t of tasks) await t();
+  }
+
+  if (mode === "fastest") {
+    logToDev("Fastest: Racing sources...", "sync");
+    Promise.any(tasks.map(t => t())).then(() => {
+        logToDev("First result received! Aborting others.", "micro");
+        controllers.forEach(c => c.abort());
+    });
+  }
+}
+
+/* =========================
+   CLEANUP & HELPERS
+========================= */
+function clearAll() {
+  controllers.forEach(c => c.abort());
+  timeoutIds.forEach(t => clearTimeout(t));
+  controllers = [];
+  timeoutIds = [];
+}
+
+function saveHistory(q) {
+  let h = JSON.parse(localStorage.getItem(historyKey) || "[]");
+  h = [q, ...h.filter(x => x !== q)].slice(0, 10);
+  localStorage.setItem(historyKey, JSON.stringify(h));
+  renderHistory();
+}
+
+function renderHistory() {
+  historyList.innerHTML = "";
+  JSON.parse(localStorage.getItem(historyKey) || "[]").forEach(q => {
+    const li = document.createElement("li");
+    li.textContent = q;
+    li.onclick = () => {
+        searchInput.value = q;
+        runSearch(q);
+    };
+    historyList.appendChild(li);
+  });
+}
+
+/* =========================
+   EVENT HANDLERS
+========================= */
+searchInput.addEventListener("input", e => {
+  clearTimeout(debounceTimer);
+  const q = e.target.value.trim();
+  if(!q) return;
+  
+  // Explain Debouncing
+  debounceTimer = setTimeout(() => {
+      runSearch(q);
+  }, 500);
+});
+
+devToggle.addEventListener("change", e => {
+  devMode = e.target.checked;
+  devLogContainer.style.display = devMode ? "block" : "none";
+  if (devMode) {
+      logToDev("Event Loop Tracking Enabled.", "sync");
+      runDemo();
+  }
+});
+
+/* =========================
+   INITIALIZATION DEMO
+========================= */
+function runDemo() {
+    logToDev("1. Executing Sync Code", "sync");
+    
+    setTimeout(() => {
+        logToDev("4. Executing Macrotask (Timer callback)", "macro");
+    }, 0);
+
+    Promise.resolve().then(() => {
+        logToDev("3. Executing Microtask (Promise callback)", "micro");
+    });
+
+    logToDev("2. Sync Code Finished", "sync");
+}
+
+renderHistory();
+</script>
+
+</body>
+</html>

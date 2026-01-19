@@ -7,7 +7,7 @@ buttonEle.addEventListener("click",(e)=>{
        spanEle.remove();
     },1000)
 })
-//event listeneres are async in nature
+//event listeners are async in nature
 
 // console.log("nonblocking");
 // alert("blocking");
