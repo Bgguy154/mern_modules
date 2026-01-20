@@ -1,0 +1,98 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Page center */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #adb6dc;
+}
+
+/* Form container */
+#form {
+  width: 320px;
+  margin: 60px auto;
+  padding: 20px 25px;
+  background: #49b34b;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Labels */
+#form label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Inputs */
+#form input[type="text"],
+#form input[type="number"] {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 6px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  outline: none;
+}
+
+#form input:focus {
+  border-color: #4a90e2;
+}
+
+/* Radio buttons */
+#form input[type="radio"] {
+  margin-right: 6px;
+  margin-left: 10px;
+}
+
+#form label[for="male"],
+#form label[for="female"] {
+  font-weight: normal;
+  margin-right: 10px;
+}
+
+/* Submit button */
+#form button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 18px;
+  background-color: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#form button:hover {
+  background-color: #357abd;
+}
+
+/* Submitted data box */
+.user-details {
+  width: 320px;
+  margin: 25px auto;
+  padding: 15px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.user-details h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.user-details p {
+  margin: 6px 0;
+  font-size: 14px;
+}
