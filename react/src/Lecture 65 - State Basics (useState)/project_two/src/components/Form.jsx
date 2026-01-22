@@ -7,13 +7,13 @@ const Form = () => {
   const [gender, setGender] = useState("");
   const [submittedData, setSubmittedData] = useState([]);
 
-  const handleForm = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!name || !age || !gender) {
-      alert("Enter Full Details");
-      return;
-    }
+    // if (!name || !age || !gender) {
+    //   alert("Enter Full Details");
+    //   return;
+    // }
 
     setSubmittedData((prevData) => [
       ...prevData,
@@ -26,7 +26,7 @@ const Form = () => {
 
   return (
     <>
-      <form id="form" onSubmit={handleForm}>
+      <form id="form" onSubmit={handleSubmit}>
         <label>Name</label><br />
         <input
           type="text"
@@ -69,7 +69,7 @@ const Form = () => {
         <br /><br />
 
         <button type="submit">Submit Form</button>
-        </form>
+      </form>
 
 
       {submittedData.length > 0 && (
@@ -85,16 +85,27 @@ const Form = () => {
                 width: "300px",
                 margin: "10px auto",
                 borderRadius: "8px",
-                boxShadow: "2 3 20px rgba(231, 21, 21, 0.1)",
-                backgroundColor:"white"
+                boxShadow: "2px 3px 20px rgba(231, 21, 21, 0.1)",
+                backgroundColor: "white",
+                textAlign:"right",
+
+                display: "grid",
+                gridTemplateColumns: "80px 1fr",
+                rowGap: "6px",
               }}
             >
-              <p><strong>Name:</strong> {user.name}</p>
-              <p><strong>Age:</strong> {user.age}</p>
-              <p><strong>Gender:</strong> {user.gender}</p>
+              <strong>Name:</strong>
+              <span>{user.name}</span>
+
+              <strong>Age:</strong>
+              <span>{user.age}</span>
+
+              <strong>Gender:</strong>
+              <span>{user.gender}</span>
             </div>
           ))}
         </div>
+
       )}
 
     </>
@@ -102,3 +113,4 @@ const Form = () => {
 };
 
 export default Form;
+

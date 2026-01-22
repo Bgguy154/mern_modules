@@ -4,7 +4,7 @@ import { useState } from 'react'
 const CoinToss = () => {
     const [tossresult,setTossresult]=useState(true);
     function tossCoin(){
-        let result=Math.floor(Math.random()*10);
+        let result=Math.floor(Math.random()*2);
         setTossresult(result);
     }
   return (
