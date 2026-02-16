@@ -8,13 +8,13 @@ import { BrowserRouter } from 'react-router-dom'
 // import App from './Lecture 69 - UseEffect/App.jsx'
 // import App from './Lecture 70 - useEffect Advanced/App.jsx'
 // import App from "./Lecture 73 - React Router/App.jsx"
-import LangTranslate from './Lecture 73 - React Router/LangTranslate'
-// import App1 from './Lecture 73 - React Router/App1'
+import App1 from './Lecture 73 - React Router/App1'
 
 createRoot(document.getElementById('root')).render(
+  <AuthProvider>
   <BrowserRouter>
-  <StrictMode>
-    <App1 />
-  </StrictMode>
-  </BrowserRouter>,
+      <App />
+  </BrowserRouter>
+  </AuthProvider>
+
 )
